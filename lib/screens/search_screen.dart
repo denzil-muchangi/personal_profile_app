@@ -1,12 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import '../models/profile.dart';
-import '../models/skill.dart';
-import '../models/experience.dart';
-import '../models/education.dart';
-import '../models/project.dart';
-import '../models/achievement.dart';
-import '../models/testimonial.dart';
 import '../providers/profile_provider.dart';
 
 class SearchScreen extends StatefulWidget {
@@ -19,7 +12,7 @@ class SearchScreen extends StatefulWidget {
 class _SearchScreenState extends State<SearchScreen> {
   final TextEditingController _searchController = TextEditingController();
   String _searchQuery = '';
-  List<SearchResult> _searchResults = [];
+  final List<SearchResult> _searchResults = [];
 
   @override
   void initState() {
@@ -273,7 +266,7 @@ class _SearchScreenState extends State<SearchScreen> {
   Widget _buildSearchResultTile(SearchResult result) {
     return ListTile(
       leading: CircleAvatar(
-        backgroundColor: _getResultColor(result.type).withOpacity(0.1),
+        backgroundColor: _getResultColor(result.type).withValues(alpha: 0.1),
         child: Icon(
           _getResultIcon(result.type),
           color: _getResultColor(result.type),
