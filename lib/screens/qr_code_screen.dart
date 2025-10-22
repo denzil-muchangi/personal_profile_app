@@ -22,7 +22,7 @@ class QrCodeScreen extends StatelessWidget {
         actions: [
           Container(
             decoration: BoxDecoration(
-              color: Theme.of(context).primaryColor.withOpacity(0.1),
+              color: Theme.of(context).primaryColor.withValues(alpha: 0.1),
               borderRadius: BorderRadius.circular(12),
             ),
             child: IconButton(
@@ -65,15 +65,15 @@ class QrCodeScreen extends StatelessWidget {
                 Container(
                   padding: const EdgeInsets.all(32),
                   decoration: BoxDecoration(
-                    color: Theme.of(context).cardColor.withOpacity(0.7),
+                    color: Theme.of(context).cardColor.withValues(alpha: 0.7),
                     borderRadius: BorderRadius.circular(32),
                     border: Border.all(
-                      color: Theme.of(context).primaryColor.withOpacity(0.2),
+                      color: Theme.of(context).primaryColor.withValues(alpha: 0.2),
                       width: 1,
                     ),
                     boxShadow: [
                       BoxShadow(
-                        color: Theme.of(context).primaryColor.withOpacity(0.1),
+                        color: Theme.of(context).primaryColor.withValues(alpha: 0.1),
                         spreadRadius: 0,
                         blurRadius: 30,
                         offset: const Offset(0, 12),
@@ -83,10 +83,10 @@ class QrCodeScreen extends StatelessWidget {
                   child: Container(
                     padding: const EdgeInsets.all(16),
                     decoration: BoxDecoration(
-                      color: Colors.white.withOpacity(0.1),
+                      color: Colors.white.withValues(alpha: 0.1),
                       borderRadius: BorderRadius.circular(24),
                       border: Border.all(
-                        color: Colors.white.withOpacity(0.2),
+                        color: Colors.white.withValues(alpha: 0.2),
                         width: 1,
                       ),
                     ),
@@ -96,7 +96,14 @@ class QrCodeScreen extends StatelessWidget {
                       size: 220,
                       gapless: false,
                       backgroundColor: Colors.white,
-                      foregroundColor: Theme.of(context).primaryColor,
+                      eyeStyle: QrEyeStyle(
+                        eyeShape: QrEyeShape.square,
+                        color: Theme.of(context).primaryColor,
+                      ),
+                      dataModuleStyle: QrDataModuleStyle(
+                        dataModuleShape: QrDataModuleShape.square,
+                        color: Theme.of(context).primaryColor,
+                      ),
                       errorStateBuilder: (context, error) {
                         return Container(
                           padding: const EdgeInsets.all(20),
@@ -106,7 +113,7 @@ class QrCodeScreen extends StatelessWidget {
                               Container(
                                 padding: const EdgeInsets.all(16),
                                 decoration: BoxDecoration(
-                                  color: Colors.red.withOpacity(0.1),
+                                  color: Colors.red.withValues(alpha: 0.1),
                                   borderRadius: BorderRadius.circular(16),
                                 ),
                                 child: const Icon(
@@ -127,7 +134,7 @@ class QrCodeScreen extends StatelessWidget {
                               ),
                               const SizedBox(height: 8),
                               Text(
-                                error.toString(),
+                                error?.toString() ?? 'Unknown error occurred',
                                 textAlign: TextAlign.center,
                                 style: TextStyle(
                                   color: Colors.red[500],
@@ -149,7 +156,7 @@ class QrCodeScreen extends StatelessWidget {
                 Container(
                   padding: const EdgeInsets.all(16),
                   decoration: BoxDecoration(
-                    color: Theme.of(context).primaryColor.withOpacity(0.1),
+                    color: Theme.of(context).primaryColor.withValues(alpha: 0.1),
                     borderRadius: BorderRadius.circular(15),
                   ),
                   child: Column(
@@ -209,7 +216,7 @@ class QrCodeScreen extends StatelessWidget {
                           borderRadius: BorderRadius.circular(16),
                           boxShadow: [
                             BoxShadow(
-                              color: Theme.of(context).primaryColor.withOpacity(0.2),
+                              color: Theme.of(context).primaryColor.withValues(alpha: 0.2),
                               blurRadius: 12,
                               offset: const Offset(0, 6),
                             ),
@@ -252,7 +259,7 @@ class QrCodeScreen extends StatelessWidget {
                           ),
                           style: OutlinedButton.styleFrom(
                             side: BorderSide(
-                              color: Theme.of(context).primaryColor.withOpacity(0.5),
+                              color: Theme.of(context).primaryColor.withValues(alpha: 0.5),
                               width: 1.5,
                             ),
                             padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
@@ -272,15 +279,15 @@ class QrCodeScreen extends StatelessWidget {
                 Container(
                   padding: const EdgeInsets.all(20),
                   decoration: BoxDecoration(
-                    color: Theme.of(context).cardColor.withOpacity(0.6),
+                    color: Theme.of(context).cardColor.withValues(alpha: 0.6),
                     borderRadius: BorderRadius.circular(20),
                     border: Border.all(
-                      color: Theme.of(context).primaryColor.withOpacity(0.1),
+                      color: Theme.of(context).primaryColor.withValues(alpha: 0.1),
                       width: 1,
                     ),
                     boxShadow: [
                       BoxShadow(
-                        color: Theme.of(context).primaryColor.withOpacity(0.05),
+                        color: Theme.of(context).primaryColor.withValues(alpha: 0.05),
                         blurRadius: 20,
                         offset: const Offset(0, 8),
                       ),
@@ -294,7 +301,7 @@ class QrCodeScreen extends StatelessWidget {
                           Container(
                             padding: const EdgeInsets.all(8),
                             decoration: BoxDecoration(
-                              color: Theme.of(context).primaryColor.withOpacity(0.1),
+                              color: Theme.of(context).primaryColor.withValues(alpha: 0.1),
                               borderRadius: BorderRadius.circular(12),
                             ),
                             child: Icon(
@@ -318,7 +325,7 @@ class QrCodeScreen extends StatelessWidget {
                       Container(
                         padding: const EdgeInsets.all(16),
                         decoration: BoxDecoration(
-                          color: Theme.of(context).primaryColor.withOpacity(0.05),
+                          color: Theme.of(context).primaryColor.withValues(alpha: 0.05),
                           borderRadius: BorderRadius.circular(12),
                         ),
                         child: Column(
@@ -343,8 +350,7 @@ class QrCodeScreen extends StatelessWidget {
   }
 
   String _generateProfileData(Profile profile) {
-    // Create a simple profile URL that could be used to share the profile
-    // In a real app, this would be a URL to a web version or a deep link
+    // Create a comprehensive profile data map that includes all profile information
     final profileInfo = {
       'name': profile.personalInfo.fullName,
       'title': profile.personalInfo.professionalTitle,
@@ -356,19 +362,22 @@ class QrCodeScreen extends StatelessWidget {
       'socialLinks': profile.socialLinks.map((s) => {'platform': s.platform.name, 'url': s.url}).toList(),
     };
 
-    // For demo purposes, we'll create a data URL that contains the profile info
-    // In a real app, this would be a URL to a hosted profile page
-    return 'profile://${Uri.encodeComponent(profile.personalInfo.fullName)}/${DateTime.now().millisecondsSinceEpoch}';
+    // Convert profile info to JSON and encode it for use in QR code
+    // This creates a data URL that contains the actual profile information
+    final profileJson = Uri.encodeComponent(profileInfo.toString());
+    return 'profile://data/$profileJson';
   }
 
   Future<void> _shareProfile(BuildContext context) async {
     final profileProvider = Provider.of<ProfileProvider>(context, listen: false);
     final profile = profileProvider.profile;
+    // Capture ScaffoldMessenger before async operation to avoid context usage across async gaps
+    final scaffoldMessenger = ScaffoldMessenger.of(context);
 
     try {
       await SharingService.shareProfile(profile);
     } catch (e) {
-      ScaffoldMessenger.of(context).showSnackBar(
+      scaffoldMessenger.showSnackBar(
         SnackBar(content: Text('Error sharing profile: $e')),
       );
     }

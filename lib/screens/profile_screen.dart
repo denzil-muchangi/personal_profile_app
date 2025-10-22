@@ -1,8 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'dart:math';
 import '../models/profile.dart';
 import '../models/skill.dart';
+import '../models/experience.dart';
+import '../models/education.dart';
+import '../models/project.dart';
+import '../models/achievement.dart';
+import '../models/testimonial.dart';
 import '../providers/profile_provider.dart';
 import '../providers/settings_provider.dart';
 import '../services/sharing_service.dart';
@@ -59,13 +65,15 @@ class _ProfileScreenState extends State<ProfileScreen>
 
         // Increment view count on load
         WidgetsBinding.instance.addPostFrameCallback((_) {
-          profileProvider.incrementViewCount();
-          // Show notification if enabled
-          final settingsProvider = Provider.of<SettingsProvider>(context, listen: false);
-          if (settingsProvider.notifications) {
-            ScaffoldMessenger.of(context).showSnackBar(
-              const SnackBar(content: Text('Profile viewed!')),
-            );
+          if (mounted) {
+            profileProvider.incrementViewCount();
+            // Show notification if enabled
+            final settingsProvider = Provider.of<SettingsProvider>(context, listen: false);
+            if (settingsProvider.notifications) {
+              ScaffoldMessenger.of(context).showSnackBar(
+                const SnackBar(content: Text('Profile viewed!')),
+              );
+            }
           }
         });
 
@@ -86,8 +94,8 @@ class _ProfileScreenState extends State<ProfileScreen>
                          end: Alignment.bottomRight,
                          colors: [
                            Theme.of(context).primaryColor,
-                           Theme.of(context).primaryColor.withOpacity(0.7),
-                           Theme.of(context).primaryColor.withOpacity(0.5),
+                           Theme.of(context).primaryColor.withValues(alpha: 0.7),
+                           Theme.of(context).primaryColor.withValues(alpha: 0.5),
                          ],
                        ),
                      ),
@@ -97,8 +105,8 @@ class _ProfileScreenState extends State<ProfileScreen>
                            begin: Alignment.topCenter,
                            end: Alignment.bottomCenter,
                            colors: [
-                             Colors.white.withOpacity(0.1),
-                             Colors.white.withOpacity(0.05),
+                             Colors.white.withValues(alpha: 0.1),
+                             Colors.white.withValues(alpha: 0.05),
                            ],
                          ),
                        ),
@@ -208,7 +216,7 @@ class _ProfileScreenState extends State<ProfileScreen>
                  borderRadius: BorderRadius.circular(ResponsiveUtils.getResponsiveIconSize(context, 16)),
                  boxShadow: [
                    BoxShadow(
-                     color: Theme.of(context).primaryColor.withOpacity(0.3),
+                     color: Theme.of(context).primaryColor.withValues(alpha: 0.3),
                      blurRadius: ResponsiveUtils.getResponsiveIconSize(context, 16),
                      spreadRadius: 0,
                      offset: Offset(0, ResponsiveUtils.getResponsiveIconSize(context, 6)),
@@ -315,12 +323,12 @@ class _ProfileScreenState extends State<ProfileScreen>
               shape: BoxShape.circle,
               boxShadow: [
                 BoxShadow(
-                  color: Colors.white.withOpacity(0.3),
+                  color: Colors.white.withValues(alpha: 0.3),
                   blurRadius: ResponsiveUtils.getResponsiveIconSize(context, 12),
                   spreadRadius: ResponsiveUtils.getResponsiveIconSize(context, 3),
                 ),
                 BoxShadow(
-                  color: Theme.of(context).primaryColor.withOpacity(0.2),
+                  color: Theme.of(context).primaryColor.withValues(alpha: 0.2),
                   blurRadius: ResponsiveUtils.getResponsiveIconSize(context, 18),
                   spreadRadius: ResponsiveUtils.getResponsiveIconSize(context, 6),
                 ),
@@ -344,7 +352,7 @@ class _ProfileScreenState extends State<ProfileScreen>
                           begin: Alignment.topLeft,
                           end: Alignment.bottomRight,
                           colors: [
-                            Theme.of(context).primaryColor.withOpacity(0.8),
+                            Theme.of(context).primaryColor.withValues(alpha: 0.8),
                             Theme.of(context).primaryColor,
                           ],
                         ),
@@ -374,9 +382,9 @@ class _ProfileScreenState extends State<ProfileScreen>
               vertical: ResponsiveUtils.getResponsiveIconSize(context, 4),
             ),
             decoration: BoxDecoration(
-              color: Colors.white.withOpacity(0.1),
+              color: Colors.white.withValues(alpha: 0.1),
               borderRadius: BorderRadius.circular(ResponsiveUtils.getResponsiveIconSize(context, 12)),
-              border: Border.all(color: Colors.white.withOpacity(0.2)),
+              border: Border.all(color: Colors.white.withValues(alpha: 0.2)),
             ),
             child: Text(
               profile.personalInfo.fullName,
@@ -404,9 +412,9 @@ class _ProfileScreenState extends State<ProfileScreen>
               vertical: ResponsiveUtils.getResponsiveIconSize(context, 3),
             ),
             decoration: BoxDecoration(
-              color: Colors.white.withOpacity(0.15),
+              color: Colors.white.withValues(alpha: 0.15),
               borderRadius: BorderRadius.circular(ResponsiveUtils.getResponsiveIconSize(context, 8)),
-              border: Border.all(color: Colors.white.withOpacity(0.3)),
+              border: Border.all(color: Colors.white.withValues(alpha: 0.3)),
             ),
             child: Text(
               profile.personalInfo.professionalTitle,
@@ -429,15 +437,15 @@ class _ProfileScreenState extends State<ProfileScreen>
       margin: ResponsiveUtils.getResponsiveMargin(context),
       padding: ResponsiveUtils.getResponsiveCardPadding(context),
       decoration: BoxDecoration(
-        color: Theme.of(context).cardColor.withOpacity(0.8),
+        color: Theme.of(context).cardColor.withValues(alpha: 0.8),
         borderRadius: BorderRadius.circular(ResponsiveUtils.getResponsiveIconSize(context, 20)),
         border: Border.all(
-          color: Theme.of(context).primaryColor.withOpacity(0.1),
+          color: Theme.of(context).primaryColor.withValues(alpha: 0.1),
           width: 1,
         ),
         boxShadow: [
           BoxShadow(
-            color: Theme.of(context).primaryColor.withOpacity(0.1),
+            color: Theme.of(context).primaryColor.withValues(alpha: 0.1),
             spreadRadius: 0,
             blurRadius: ResponsiveUtils.getResponsiveIconSize(context, 16),
             offset: Offset(0, ResponsiveUtils.getResponsiveIconSize(context, 6)),
@@ -452,7 +460,7 @@ class _ProfileScreenState extends State<ProfileScreen>
               Container(
                 padding: EdgeInsets.all(ResponsiveUtils.getResponsiveIconSize(context, 6)),
                 decoration: BoxDecoration(
-                  color: Theme.of(context).primaryColor.withOpacity(0.1),
+                  color: Theme.of(context).primaryColor.withValues(alpha: 0.1),
                   borderRadius: BorderRadius.circular(ResponsiveUtils.getResponsiveIconSize(context, 10)),
                 ),
                 child: Icon(
@@ -476,10 +484,10 @@ class _ProfileScreenState extends State<ProfileScreen>
           Container(
             padding: ResponsiveUtils.getResponsiveCardPadding(context),
             decoration: BoxDecoration(
-              color: Theme.of(context).primaryColor.withOpacity(0.05),
+              color: Theme.of(context).primaryColor.withValues(alpha: 0.05),
               borderRadius: BorderRadius.circular(ResponsiveUtils.getResponsiveIconSize(context, 12)),
               border: Border.all(
-                color: Theme.of(context).primaryColor.withOpacity(0.1),
+                color: Theme.of(context).primaryColor.withValues(alpha: 0.1),
                 width: 1,
               ),
             ),
@@ -538,15 +546,15 @@ class _ProfileScreenState extends State<ProfileScreen>
       margin: ResponsiveUtils.getResponsiveMargin(context),
       padding: ResponsiveUtils.getResponsiveCardPadding(context),
       decoration: BoxDecoration(
-        color: Theme.of(context).cardColor.withOpacity(0.8),
+        color: Theme.of(context).cardColor.withValues(alpha: 0.8),
         borderRadius: BorderRadius.circular(ResponsiveUtils.getResponsiveIconSize(context, 20)),
         border: Border.all(
-          color: Theme.of(context).primaryColor.withOpacity(0.1),
+          color: Theme.of(context).primaryColor.withValues(alpha: 0.1),
           width: 1,
         ),
         boxShadow: [
           BoxShadow(
-            color: Theme.of(context).primaryColor.withOpacity(0.1),
+            color: Theme.of(context).primaryColor.withValues(alpha: 0.1),
             spreadRadius: 0,
             blurRadius: ResponsiveUtils.getResponsiveIconSize(context, 16),
             offset: Offset(0, ResponsiveUtils.getResponsiveIconSize(context, 6)),
@@ -561,7 +569,7 @@ class _ProfileScreenState extends State<ProfileScreen>
               Container(
                 padding: EdgeInsets.all(ResponsiveUtils.getResponsiveIconSize(context, 8)),
                 decoration: BoxDecoration(
-                  color: Theme.of(context).primaryColor.withOpacity(0.1),
+                  color: Theme.of(context).primaryColor.withValues(alpha: 0.1),
                   borderRadius: BorderRadius.circular(ResponsiveUtils.getResponsiveIconSize(context, 12)),
                 ),
                 child: Icon(
@@ -596,18 +604,18 @@ class _ProfileScreenState extends State<ProfileScreen>
                     begin: Alignment.topLeft,
                     end: Alignment.bottomRight,
                     colors: [
-                      Theme.of(context).primaryColor.withOpacity(0.1),
-                      Theme.of(context).primaryColor.withOpacity(0.05),
+                      Theme.of(context).primaryColor.withValues(alpha: 0.1),
+                      Theme.of(context).primaryColor.withValues(alpha: 0.05),
                     ],
                   ),
                   borderRadius: BorderRadius.circular(ResponsiveUtils.getResponsiveIconSize(context, 20)),
                   border: Border.all(
-                    color: Theme.of(context).primaryColor.withOpacity(0.2),
+                    color: Theme.of(context).primaryColor.withValues(alpha: 0.2),
                     width: 1,
                   ),
                   boxShadow: [
                     BoxShadow(
-                      color: Theme.of(context).primaryColor.withOpacity(0.1),
+                      color: Theme.of(context).primaryColor.withValues(alpha: 0.1),
                       blurRadius: ResponsiveUtils.getResponsiveIconSize(context, 6),
                       offset: Offset(0, ResponsiveUtils.getResponsiveIconSize(context, 3)),
                     ),
@@ -632,7 +640,7 @@ class _ProfileScreenState extends State<ProfileScreen>
                         vertical: ResponsiveUtils.getResponsiveIconSize(context, 1.5),
                       ),
                       decoration: BoxDecoration(
-                        color: _getSkillLevelColor(skill.level).withOpacity(0.2),
+                        color: _getSkillLevelColor(skill.level).withValues(alpha: 0.2),
                         borderRadius: BorderRadius.circular(ResponsiveUtils.getResponsiveIconSize(context, 10)),
                       ),
                       child: Text(
@@ -665,9 +673,7 @@ class _ProfileScreenState extends State<ProfileScreen>
         return Colors.purple;
       case SkillLevel.expert:
         return Colors.green;
-      default:
-        return Colors.grey;
-    }
+      }
   }
 
   Widget _buildExperienceSection(Profile profile) {
@@ -679,7 +685,7 @@ class _ProfileScreenState extends State<ProfileScreen>
         borderRadius: BorderRadius.circular(15),
         boxShadow: [
           BoxShadow(
-            color: Colors.grey.withOpacity(0.1),
+            color: Colors.grey.withValues(alpha: 0.1),
             spreadRadius: 2,
             blurRadius: 8,
             offset: const Offset(0, 2),
@@ -712,7 +718,7 @@ class _ProfileScreenState extends State<ProfileScreen>
     );
   }
 
-  Widget _buildExperienceCard(experience) {
+  Widget _buildExperienceCard(Experience experience) {
     return Container(
       margin: const EdgeInsets.only(bottom: 15),
       padding: const EdgeInsets.all(15),
@@ -775,7 +781,7 @@ class _ProfileScreenState extends State<ProfileScreen>
         borderRadius: BorderRadius.circular(15),
         boxShadow: [
           BoxShadow(
-            color: Colors.grey.withOpacity(0.1),
+            color: Colors.grey.withValues(alpha: 0.1),
             spreadRadius: 2,
             blurRadius: 8,
             offset: const Offset(0, 2),
@@ -804,7 +810,7 @@ class _ProfileScreenState extends State<ProfileScreen>
     );
   }
 
-  Widget _buildEducationCard(education) {
+  Widget _buildEducationCard(Education education) {
     return Container(
       padding: const EdgeInsets.all(15),
       decoration: BoxDecoration(
@@ -852,7 +858,7 @@ class _ProfileScreenState extends State<ProfileScreen>
         borderRadius: BorderRadius.circular(15),
         boxShadow: [
           BoxShadow(
-            color: Colors.grey.withOpacity(0.1),
+            color: Colors.grey.withValues(alpha: 0.1),
             spreadRadius: 2,
             blurRadius: 8,
             offset: const Offset(0, 2),
@@ -885,7 +891,7 @@ class _ProfileScreenState extends State<ProfileScreen>
     );
   }
 
-  Widget _buildProjectCard(project) {
+  Widget _buildProjectCard(Project project) {
     return Container(
       margin: const EdgeInsets.only(bottom: 15),
       padding: const EdgeInsets.all(15),
@@ -921,7 +927,7 @@ class _ProfileScreenState extends State<ProfileScreen>
                   tech,
                   style: const TextStyle(fontSize: 12),
                 ),
-                backgroundColor: Colors.deepPurple.withOpacity(0.1),
+                backgroundColor: Colors.deepPurple.withValues(alpha: 0.1),
               );
             }).toList(),
           ),
@@ -939,7 +945,7 @@ class _ProfileScreenState extends State<ProfileScreen>
         borderRadius: BorderRadius.circular(15),
         boxShadow: [
           BoxShadow(
-            color: Colors.grey.withOpacity(0.1),
+            color: Colors.grey.withValues(alpha: 0.1),
             spreadRadius: 2,
             blurRadius: 8,
             offset: const Offset(0, 2),
@@ -987,14 +993,18 @@ class _ProfileScreenState extends State<ProfileScreen>
       if (await canLaunchUrl(uri)) {
         await launchUrl(uri, mode: LaunchMode.externalApplication);
       } else {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Could not launch $url')),
-        );
+        if (mounted) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(content: Text('Could not launch $url')),
+          );
+        }
       }
     } catch (e) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Error launching URL: $e')),
-      );
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('Error launching URL: $e')),
+        );
+      }
     }
   }
 
@@ -1002,9 +1012,11 @@ class _ProfileScreenState extends State<ProfileScreen>
     try {
       await SharingService.shareProfile(profile);
     } catch (e) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Error sharing profile: $e')),
-      );
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('Error sharing profile: $e')),
+        );
+      }
     }
   }
 
@@ -1017,7 +1029,7 @@ class _ProfileScreenState extends State<ProfileScreen>
         borderRadius: BorderRadius.circular(15),
         boxShadow: [
           BoxShadow(
-            color: Colors.grey.withOpacity(0.1),
+            color: Colors.grey.withValues(alpha: 0.1),
             spreadRadius: 2,
             blurRadius: 8,
             offset: const Offset(0, 2),
@@ -1055,7 +1067,7 @@ class _ProfileScreenState extends State<ProfileScreen>
     );
   }
 
-  Widget _buildAchievementPreviewCard(achievement) {
+  Widget _buildAchievementPreviewCard(Achievement achievement) {
     return Container(
       margin: const EdgeInsets.only(bottom: 10),
       padding: const EdgeInsets.all(12),
@@ -1069,7 +1081,7 @@ class _ProfileScreenState extends State<ProfileScreen>
           Container(
             padding: const EdgeInsets.all(8),
             decoration: BoxDecoration(
-              color: achievement.color.withOpacity(0.1),
+              color: achievement.color.withValues(alpha: 0.1),
               borderRadius: BorderRadius.circular(8),
             ),
             child: Icon(
@@ -1120,7 +1132,7 @@ class _ProfileScreenState extends State<ProfileScreen>
         borderRadius: BorderRadius.circular(15),
         boxShadow: [
           BoxShadow(
-            color: Colors.grey.withOpacity(0.1),
+            color: Colors.grey.withValues(alpha: 0.1),
             spreadRadius: 2,
             blurRadius: 8,
             offset: const Offset(0, 2),
@@ -1158,7 +1170,7 @@ class _ProfileScreenState extends State<ProfileScreen>
     );
   }
 
-  Widget _buildTestimonialPreviewCard(testimonial) {
+  Widget _buildTestimonialPreviewCard(Testimonial testimonial) {
     return Container(
       margin: const EdgeInsets.only(bottom: 15),
       padding: const EdgeInsets.all(12),
@@ -1174,7 +1186,7 @@ class _ProfileScreenState extends State<ProfileScreen>
             children: [
               CircleAvatar(
                 radius: 20,
-                backgroundColor: Colors.deepPurple.withOpacity(0.1),
+                backgroundColor: Colors.deepPurple.withValues(alpha: 0.1),
                 child: Text(
                   testimonial.name.isNotEmpty ? testimonial.name[0].toUpperCase() : 'U',
                   style: const TextStyle(
@@ -1230,7 +1242,7 @@ class _ProfileScreenState extends State<ProfileScreen>
           ),
           const SizedBox(height: 8),
           Text(
-            '"${testimonial.message.length > 100 ? testimonial.message.substring(0, 100) + '...' : testimonial.message}"',
+            '"${testimonial.message.length > 100 ? '${testimonial.message.substring(0, min(100, testimonial.message.length))}...' : testimonial.message}"',
             style: TextStyle(
               fontSize: 12,
               color: Colors.grey[700],
@@ -1244,19 +1256,25 @@ class _ProfileScreenState extends State<ProfileScreen>
 
   Future<void> _exportAsPdf(Profile profile) async {
     try {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Generating PDF...')),
-      );
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('Generating PDF...')),
+        );
+      }
 
       await PdfService.generateAndPrintProfile(profile);
 
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('PDF generated and sent to printer!')),
-      );
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('PDF generated and sent to printer!')),
+        );
+      }
     } catch (e) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Error generating PDF: $e')),
-      );
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('Error generating PDF: $e')),
+        );
+      }
     }
   }
 }
