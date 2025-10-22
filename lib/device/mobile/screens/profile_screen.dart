@@ -1172,7 +1172,7 @@ class _MobileProfileScreenState extends State<MobileProfileScreen>
           ),
           SizedBox(height: ResponsiveUtils.getResponsiveIconSize(context, 6)),
           Text(
-            '"${testimonial.message.length > 100 ? testimonial.message.substring(0, 100) + '...' : testimonial.message}"',
+            '"${testimonial.message.length > 100 ? '${testimonial.message.substring(0, 100)}...' : testimonial.message}"',
             style: TextStyle(
               fontSize: ResponsiveUtils.getResponsiveFontSize(context, 10),
               color: Colors.grey[700],

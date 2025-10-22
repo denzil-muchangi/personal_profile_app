@@ -4,6 +4,11 @@ import 'package:url_launcher/url_launcher.dart';
 import 'dart:ui' as ui;
 import '../../../models/profile.dart';
 import '../../../models/skill.dart';
+import '../../../models/experience.dart';
+import '../../../models/education.dart';
+import '../../../models/project.dart';
+import '../../../models/achievement.dart';
+import '../../../models/testimonial.dart';
 import '../../../providers/profile_provider.dart';
 import '../../../providers/settings_provider.dart';
 import '../../../services/sharing_service.dart';
@@ -76,13 +81,15 @@ class _DesktopProfileScreenState extends State<DesktopProfileScreen>
 
         // Increment view count on load
         WidgetsBinding.instance.addPostFrameCallback((_) {
-          profileProvider.incrementViewCount();
-          // Show notification if enabled
-          final settingsProvider = Provider.of<SettingsProvider>(context, listen: false);
-          if (settingsProvider.notifications) {
-            ScaffoldMessenger.of(context).showSnackBar(
-              const SnackBar(content: Text('Profile viewed!')),
-            );
+          if (mounted) {
+            profileProvider.incrementViewCount();
+            // Show notification if enabled
+            final settingsProvider = Provider.of<SettingsProvider>(context, listen: false);
+            if (settingsProvider.notifications) {
+              ScaffoldMessenger.of(context).showSnackBar(
+                const SnackBar(content: Text('Profile viewed!')),
+              );
+            }
           }
         });
 
@@ -713,7 +720,7 @@ class _DesktopProfileScreenState extends State<DesktopProfileScreen>
           Wrap(
             spacing: ResponsiveUtils.getResponsiveIconSize(context, 12),
             runSpacing: ResponsiveUtils.getResponsiveIconSize(context, 12),
-            children: profile.skills.map((skill) {
+            children: profile.skills.map((Skill skill) {
               return Container(
                 padding: EdgeInsets.symmetric(
                   horizontal: ResponsiveUtils.getResponsiveIconSize(context, 14),
@@ -793,9 +800,7 @@ class _DesktopProfileScreenState extends State<DesktopProfileScreen>
         return Colors.purple;
       case SkillLevel.expert:
         return Colors.green;
-      default:
-        return Colors.grey;
-    }
+      }
   }
 
   // Desktop-optimized Experience Section
@@ -836,7 +841,7 @@ class _DesktopProfileScreenState extends State<DesktopProfileScreen>
           ),
           SizedBox(height: ResponsiveUtils.getResponsiveIconSize(context, 16)),
           Column(
-            children: profile.experiences.map((experience) {
+            children: profile.experiences.map((Experience experience) {
               return _buildDesktopExperienceCard(experience);
             }).toList(),
           ),
@@ -845,7 +850,7 @@ class _DesktopProfileScreenState extends State<DesktopProfileScreen>
     );
   }
 
-  Widget _buildDesktopExperienceCard(experience) {
+  Widget _buildDesktopExperienceCard(Experience experience) {
     return Container(
       margin: EdgeInsets.only(bottom: ResponsiveUtils.getResponsiveIconSize(context, 16)),
       padding: ResponsiveUtils.getResponsiveCardPadding(context),
@@ -942,7 +947,7 @@ class _DesktopProfileScreenState extends State<DesktopProfileScreen>
     );
   }
 
-  Widget _buildDesktopEducationCard(education) {
+  Widget _buildDesktopEducationCard(Education education) {
     return Container(
       padding: ResponsiveUtils.getResponsiveCardPadding(context),
       decoration: BoxDecoration(
@@ -1019,7 +1024,7 @@ class _DesktopProfileScreenState extends State<DesktopProfileScreen>
           ),
           SizedBox(height: ResponsiveUtils.getResponsiveIconSize(context, 16)),
           Column(
-            children: profile.featuredProjects.map((project) {
+            children: profile.featuredProjects.map((Project project) {
               return _buildDesktopProjectCard(project);
             }).toList(),
           ),
@@ -1028,7 +1033,7 @@ class _DesktopProfileScreenState extends State<DesktopProfileScreen>
     );
   }
 
-  Widget _buildDesktopProjectCard(project) {
+  Widget _buildDesktopProjectCard(Project project) {
     return Container(
       margin: EdgeInsets.only(bottom: ResponsiveUtils.getResponsiveIconSize(context, 16)),
       padding: ResponsiveUtils.getResponsiveCardPadding(context),
@@ -1183,7 +1188,7 @@ class _DesktopProfileScreenState extends State<DesktopProfileScreen>
           ),
           SizedBox(height: ResponsiveUtils.getResponsiveIconSize(context, 16)),
           Column(
-            children: profile.achievements.take(3).map((achievement) {
+            children: profile.achievements.take(3).map((Achievement achievement) {
               return _buildDesktopAchievementPreviewCard(achievement);
             }).toList(),
           ),
@@ -1192,7 +1197,7 @@ class _DesktopProfileScreenState extends State<DesktopProfileScreen>
     );
   }
 
-  Widget _buildDesktopAchievementPreviewCard(achievement) {
+  Widget _buildDesktopAchievementPreviewCard(Achievement achievement) {
     return Container(
       margin: EdgeInsets.only(bottom: ResponsiveUtils.getResponsiveIconSize(context, 12)),
       padding: ResponsiveUtils.getResponsiveCardPadding(context),
@@ -1296,7 +1301,7 @@ class _DesktopProfileScreenState extends State<DesktopProfileScreen>
           ),
           SizedBox(height: ResponsiveUtils.getResponsiveIconSize(context, 16)),
           Column(
-            children: profile.testimonials.take(3).map((testimonial) {
+            children: profile.testimonials.take(3).map((Testimonial testimonial) {
               return _buildDesktopTestimonialPreviewCard(testimonial);
             }).toList(),
           ),
@@ -1305,7 +1310,7 @@ class _DesktopProfileScreenState extends State<DesktopProfileScreen>
     );
   }
 
-  Widget _buildDesktopTestimonialPreviewCard(testimonial) {
+  Widget _buildDesktopTestimonialPreviewCard(Testimonial testimonial) {
     return Container(
       margin: EdgeInsets.only(bottom: ResponsiveUtils.getResponsiveIconSize(context, 16)),
       padding: ResponsiveUtils.getResponsiveCardPadding(context),
@@ -1377,7 +1382,7 @@ class _DesktopProfileScreenState extends State<DesktopProfileScreen>
           ),
           SizedBox(height: ResponsiveUtils.getResponsiveIconSize(context, 10)),
           Text(
-            '"${testimonial.message.length > 150 ? testimonial.message.substring(0, 150) + '...' : testimonial.message}"',
+            '"${testimonial.message.length > 150 ? '${testimonial.message.substring(0, 150)}...' : testimonial.message}"',
             style: TextStyle(
               fontSize: ResponsiveUtils.getResponsiveFontSize(context, 12),
               color: Colors.grey[700],
@@ -1456,14 +1461,18 @@ class _DesktopProfileScreenState extends State<DesktopProfileScreen>
       if (await canLaunchUrl(uri)) {
         await launchUrl(uri, mode: LaunchMode.externalApplication);
       } else {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Could not launch $url')),
-        );
+        if (mounted) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(content: Text('Could not launch $url')),
+          );
+        }
       }
     } catch (e) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Error launching URL: $e')),
-      );
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('Error launching URL: $e')),
+        );
+      }
     }
   }
 
@@ -1471,27 +1480,35 @@ class _DesktopProfileScreenState extends State<DesktopProfileScreen>
     try {
       await SharingService.shareProfile(profile);
     } catch (e) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Error sharing profile: $e')),
-      );
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('Error sharing profile: $e')),
+        );
+      }
     }
   }
 
   Future<void> _exportAsPdf(Profile profile) async {
     try {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Generating PDF...')),
-      );
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('Generating PDF...')),
+        );
+      }
 
       await PdfService.generateAndPrintProfile(profile);
 
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('PDF generated and sent to printer!')),
-      );
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('PDF generated and sent to printer!')),
+        );
+      }
     } catch (e) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Error generating PDF: $e')),
-      );
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('Error generating PDF: $e')),
+        );
+      }
     }
   }
 }
