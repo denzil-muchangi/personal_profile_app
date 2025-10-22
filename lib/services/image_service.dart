@@ -86,12 +86,14 @@ class ImageService {
 
   /// Show image picker options
   static Future<File?> showImagePickerOptions(BuildContext context) async {
-    return showModalBottomSheet<File?>(
+    final Completer<File?> completer = Completer<File?>();
+
+    showModalBottomSheet<File?>(
       context: context,
       shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
       ),
-      builder: (BuildContext context) {
+      builder: (BuildContext modalContext) {
         return Container(
           padding: const EdgeInsets.all(20),
           child: Column(
@@ -110,10 +112,14 @@ class ImageService {
                   Expanded(
                     child: ElevatedButton.icon(
                       onPressed: () async {
-                        Navigator.pop(context);
-                        final File? image = await pickImageFromCamera();
-                        if (image != null) {
-                          Navigator.pop(context, image);
+                        // Close the modal first
+                        Navigator.of(modalContext).pop();
+
+                        try {
+                          final File? image = await pickImageFromCamera();
+                          completer.complete(image);
+                        } catch (e) {
+                          completer.complete(null);
                         }
                       },
                       icon: const Icon(Icons.camera_alt),
@@ -127,10 +133,14 @@ class ImageService {
                   Expanded(
                     child: OutlinedButton.icon(
                       onPressed: () async {
-                        Navigator.pop(context);
-                        final File? image = await pickImageFromGallery();
-                        if (image != null) {
-                          Navigator.pop(context, image);
+                        // Close the modal first
+                        Navigator.of(modalContext).pop();
+
+                        try {
+                          final File? image = await pickImageFromGallery();
+                          completer.complete(image);
+                        } catch (e) {
+                          completer.complete(null);
                         }
                       },
                       icon: const Icon(Icons.photo_library),
@@ -146,7 +156,10 @@ class ImageService {
               SizedBox(
                 width: double.infinity,
                 child: TextButton(
-                  onPressed: () => Navigator.pop(context),
+                  onPressed: () {
+                    Navigator.of(modalContext).pop();
+                    completer.complete(null);
+                  },
                   child: const Text('Cancel'),
                 ),
               ),
@@ -154,7 +167,14 @@ class ImageService {
           ),
         );
       },
-    );
+    ).then((_) {
+      // If modal was dismissed without selecting an option, complete with null
+      if (!completer.isCompleted) {
+        completer.complete(null);
+      }
+    });
+
+    return completer.future;
   }
 
   /// Crop image (placeholder for future implementation)

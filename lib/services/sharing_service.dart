@@ -8,9 +8,11 @@ class SharingService {
     final shareText = _buildShareText(profile);
 
     try {
-      await Share.share(
-        shareText,
-        subject: 'Check out ${profile.personalInfo.fullName}\'s Profile',
+      await SharePlus.instance.share(
+        ShareParams(
+          text: shareText,
+          subject: 'Check out ${profile.personalInfo.fullName}\'s Profile',
+        ),
       );
     } catch (e) {
       throw Exception('Failed to share profile: $e');
@@ -127,7 +129,7 @@ class SharingService {
 
     buffer.writeln('Check out ${profile.personalInfo.fullName}\'s professional profile!');
     buffer.writeln('');
-    buffer.writeln('${profile.personalInfo.professionalTitle}');
+    buffer.writeln(profile.personalInfo.professionalTitle);
     buffer.writeln('');
     buffer.writeln('Skills: ${profile.skills.take(3).map((skill) => skill.name).join(', ')}');
     if (profile.skills.length > 3) {
@@ -144,7 +146,7 @@ class SharingService {
 
     buffer.writeln('🚀 Check out ${profile.personalInfo.fullName}\'s profile!');
     buffer.writeln('');
-    buffer.writeln('${profile.personalInfo.professionalTitle}');
+    buffer.writeln(profile.personalInfo.professionalTitle);
     buffer.writeln('');
     buffer.writeln('Skills: ${profile.skills.take(3).map((skill) => '#${skill.name}').join(' ')}');
     buffer.writeln('');
@@ -170,7 +172,7 @@ class SharingService {
     };
   }
 
-  static double _calculateAverageSkillLevel(List skills) {
+  static double _calculateAverageSkillLevel(List<Skill> skills) {
     if (skills.isEmpty) return 0.0;
 
     final levelValues = skills.map((skill) {
@@ -191,7 +193,7 @@ class SharingService {
     return levelValues.reduce((a, b) => a + b) / levelValues.length;
   }
 
-  static String _getTopSkillCategory(List skills) {
+  static String _getTopSkillCategory(List<Skill> skills) {
     if (skills.isEmpty) return 'None';
 
     final categoryCount = <String, int>{};

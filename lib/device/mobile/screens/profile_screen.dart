@@ -3,6 +3,11 @@ import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
 import '../../../models/profile.dart';
 import '../../../models/skill.dart';
+import '../../../models/experience.dart';
+import '../../../models/education.dart';
+import '../../../models/project.dart';
+import '../../../models/achievement.dart';
+import '../../../models/testimonial.dart';
 import '../../../providers/profile_provider.dart';
 import '../../../providers/settings_provider.dart';
 import '../../../services/sharing_service.dart';
@@ -618,7 +623,7 @@ class _MobileProfileScreenState extends State<MobileProfileScreen>
         borderRadius: BorderRadius.circular(ResponsiveUtils.getResponsiveIconSize(context, 12)),
         boxShadow: [
           BoxShadow(
-            color: Colors.grey.withOpacity(0.1),
+            color: Colors.grey.withValues(alpha: 0.1),
             spreadRadius: 2,
             blurRadius: ResponsiveUtils.getResponsiveIconSize(context, 6),
             offset: Offset(0, ResponsiveUtils.getResponsiveIconSize(context, 1)),
@@ -652,7 +657,7 @@ class _MobileProfileScreenState extends State<MobileProfileScreen>
     );
   }
 
-  Widget _buildMobileExperienceCard(experience) {
+  Widget _buildMobileExperienceCard(Experience experience) {
     return Container(
       margin: EdgeInsets.only(bottom: ResponsiveUtils.getResponsiveIconSize(context, 12)),
       padding: ResponsiveUtils.getResponsiveCardPadding(context),
@@ -716,7 +721,7 @@ class _MobileProfileScreenState extends State<MobileProfileScreen>
         borderRadius: BorderRadius.circular(ResponsiveUtils.getResponsiveIconSize(context, 12)),
         boxShadow: [
           BoxShadow(
-            color: Colors.grey.withOpacity(0.1),
+            color: Colors.grey.withValues(alpha: 0.1),
             spreadRadius: 2,
             blurRadius: ResponsiveUtils.getResponsiveIconSize(context, 6),
             offset: Offset(0, ResponsiveUtils.getResponsiveIconSize(context, 1)),
@@ -746,7 +751,7 @@ class _MobileProfileScreenState extends State<MobileProfileScreen>
     );
   }
 
-  Widget _buildMobileEducationCard(education) {
+  Widget _buildMobileEducationCard(Education education) {
     return Container(
       padding: ResponsiveUtils.getResponsiveCardPadding(context),
       decoration: BoxDecoration(
@@ -795,7 +800,7 @@ class _MobileProfileScreenState extends State<MobileProfileScreen>
         borderRadius: BorderRadius.circular(ResponsiveUtils.getResponsiveIconSize(context, 12)),
         boxShadow: [
           BoxShadow(
-            color: Colors.grey.withOpacity(0.1),
+            color: Colors.grey.withValues(alpha: 0.1),
             spreadRadius: 2,
             blurRadius: ResponsiveUtils.getResponsiveIconSize(context, 6),
             offset: Offset(0, ResponsiveUtils.getResponsiveIconSize(context, 1)),
@@ -829,7 +834,7 @@ class _MobileProfileScreenState extends State<MobileProfileScreen>
     );
   }
 
-  Widget _buildMobileProjectCard(project) {
+  Widget _buildMobileProjectCard(Project project) {
     return Container(
       margin: EdgeInsets.only(bottom: ResponsiveUtils.getResponsiveIconSize(context, 12)),
       padding: ResponsiveUtils.getResponsiveCardPadding(context),
@@ -886,7 +891,7 @@ class _MobileProfileScreenState extends State<MobileProfileScreen>
         borderRadius: BorderRadius.circular(ResponsiveUtils.getResponsiveIconSize(context, 12)),
         boxShadow: [
           BoxShadow(
-            color: Colors.grey.withOpacity(0.1),
+            color: Colors.grey.withValues(alpha: 0.1),
             spreadRadius: 2,
             blurRadius: ResponsiveUtils.getResponsiveIconSize(context, 6),
             offset: Offset(0, ResponsiveUtils.getResponsiveIconSize(context, 1)),
@@ -944,7 +949,7 @@ class _MobileProfileScreenState extends State<MobileProfileScreen>
         borderRadius: BorderRadius.circular(ResponsiveUtils.getResponsiveIconSize(context, 12)),
         boxShadow: [
           BoxShadow(
-            color: Colors.grey.withOpacity(0.1),
+            color: Colors.grey.withValues(alpha: 0.1),
             spreadRadius: 2,
             blurRadius: ResponsiveUtils.getResponsiveIconSize(context, 6),
             offset: Offset(0, ResponsiveUtils.getResponsiveIconSize(context, 1)),
@@ -989,7 +994,7 @@ class _MobileProfileScreenState extends State<MobileProfileScreen>
     );
   }
 
-  Widget _buildMobileAchievementPreviewCard(achievement) {
+  Widget _buildMobileAchievementPreviewCard(Achievement achievement) {
     return Container(
       margin: EdgeInsets.only(bottom: ResponsiveUtils.getResponsiveIconSize(context, 8)),
       padding: ResponsiveUtils.getResponsiveCardPadding(context),
@@ -1055,7 +1060,7 @@ class _MobileProfileScreenState extends State<MobileProfileScreen>
         borderRadius: BorderRadius.circular(ResponsiveUtils.getResponsiveIconSize(context, 12)),
         boxShadow: [
           BoxShadow(
-            color: Colors.grey.withOpacity(0.1),
+            color: Colors.grey.withValues(alpha: 0.1),
             spreadRadius: 2,
             blurRadius: ResponsiveUtils.getResponsiveIconSize(context, 6),
             offset: Offset(0, ResponsiveUtils.getResponsiveIconSize(context, 1)),
@@ -1100,7 +1105,7 @@ class _MobileProfileScreenState extends State<MobileProfileScreen>
     );
   }
 
-  Widget _buildMobileTestimonialPreviewCard(testimonial) {
+  Widget _buildMobileTestimonialPreviewCard(Testimonial testimonial) {
     return Container(
       margin: EdgeInsets.only(bottom: ResponsiveUtils.getResponsiveIconSize(context, 12)),
       padding: ResponsiveUtils.getResponsiveCardPadding(context),

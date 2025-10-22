@@ -56,10 +56,12 @@ class BackupService {
   static Future<void> shareBackup(Profile profile) async {
     try {
       final backupFile = await createBackup(profile);
-      await Share.shareXFiles(
-        [XFile(backupFile.path)],
-        text: 'Profile Backup - ${profile.personalInfo.fullName}',
-        subject: 'Profile Backup File',
+      await SharePlus.instance.share(
+        ShareParams(
+          text: 'Profile Backup - ${profile.personalInfo.fullName}',
+          subject: 'Profile Backup File',
+          files: [XFile(backupFile.path)],
+        ),
       );
     } catch (e) {
       throw Exception('Failed to share backup: $e');
