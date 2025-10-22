@@ -86,8 +86,8 @@ class _TabletProfileScreenState extends State<TabletProfileScreen>
                         end: Alignment.bottomRight,
                         colors: [
                           Theme.of(context).primaryColor,
-                          Theme.of(context).primaryColor.withOpacity(0.7),
-                          Theme.of(context).primaryColor.withOpacity(0.5),
+                          Theme.of(context).primaryColor.withValues(alpha: 0.7),
+                          Theme.of(context).primaryColor.withValues(alpha: 0.5),
                         ],
                       ),
                     ),
@@ -97,8 +97,8 @@ class _TabletProfileScreenState extends State<TabletProfileScreen>
                           begin: Alignment.topCenter,
                           end: Alignment.bottomCenter,
                           colors: [
-                            Colors.white.withOpacity(0.1),
-                            Colors.white.withOpacity(0.05),
+                            Colors.white.withValues(alpha: 0.1),
+                            Colors.white.withValues(alpha: 0.05),
                           ],
                         ),
                       ),
@@ -228,7 +228,7 @@ class _TabletProfileScreenState extends State<TabletProfileScreen>
                 borderRadius: BorderRadius.circular(ResponsiveUtils.getResponsiveIconSize(context, 14)),
                 boxShadow: [
                   BoxShadow(
-                    color: Theme.of(context).primaryColor.withOpacity(0.3),
+                    color: Theme.of(context).primaryColor.withValues(alpha: 0.3),
                     blurRadius: ResponsiveUtils.getResponsiveIconSize(context, 14),
                     spreadRadius: 0,
                     offset: Offset(0, ResponsiveUtils.getResponsiveIconSize(context, 5)),
@@ -275,12 +275,12 @@ class _TabletProfileScreenState extends State<TabletProfileScreen>
               shape: BoxShape.circle,
               boxShadow: [
                 BoxShadow(
-                  color: Colors.white.withOpacity(0.3),
+                  color: Colors.white.withValues(alpha: 0.3),
                   blurRadius: ResponsiveUtils.getResponsiveIconSize(context, 14),
                   spreadRadius: ResponsiveUtils.getResponsiveIconSize(context, 4),
                 ),
                 BoxShadow(
-                  color: Theme.of(context).primaryColor.withOpacity(0.2),
+                  color: Theme.of(context).primaryColor.withValues(alpha: 0.2),
                   blurRadius: ResponsiveUtils.getResponsiveIconSize(context, 20),
                   spreadRadius: ResponsiveUtils.getResponsiveIconSize(context, 7),
                 ),
@@ -304,7 +304,7 @@ class _TabletProfileScreenState extends State<TabletProfileScreen>
                           begin: Alignment.topLeft,
                           end: Alignment.bottomRight,
                           colors: [
-                            Theme.of(context).primaryColor.withOpacity(0.8),
+                            Theme.of(context).primaryColor.withValues(alpha: 0.8),
                             Theme.of(context).primaryColor,
                           ],
                         ),
@@ -334,9 +334,9 @@ class _TabletProfileScreenState extends State<TabletProfileScreen>
               vertical: ResponsiveUtils.getResponsiveIconSize(context, 5),
             ),
             decoration: BoxDecoration(
-              color: Colors.white.withOpacity(0.1),
+              color: Colors.white.withValues(alpha: 0.1),
               borderRadius: BorderRadius.circular(ResponsiveUtils.getResponsiveIconSize(context, 14)),
-              border: Border.all(color: Colors.white.withOpacity(0.2)),
+              border: Border.all(color: Colors.white.withValues(alpha: 0.2)),
             ),
             child: Text(
               profile.personalInfo.fullName,
@@ -364,9 +364,9 @@ class _TabletProfileScreenState extends State<TabletProfileScreen>
               vertical: ResponsiveUtils.getResponsiveIconSize(context, 4),
             ),
             decoration: BoxDecoration(
-              color: Colors.white.withOpacity(0.15),
+              color: Colors.white.withValues(alpha: 0.15),
               borderRadius: BorderRadius.circular(ResponsiveUtils.getResponsiveIconSize(context, 10)),
-              border: Border.all(color: Colors.white.withOpacity(0.3)),
+              border: Border.all(color: Colors.white.withValues(alpha: 0.3)),
             ),
             child: Text(
               profile.personalInfo.professionalTitle,
@@ -392,15 +392,15 @@ class _TabletProfileScreenState extends State<TabletProfileScreen>
       ),
       padding: ResponsiveUtils.getResponsiveCardPadding(context),
       decoration: BoxDecoration(
-        color: Theme.of(context).cardColor.withOpacity(0.8),
+        color: Theme.of(context).cardColor.withValues(alpha: 0.8),
         borderRadius: BorderRadius.circular(ResponsiveUtils.getResponsiveIconSize(context, 18)),
         border: Border.all(
-          color: Theme.of(context).primaryColor.withOpacity(0.1),
+          color: Theme.of(context).primaryColor.withValues(alpha: 0.1),
           width: 1,
         ),
         boxShadow: [
           BoxShadow(
-            color: Theme.of(context).primaryColor.withOpacity(0.1),
+            color: Theme.of(context).primaryColor.withValues(alpha: 0.1),
             spreadRadius: 0,
             blurRadius: ResponsiveUtils.getResponsiveIconSize(context, 14),
             offset: Offset(0, ResponsiveUtils.getResponsiveIconSize(context, 5)),
@@ -415,7 +415,7 @@ class _TabletProfileScreenState extends State<TabletProfileScreen>
               Container(
                 padding: EdgeInsets.all(ResponsiveUtils.getResponsiveIconSize(context, 6)),
                 decoration: BoxDecoration(
-                  color: Theme.of(context).primaryColor.withOpacity(0.1),
+                  color: Theme.of(context).primaryColor.withValues(alpha: 0.1),
                   borderRadius: BorderRadius.circular(ResponsiveUtils.getResponsiveIconSize(context, 10)),
                 ),
                 child: Icon(
@@ -439,10 +439,10 @@ class _TabletProfileScreenState extends State<TabletProfileScreen>
           Container(
             padding: ResponsiveUtils.getResponsiveCardPadding(context),
             decoration: BoxDecoration(
-              color: Theme.of(context).primaryColor.withOpacity(0.05),
+              color: Theme.of(context).primaryColor.withValues(alpha: 0.05),
               borderRadius: BorderRadius.circular(ResponsiveUtils.getResponsiveIconSize(context, 12)),
               border: Border.all(
-                color: Theme.of(context).primaryColor.withOpacity(0.1),
+                color: Theme.of(context).primaryColor.withValues(alpha: 0.1),
                 width: 1,
               ),
             ),
@@ -504,15 +504,15 @@ class _TabletProfileScreenState extends State<TabletProfileScreen>
       ),
       padding: ResponsiveUtils.getResponsiveCardPadding(context),
       decoration: BoxDecoration(
-        color: Theme.of(context).cardColor.withOpacity(0.8),
+        color: Theme.of(context).cardColor.withValues(alpha: 0.8),
         borderRadius: BorderRadius.circular(ResponsiveUtils.getResponsiveIconSize(context, 18)),
         border: Border.all(
-          color: Theme.of(context).primaryColor.withOpacity(0.1),
+          color: Theme.of(context).primaryColor.withValues(alpha: 0.1),
           width: 1,
         ),
         boxShadow: [
           BoxShadow(
-            color: Theme.of(context).primaryColor.withOpacity(0.1),
+            color: Theme.of(context).primaryColor.withValues(alpha: 0.1),
             spreadRadius: 0,
             blurRadius: ResponsiveUtils.getResponsiveIconSize(context, 14),
             offset: Offset(0, ResponsiveUtils.getResponsiveIconSize(context, 5)),
@@ -527,7 +527,7 @@ class _TabletProfileScreenState extends State<TabletProfileScreen>
               Container(
                 padding: EdgeInsets.all(ResponsiveUtils.getResponsiveIconSize(context, 8)),
                 decoration: BoxDecoration(
-                  color: Theme.of(context).primaryColor.withOpacity(0.1),
+                  color: Theme.of(context).primaryColor.withValues(alpha: 0.1),
                   borderRadius: BorderRadius.circular(ResponsiveUtils.getResponsiveIconSize(context, 12)),
                 ),
                 child: Icon(
@@ -562,18 +562,18 @@ class _TabletProfileScreenState extends State<TabletProfileScreen>
                     begin: Alignment.topLeft,
                     end: Alignment.bottomRight,
                     colors: [
-                      Theme.of(context).primaryColor.withOpacity(0.1),
-                      Theme.of(context).primaryColor.withOpacity(0.05),
+                      Theme.of(context).primaryColor.withValues(alpha: 0.1),
+                      Theme.of(context).primaryColor.withValues(alpha: 0.05),
                     ],
                   ),
                   borderRadius: BorderRadius.circular(ResponsiveUtils.getResponsiveIconSize(context, 18)),
                   border: Border.all(
-                    color: Theme.of(context).primaryColor.withOpacity(0.2),
+                    color: Theme.of(context).primaryColor.withValues(alpha: 0.2),
                     width: 1,
                   ),
                   boxShadow: [
                     BoxShadow(
-                      color: Theme.of(context).primaryColor.withOpacity(0.1),
+                      color: Theme.of(context).primaryColor.withValues(alpha: 0.1),
                       blurRadius: ResponsiveUtils.getResponsiveIconSize(context, 6),
                       offset: Offset(0, ResponsiveUtils.getResponsiveIconSize(context, 3)),
                     ),
@@ -598,7 +598,7 @@ class _TabletProfileScreenState extends State<TabletProfileScreen>
                         vertical: ResponsiveUtils.getResponsiveIconSize(context, 1.5),
                       ),
                       decoration: BoxDecoration(
-                        color: _getSkillLevelColor(skill.level).withOpacity(0.2),
+                        color: _getSkillLevelColor(skill.level).withValues(alpha: 0.2),
                         borderRadius: BorderRadius.circular(ResponsiveUtils.getResponsiveIconSize(context, 10)),
                       ),
                       child: Text(
@@ -649,7 +649,7 @@ class _TabletProfileScreenState extends State<TabletProfileScreen>
         borderRadius: BorderRadius.circular(ResponsiveUtils.getResponsiveIconSize(context, 14)),
         boxShadow: [
           BoxShadow(
-            color: Colors.grey.withOpacity(0.1),
+            color: Colors.grey.withValues(alpha: 0.1),
             spreadRadius: 2,
             blurRadius: ResponsiveUtils.getResponsiveIconSize(context, 8),
             offset: Offset(0, ResponsiveUtils.getResponsiveIconSize(context, 2)),
@@ -750,7 +750,7 @@ class _TabletProfileScreenState extends State<TabletProfileScreen>
         borderRadius: BorderRadius.circular(ResponsiveUtils.getResponsiveIconSize(context, 14)),
         boxShadow: [
           BoxShadow(
-            color: Colors.grey.withOpacity(0.1),
+            color: Colors.grey.withValues(alpha: 0.1),
             spreadRadius: 2,
             blurRadius: ResponsiveUtils.getResponsiveIconSize(context, 8),
             offset: Offset(0, ResponsiveUtils.getResponsiveIconSize(context, 2)),
@@ -831,7 +831,7 @@ class _TabletProfileScreenState extends State<TabletProfileScreen>
         borderRadius: BorderRadius.circular(ResponsiveUtils.getResponsiveIconSize(context, 14)),
         boxShadow: [
           BoxShadow(
-            color: Colors.grey.withOpacity(0.1),
+            color: Colors.grey.withValues(alpha: 0.1),
             spreadRadius: 2,
             blurRadius: ResponsiveUtils.getResponsiveIconSize(context, 8),
             offset: Offset(0, ResponsiveUtils.getResponsiveIconSize(context, 2)),
@@ -924,7 +924,7 @@ class _TabletProfileScreenState extends State<TabletProfileScreen>
         borderRadius: BorderRadius.circular(ResponsiveUtils.getResponsiveIconSize(context, 14)),
         boxShadow: [
           BoxShadow(
-            color: Colors.grey.withOpacity(0.1),
+            color: Colors.grey.withValues(alpha: 0.1),
             spreadRadius: 2,
             blurRadius: ResponsiveUtils.getResponsiveIconSize(context, 8),
             offset: Offset(0, ResponsiveUtils.getResponsiveIconSize(context, 2)),
@@ -984,7 +984,7 @@ class _TabletProfileScreenState extends State<TabletProfileScreen>
         borderRadius: BorderRadius.circular(ResponsiveUtils.getResponsiveIconSize(context, 14)),
         boxShadow: [
           BoxShadow(
-            color: Colors.grey.withOpacity(0.1),
+            color: Colors.grey.withValues(alpha: 0.1),
             spreadRadius: 2,
             blurRadius: ResponsiveUtils.getResponsiveIconSize(context, 8),
             offset: Offset(0, ResponsiveUtils.getResponsiveIconSize(context, 2)),
@@ -1097,7 +1097,7 @@ class _TabletProfileScreenState extends State<TabletProfileScreen>
         borderRadius: BorderRadius.circular(ResponsiveUtils.getResponsiveIconSize(context, 14)),
         boxShadow: [
           BoxShadow(
-            color: Colors.grey.withOpacity(0.1),
+            color: Colors.grey.withValues(alpha: 0.1),
             spreadRadius: 2,
             blurRadius: ResponsiveUtils.getResponsiveIconSize(context, 8),
             offset: Offset(0, ResponsiveUtils.getResponsiveIconSize(context, 2)),

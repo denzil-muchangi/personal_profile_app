@@ -27,12 +27,12 @@ class ProfileAvatar extends StatelessWidget {
           shape: BoxShape.circle,
           boxShadow: [
             BoxShadow(
-              color: Colors.white.withOpacity(0.3),
+              color: Colors.white.withValues(alpha: 0.3),
               blurRadius: 20,
               spreadRadius: 5,
             ),
             BoxShadow(
-              color: Theme.of(context).primaryColor.withOpacity(0.2),
+              color: Theme.of(context).primaryColor.withValues(alpha: 0.2),
               blurRadius: 30,
               spreadRadius: 10,
             ),
@@ -51,7 +51,7 @@ class ProfileAvatar extends StatelessWidget {
                       begin: Alignment.topLeft,
                       end: Alignment.bottomRight,
                       colors: [
-                        Theme.of(context).primaryColor.withOpacity(0.8),
+                        Theme.of(context).primaryColor.withValues(alpha: 0.8),
                         Theme.of(context).primaryColor,
                       ],
                     ),

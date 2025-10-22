@@ -31,7 +31,7 @@ class ModernButton extends StatelessWidget {
         boxShadow: isPrimary && onPressed != null
             ? [
                 BoxShadow(
-                  color: Theme.of(context).primaryColor.withOpacity(0.2),
+                  color: Theme.of(context).primaryColor.withValues(alpha: 0.2),
                   blurRadius: ResponsiveUtils.getResponsiveIconSize(context, 10),
                   offset: Offset(0, ResponsiveUtils.getResponsiveIconSize(context, 5)),
                 ),
@@ -71,7 +71,7 @@ class ModernButton extends StatelessWidget {
             side: isPrimary
                 ? BorderSide.none
                 : BorderSide(
-                    color: Theme.of(context).primaryColor.withOpacity(0.5),
+                    color: Theme.of(context).primaryColor.withValues(alpha: 0.5),
                     width: ResponsiveUtils.getResponsiveIconSize(context, 1.2),
                   ),
           ),

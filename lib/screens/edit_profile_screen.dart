@@ -486,7 +486,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                     children: project.technologies.map((tech) {
                       return Chip(
                         label: Text(tech),
-                        backgroundColor: Theme.of(context).primaryColor.withOpacity(0.1),
+                        backgroundColor: Theme.of(context).primaryColor.withValues(alpha: 0.1),
                       );
                     }).toList(),
                   ),
@@ -1202,7 +1202,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                     children: [
                       CircleAvatar(
                         radius: 60,
-                        backgroundColor: Colors.deepPurple.withOpacity(0.1),
+                        backgroundColor: Colors.deepPurple.withValues(alpha: 0.1),
                         backgroundImage: currentImagePath != null
                             ? FileImage(File(currentImagePath))
                             : null,

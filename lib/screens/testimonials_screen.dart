@@ -80,7 +80,7 @@ class TestimonialsScreen extends StatelessWidget {
               children: [
                 CircleAvatar(
                   radius: 25,
-                  backgroundColor: Colors.deepPurple.withOpacity(0.1),
+                  backgroundColor: Colors.deepPurple.withValues(alpha: 0.1),
                   child: Text(
                     testimonial.name.isNotEmpty ? testimonial.name[0].toUpperCase() : 'U',
                     style: const TextStyle(
@@ -119,7 +119,7 @@ class TestimonialsScreen extends StatelessWidget {
                       Container(
                         padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
                         decoration: BoxDecoration(
-                          color: Colors.green.withOpacity(0.1),
+                          color: Colors.green.withValues(alpha: 0.1),
                           borderRadius: BorderRadius.circular(8),
                         ),
                         child: const Row(
