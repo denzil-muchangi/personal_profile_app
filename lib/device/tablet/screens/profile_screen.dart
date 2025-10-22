@@ -3,6 +3,11 @@ import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
 import '../../../models/profile.dart';
 import '../../../models/skill.dart';
+import '../../../models/experience.dart';
+import '../../../models/education.dart';
+import '../../../models/project.dart';
+import '../../../models/achievement.dart';
+import '../../../models/testimonial.dart';
 import '../../../providers/profile_provider.dart';
 import '../../../providers/settings_provider.dart';
 import '../../../services/sharing_service.dart';
@@ -631,9 +636,7 @@ class _TabletProfileScreenState extends State<TabletProfileScreen>
         return Colors.purple;
       case SkillLevel.expert:
         return Colors.green;
-      default:
-        return Colors.grey;
-    }
+      }
   }
 
   // Tablet-optimized Experience Section
@@ -683,7 +686,7 @@ class _TabletProfileScreenState extends State<TabletProfileScreen>
     );
   }
 
-  Widget _buildTabletExperienceCard(experience) {
+  Widget _buildTabletExperienceCard(Experience experience) {
     return Container(
       margin: EdgeInsets.only(bottom: ResponsiveUtils.getResponsiveIconSize(context, 14)),
       padding: ResponsiveUtils.getResponsiveCardPadding(context),
@@ -780,7 +783,7 @@ class _TabletProfileScreenState extends State<TabletProfileScreen>
     );
   }
 
-  Widget _buildTabletEducationCard(education) {
+  Widget _buildTabletEducationCard(Education education) {
     return Container(
       padding: ResponsiveUtils.getResponsiveCardPadding(context),
       decoration: BoxDecoration(
@@ -865,7 +868,7 @@ class _TabletProfileScreenState extends State<TabletProfileScreen>
     );
   }
 
-  Widget _buildTabletProjectCard(project) {
+  Widget _buildTabletProjectCard(Project project) {
     return Container(
       margin: EdgeInsets.only(bottom: ResponsiveUtils.getResponsiveIconSize(context, 14)),
       padding: ResponsiveUtils.getResponsiveCardPadding(context),
@@ -901,7 +904,7 @@ class _TabletProfileScreenState extends State<TabletProfileScreen>
                   tech,
                   style: TextStyle(fontSize: ResponsiveUtils.getResponsiveFontSize(context, 11)),
                 ),
-                backgroundColor: Colors.deepPurple.withOpacity(0.1),
+                backgroundColor: Colors.deepPurple.withValues(alpha: 0.1),
                 padding: EdgeInsets.zero,
                 materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
               );
@@ -1029,7 +1032,7 @@ class _TabletProfileScreenState extends State<TabletProfileScreen>
     );
   }
 
-  Widget _buildTabletAchievementPreviewCard(achievement) {
+  Widget _buildTabletAchievementPreviewCard(Achievement achievement) {
     return Container(
       margin: EdgeInsets.only(bottom: ResponsiveUtils.getResponsiveIconSize(context, 10)),
       padding: ResponsiveUtils.getResponsiveCardPadding(context),
@@ -1043,7 +1046,7 @@ class _TabletProfileScreenState extends State<TabletProfileScreen>
           Container(
             padding: EdgeInsets.all(ResponsiveUtils.getResponsiveIconSize(context, 8)),
             decoration: BoxDecoration(
-              color: achievement.color.withOpacity(0.1),
+              color: achievement.color.withValues(alpha: 0.1),
               borderRadius: BorderRadius.circular(ResponsiveUtils.getResponsiveIconSize(context, 8)),
             ),
             child: Icon(
@@ -1142,7 +1145,7 @@ class _TabletProfileScreenState extends State<TabletProfileScreen>
     );
   }
 
-  Widget _buildTabletTestimonialPreviewCard(testimonial) {
+  Widget _buildTabletTestimonialPreviewCard(Testimonial testimonial) {
     return Container(
       margin: EdgeInsets.only(bottom: ResponsiveUtils.getResponsiveIconSize(context, 14)),
       padding: ResponsiveUtils.getResponsiveCardPadding(context),
@@ -1158,7 +1161,7 @@ class _TabletProfileScreenState extends State<TabletProfileScreen>
             children: [
               CircleAvatar(
                 radius: ResponsiveUtils.getResponsiveIconSize(context, 18),
-                backgroundColor: Colors.deepPurple.withOpacity(0.1),
+                backgroundColor: Colors.deepPurple.withValues(alpha: 0.1),
                 child: Text(
                   testimonial.name.isNotEmpty ? testimonial.name[0].toUpperCase() : 'U',
                   style: TextStyle(
@@ -1214,7 +1217,7 @@ class _TabletProfileScreenState extends State<TabletProfileScreen>
           ),
           SizedBox(height: ResponsiveUtils.getResponsiveIconSize(context, 8)),
           Text(
-            '"${testimonial.message.length > 120 ? testimonial.message.substring(0, 120) + '...' : testimonial.message}"',
+            '"${testimonial.message.length > 120 ? '${testimonial.message.substring(0, 120)}...' : testimonial.message}"',
             style: TextStyle(
               fontSize: ResponsiveUtils.getResponsiveFontSize(context, 11),
               color: Colors.grey[700],
@@ -1293,14 +1296,18 @@ class _TabletProfileScreenState extends State<TabletProfileScreen>
       if (await canLaunchUrl(uri)) {
         await launchUrl(uri, mode: LaunchMode.externalApplication);
       } else {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Could not launch $url')),
-        );
+        if (mounted) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(content: Text('Could not launch $url')),
+          );
+        }
       }
     } catch (e) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Error launching URL: $e')),
-      );
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('Error launching URL: $e')),
+        );
+      }
     }
   }
 
@@ -1308,27 +1315,35 @@ class _TabletProfileScreenState extends State<TabletProfileScreen>
     try {
       await SharingService.shareProfile(profile);
     } catch (e) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Error sharing profile: $e')),
-      );
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('Error sharing profile: $e')),
+        );
+      }
     }
   }
 
   Future<void> _exportAsPdf(Profile profile) async {
     try {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Generating PDF...')),
-      );
-
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('Generating PDF...')),
+        );
+      }
+  
       await PdfService.generateAndPrintProfile(profile);
-
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('PDF generated and sent to printer!')),
-      );
+  
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('PDF generated and sent to printer!')),
+        );
+      }
     } catch (e) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Error generating PDF: $e')),
-      );
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('Error generating PDF: $e')),
+        );
+      }
     }
   }
 }
