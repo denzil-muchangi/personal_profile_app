@@ -192,4 +192,35 @@ class ProfileProvider extends ChangeNotifier {
     );
     notifyListeners();
   }
+
+  void incrementViewCount() {
+    _profile = _profile.copyWith(
+      viewCount: _profile.viewCount + 1,
+      viewHistory: [..._profile.viewHistory, DateTime.now()],
+    );
+    notifyListeners();
+  }
+
+  void updateVisibility({
+    bool? isPersonalInfoVisible,
+    bool? areSkillsVisible,
+    bool? areExperiencesVisible,
+    bool? isEducationVisible,
+    bool? areProjectsVisible,
+    bool? areSocialLinksVisible,
+    bool? areAchievementsVisible,
+    bool? areTestimonialsVisible,
+  }) {
+    _profile = _profile.copyWith(
+      isPersonalInfoVisible: isPersonalInfoVisible,
+      areSkillsVisible: areSkillsVisible,
+      areExperiencesVisible: areExperiencesVisible,
+      isEducationVisible: isEducationVisible,
+      areProjectsVisible: areProjectsVisible,
+      areSocialLinksVisible: areSocialLinksVisible,
+      areAchievementsVisible: areAchievementsVisible,
+      areTestimonialsVisible: areTestimonialsVisible,
+    );
+    notifyListeners();
+  }
 }

@@ -27,10 +27,10 @@ class CustomCard extends StatelessWidget {
     return Container(
       margin: margin ?? const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
       decoration: BoxDecoration(
-        color: backgroundColor ?? Theme.of(context).cardColor.withOpacity(0.8),
+        color: backgroundColor ?? Theme.of(context).cardColor.withValues(alpha: 0.8),
         borderRadius: borderRadius ?? BorderRadius.circular(24),
         border: border ?? Border.all(
-          color: Theme.of(context).primaryColor.withOpacity(0.1),
+          color: Theme.of(context).primaryColor.withValues(alpha: 0.1),
           width: 1,
         ),
         boxShadow: boxShadow ?? [

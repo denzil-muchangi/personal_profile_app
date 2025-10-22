@@ -3,6 +3,10 @@ import 'package:provider/provider.dart';
 import 'dart:io';
 import '../models/profile.dart';
 import '../models/skill.dart';
+import '../models/experience.dart';
+import '../models/education.dart';
+import '../models/project.dart';
+import '../models/social_link.dart';
 import '../providers/profile_provider.dart';
 import '../services/image_service.dart';
 
@@ -541,37 +545,589 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
   }
 
   void _addNewSkill() {
-    // TODO: Show dialog to add new skill
-    ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(content: Text('Add skill functionality coming soon!')),
+    _showAddSkillDialog();
+  }
+
+  void _showAddSkillDialog() {
+    final nameController = TextEditingController();
+    final categoryController = TextEditingController();
+    SkillLevel selectedLevel = SkillLevel.beginner;
+
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text('Add New Skill'),
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              TextField(
+                controller: nameController,
+                decoration: const InputDecoration(
+                  labelText: 'Skill Name',
+                  border: OutlineInputBorder(),
+                ),
+              ),
+              const SizedBox(height: 16),
+              TextField(
+                controller: categoryController,
+                decoration: const InputDecoration(
+                  labelText: 'Category',
+                  border: OutlineInputBorder(),
+                ),
+              ),
+              const SizedBox(height: 16),
+              DropdownButtonFormField<SkillLevel>(
+                value: selectedLevel,
+                decoration: const InputDecoration(
+                  labelText: 'Skill Level',
+                  border: OutlineInputBorder(),
+                ),
+                items: SkillLevel.values.map((level) {
+                  return DropdownMenuItem(
+                    value: level,
+                    child: Text(_getSkillLevelText(level)),
+                  );
+                }).toList(),
+                onChanged: (value) {
+                  selectedLevel = value!;
+                },
+              ),
+            ],
+          ),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.of(context).pop(),
+              child: const Text('Cancel'),
+            ),
+            ElevatedButton(
+              onPressed: () {
+                if (nameController.text.isNotEmpty && categoryController.text.isNotEmpty) {
+                  final newSkill = Skill(
+                    name: nameController.text,
+                    level: selectedLevel,
+                    category: categoryController.text,
+                  );
+                  setState(() {
+                    _editedProfile = _editedProfile.copyWith(
+                      skills: [..._editedProfile.skills, newSkill],
+                    );
+                  });
+                  Navigator.of(context).pop();
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    const SnackBar(content: Text('Skill added successfully!')),
+                  );
+                } else {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    const SnackBar(content: Text('Please fill all fields')),
+                  );
+                }
+              },
+              child: const Text('Add'),
+            ),
+          ],
+        );
+      },
     );
   }
 
   void _addNewExperience() {
-    // TODO: Show dialog to add new experience
-    ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(content: Text('Add experience functionality coming soon!')),
+    _showAddExperienceDialog();
+  }
+
+  void _showAddExperienceDialog() {
+    final companyController = TextEditingController();
+    final positionController = TextEditingController();
+    final descriptionController = TextEditingController();
+    final locationController = TextEditingController();
+    final achievementsController = TextEditingController();
+    DateTime? startDate;
+    DateTime? endDate;
+
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text('Add New Experience'),
+          content: SingleChildScrollView(
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                TextField(
+                  controller: companyController,
+                  decoration: const InputDecoration(
+                    labelText: 'Company Name',
+                    border: OutlineInputBorder(),
+                  ),
+                ),
+                const SizedBox(height: 16),
+                TextField(
+                  controller: positionController,
+                  decoration: const InputDecoration(
+                    labelText: 'Position',
+                    border: OutlineInputBorder(),
+                  ),
+                ),
+                const SizedBox(height: 16),
+                TextField(
+                  controller: descriptionController,
+                  decoration: const InputDecoration(
+                    labelText: 'Description',
+                    border: OutlineInputBorder(),
+                  ),
+                  maxLines: 3,
+                ),
+                const SizedBox(height: 16),
+                TextField(
+                  controller: locationController,
+                  decoration: const InputDecoration(
+                    labelText: 'Location',
+                    border: OutlineInputBorder(),
+                  ),
+                ),
+                const SizedBox(height: 16),
+                ElevatedButton(
+                  onPressed: () async {
+                    final picked = await showDatePicker(
+                      context: context,
+                      initialDate: DateTime.now(),
+                      firstDate: DateTime(1900),
+                      lastDate: DateTime.now(),
+                    );
+                    if (picked != null) {
+                      startDate = picked;
+                    }
+                  },
+                  child: Text(startDate == null ? 'Select Start Date' : 'Start: ${startDate!.toLocal().toString().split(' ')[0]}'),
+                ),
+                const SizedBox(height: 16),
+                ElevatedButton(
+                  onPressed: () async {
+                    final picked = await showDatePicker(
+                      context: context,
+                      initialDate: DateTime.now(),
+                      firstDate: DateTime(1900),
+                      lastDate: DateTime.now(),
+                    );
+                    if (picked != null) {
+                      endDate = picked;
+                    }
+                  },
+                  child: Text(endDate == null ? 'Select End Date (Optional)' : 'End: ${endDate!.toLocal().toString().split(' ')[0]}'),
+                ),
+                const SizedBox(height: 16),
+                TextField(
+                  controller: achievementsController,
+                  decoration: const InputDecoration(
+                    labelText: 'Achievements (comma separated)',
+                    border: OutlineInputBorder(),
+                  ),
+                ),
+              ],
+            ),
+          ),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.of(context).pop(),
+              child: const Text('Cancel'),
+            ),
+            ElevatedButton(
+              onPressed: () {
+                if (companyController.text.isNotEmpty &&
+                    positionController.text.isNotEmpty &&
+                    descriptionController.text.isNotEmpty &&
+                    locationController.text.isNotEmpty &&
+                    startDate != null) {
+                  final achievements = achievementsController.text.isNotEmpty
+                      ? achievementsController.text.split(',').map((s) => s.trim()).toList()
+                      : <String>[];
+                  final newExperience = Experience(
+                    companyName: companyController.text,
+                    position: positionController.text,
+                    description: descriptionController.text,
+                    startDate: startDate!,
+                    endDate: endDate,
+                    location: locationController.text,
+                    achievements: achievements,
+                  );
+                  setState(() {
+                    _editedProfile = _editedProfile.copyWith(
+                      experiences: [..._editedProfile.experiences, newExperience],
+                    );
+                  });
+                  Navigator.of(context).pop();
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    const SnackBar(content: Text('Experience added successfully!')),
+                  );
+                } else {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    const SnackBar(content: Text('Please fill all required fields')),
+                  );
+                }
+              },
+              child: const Text('Add'),
+            ),
+          ],
+        );
+      },
     );
   }
 
   void _addNewEducation() {
-    // TODO: Show dialog to add new education
-    ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(content: Text('Add education functionality coming soon!')),
+    _showAddEducationDialog();
+  }
+
+  void _showAddEducationDialog() {
+    final institutionController = TextEditingController();
+    final degreeController = TextEditingController();
+    final fieldController = TextEditingController();
+    final locationController = TextEditingController();
+    final gpaController = TextEditingController();
+    final achievementsController = TextEditingController();
+    DateTime? startDate;
+    DateTime? endDate;
+
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text('Add New Education'),
+          content: SingleChildScrollView(
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                TextField(
+                  controller: institutionController,
+                  decoration: const InputDecoration(
+                    labelText: 'Institution Name',
+                    border: OutlineInputBorder(),
+                  ),
+                ),
+                const SizedBox(height: 16),
+                TextField(
+                  controller: degreeController,
+                  decoration: const InputDecoration(
+                    labelText: 'Degree',
+                    border: OutlineInputBorder(),
+                  ),
+                ),
+                const SizedBox(height: 16),
+                TextField(
+                  controller: fieldController,
+                  decoration: const InputDecoration(
+                    labelText: 'Field of Study',
+                    border: OutlineInputBorder(),
+                  ),
+                ),
+                const SizedBox(height: 16),
+                TextField(
+                  controller: locationController,
+                  decoration: const InputDecoration(
+                    labelText: 'Location',
+                    border: OutlineInputBorder(),
+                  ),
+                ),
+                const SizedBox(height: 16),
+                TextField(
+                  controller: gpaController,
+                  decoration: const InputDecoration(
+                    labelText: 'GPA (Optional)',
+                    border: OutlineInputBorder(),
+                  ),
+                  keyboardType: TextInputType.number,
+                ),
+                const SizedBox(height: 16),
+                ElevatedButton(
+                  onPressed: () async {
+                    final picked = await showDatePicker(
+                      context: context,
+                      initialDate: DateTime.now(),
+                      firstDate: DateTime(1900),
+                      lastDate: DateTime.now(),
+                    );
+                    if (picked != null) {
+                      startDate = picked;
+                    }
+                  },
+                  child: Text(startDate == null ? 'Select Start Date' : 'Start: ${startDate!.toLocal().toString().split(' ')[0]}'),
+                ),
+                const SizedBox(height: 16),
+                ElevatedButton(
+                  onPressed: () async {
+                    final picked = await showDatePicker(
+                      context: context,
+                      initialDate: DateTime.now(),
+                      firstDate: DateTime(1900),
+                      lastDate: DateTime.now(),
+                    );
+                    if (picked != null) {
+                      endDate = picked;
+                    }
+                  },
+                  child: Text(endDate == null ? 'Select End Date (Optional)' : 'End: ${endDate!.toLocal().toString().split(' ')[0]}'),
+                ),
+                const SizedBox(height: 16),
+                TextField(
+                  controller: achievementsController,
+                  decoration: const InputDecoration(
+                    labelText: 'Achievements (comma separated)',
+                    border: OutlineInputBorder(),
+                  ),
+                ),
+              ],
+            ),
+          ),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.of(context).pop(),
+              child: const Text('Cancel'),
+            ),
+            ElevatedButton(
+              onPressed: () {
+                if (institutionController.text.isNotEmpty &&
+                    degreeController.text.isNotEmpty &&
+                    fieldController.text.isNotEmpty &&
+                    locationController.text.isNotEmpty &&
+                    startDate != null) {
+                  final achievements = achievementsController.text.isNotEmpty
+                      ? achievementsController.text.split(',').map((s) => s.trim()).toList()
+                      : <String>[];
+                  final gpa = gpaController.text.isNotEmpty ? double.tryParse(gpaController.text) : null;
+                  final newEducation = Education(
+                    institutionName: institutionController.text,
+                    degree: degreeController.text,
+                    fieldOfStudy: fieldController.text,
+                    startDate: startDate!,
+                    endDate: endDate,
+                    location: locationController.text,
+                    gpa: gpa,
+                    achievements: achievements,
+                  );
+                  setState(() {
+                    _editedProfile = _editedProfile.copyWith(
+                      education: [..._editedProfile.education, newEducation],
+                    );
+                  });
+                  Navigator.of(context).pop();
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    const SnackBar(content: Text('Education added successfully!')),
+                  );
+                } else {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    const SnackBar(content: Text('Please fill all required fields')),
+                  );
+                }
+              },
+              child: const Text('Add'),
+            ),
+          ],
+        );
+      },
     );
   }
 
   void _addNewProject() {
-    // TODO: Show dialog to add new project
-    ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(content: Text('Add project functionality coming soon!')),
+    _showAddProjectDialog();
+  }
+
+  void _showAddProjectDialog() {
+    final nameController = TextEditingController();
+    final descriptionController = TextEditingController();
+    final technologiesController = TextEditingController();
+    final githubUrlController = TextEditingController();
+    final projectUrlController = TextEditingController();
+    bool isFeatured = false;
+
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text('Add New Project'),
+          content: SingleChildScrollView(
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                TextField(
+                  controller: nameController,
+                  decoration: const InputDecoration(
+                    labelText: 'Project Name',
+                    border: OutlineInputBorder(),
+                  ),
+                ),
+                const SizedBox(height: 16),
+                TextField(
+                  controller: descriptionController,
+                  decoration: const InputDecoration(
+                    labelText: 'Description',
+                    border: OutlineInputBorder(),
+                  ),
+                  maxLines: 3,
+                ),
+                const SizedBox(height: 16),
+                TextField(
+                  controller: technologiesController,
+                  decoration: const InputDecoration(
+                    labelText: 'Technologies (comma separated)',
+                    border: OutlineInputBorder(),
+                  ),
+                ),
+                const SizedBox(height: 16),
+                TextField(
+                  controller: githubUrlController,
+                  decoration: const InputDecoration(
+                    labelText: 'GitHub URL (Optional)',
+                    border: OutlineInputBorder(),
+                  ),
+                ),
+                const SizedBox(height: 16),
+                TextField(
+                  controller: projectUrlController,
+                  decoration: const InputDecoration(
+                    labelText: 'Project URL (Optional)',
+                    border: OutlineInputBorder(),
+                  ),
+                ),
+                const SizedBox(height: 16),
+                SwitchListTile(
+                  title: const Text('Featured Project'),
+                  value: isFeatured,
+                  onChanged: (value) {
+                    isFeatured = value;
+                  },
+                ),
+              ],
+            ),
+          ),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.of(context).pop(),
+              child: const Text('Cancel'),
+            ),
+            ElevatedButton(
+              onPressed: () {
+                if (nameController.text.isNotEmpty &&
+                    descriptionController.text.isNotEmpty &&
+                    technologiesController.text.isNotEmpty) {
+                  final technologies = technologiesController.text.split(',').map((s) => s.trim()).toList();
+                  final newProject = Project(
+                    name: nameController.text,
+                    description: descriptionController.text,
+                    technologies: technologies,
+                    images: [],
+                    createdAt: DateTime.now(),
+                    isFeatured: isFeatured,
+                    githubUrl: githubUrlController.text.isNotEmpty ? githubUrlController.text : null,
+                    projectUrl: projectUrlController.text.isNotEmpty ? projectUrlController.text : null,
+                  );
+                  setState(() {
+                    _editedProfile = _editedProfile.copyWith(
+                      projects: [..._editedProfile.projects, newProject],
+                    );
+                  });
+                  Navigator.of(context).pop();
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    const SnackBar(content: Text('Project added successfully!')),
+                  );
+                } else {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    const SnackBar(content: Text('Please fill all required fields')),
+                  );
+                }
+              },
+              child: const Text('Add'),
+            ),
+          ],
+        );
+      },
     );
   }
 
   void _addNewSocialLink() {
-    // TODO: Show dialog to add new social link
-    ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(content: Text('Add social link functionality coming soon!')),
+    _showAddSocialLinkDialog();
+  }
+
+  void _showAddSocialLinkDialog() {
+    final urlController = TextEditingController();
+    final customNameController = TextEditingController();
+    SocialPlatform selectedPlatform = SocialPlatform.website;
+
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text('Add New Social Link'),
+          content: SingleChildScrollView(
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                DropdownButtonFormField<SocialPlatform>(
+                  value: selectedPlatform,
+                  decoration: const InputDecoration(
+                    labelText: 'Platform',
+                    border: OutlineInputBorder(),
+                  ),
+                  items: SocialPlatform.values.map((platform) {
+                    return DropdownMenuItem(
+                      value: platform,
+                      child: Text(platform.name),
+                    );
+                  }).toList(),
+                  onChanged: (value) {
+                    selectedPlatform = value!;
+                  },
+                ),
+                const SizedBox(height: 16),
+                TextField(
+                  controller: urlController,
+                  decoration: const InputDecoration(
+                    labelText: 'URL',
+                    border: OutlineInputBorder(),
+                  ),
+                ),
+                const SizedBox(height: 16),
+                TextField(
+                  controller: customNameController,
+                  decoration: const InputDecoration(
+                    labelText: 'Custom Name (Optional)',
+                    border: OutlineInputBorder(),
+                  ),
+                ),
+              ],
+            ),
+          ),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.of(context).pop(),
+              child: const Text('Cancel'),
+            ),
+            ElevatedButton(
+              onPressed: () {
+                if (urlController.text.isNotEmpty) {
+                  final newSocialLink = SocialLink(
+                    url: urlController.text,
+                    platform: selectedPlatform,
+                    customName: customNameController.text.isNotEmpty ? customNameController.text : null,
+                  );
+                  setState(() {
+                    _editedProfile = _editedProfile.copyWith(
+                      socialLinks: [..._editedProfile.socialLinks, newSocialLink],
+                    );
+                  });
+                  Navigator.of(context).pop();
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    const SnackBar(content: Text('Social link added successfully!')),
+                  );
+                } else {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    const SnackBar(content: Text('Please enter a URL')),
+                  );
+                }
+              },
+              child: const Text('Add'),
+            ),
+          ],
+        );
+      },
     );
   }
 

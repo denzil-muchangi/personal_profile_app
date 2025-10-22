@@ -9,13 +9,19 @@ import 'screens/qr_code_screen.dart';
 import 'screens/achievements_screen.dart';
 import 'screens/testimonials_screen.dart';
 import 'screens/search_screen.dart';
+import 'screens/onboarding_screen.dart';
+import 'services/profile_service.dart';
 
-void main() {
-  runApp(const MyApp());
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  final isFirstTime = await ProfileService.isFirstTime();
+  runApp(MyApp(isFirstTime: isFirstTime));
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+  final bool isFirstTime;
+
+  const MyApp({super.key, required this.isFirstTime});
 
   @override
   Widget build(BuildContext context) {
@@ -32,14 +38,16 @@ class MyApp extends StatelessWidget {
             theme: settingsProvider.getLightTheme(),
             darkTheme: settingsProvider.getDarkTheme(),
             themeMode: settingsProvider.themeMode,
-            home: const ProfileScreen(),
+            home: isFirstTime ? const OnboardingScreen() : const ProfileScreen(),
             routes: {
+              '/profile': (context) => const ProfileScreen(),
               '/settings': (context) => const SettingsScreen(),
               '/edit-profile': (context) => const EditProfileScreen(),
               '/qr-code': (context) => const QrCodeScreen(),
               '/achievements': (context) => const AchievementsScreen(),
               '/testimonials': (context) => const TestimonialsScreen(),
               '/search': (context) => const SearchScreen(),
+              '/onboarding': (context) => const OnboardingScreen(),
             },
           );
         },

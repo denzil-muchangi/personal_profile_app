@@ -5,14 +5,17 @@ class SettingsProvider extends ChangeNotifier {
   static const String _themeModeKey = 'theme_mode';
   static const String _primaryColorKey = 'primary_color';
   static const String _autoSaveKey = 'auto_save';
+  static const String _notificationsKey = 'notifications';
 
   ThemeMode _themeMode = ThemeMode.system;
   Color _primaryColor = Colors.deepPurple;
   bool _autoSave = true;
+  bool _notifications = true;
 
   ThemeMode get themeMode => _themeMode;
   Color get primaryColor => _primaryColor;
   bool get autoSave => _autoSave;
+  bool get notifications => _notifications;
 
   SettingsProvider() {
     _loadSettings();
@@ -32,6 +35,9 @@ class SettingsProvider extends ChangeNotifier {
     // Load auto-save setting
     _autoSave = prefs.getBool(_autoSaveKey) ?? true;
 
+    // Load notifications setting
+    _notifications = prefs.getBool(_notificationsKey) ?? true;
+
     notifyListeners();
   }
 
@@ -46,6 +52,9 @@ class SettingsProvider extends ChangeNotifier {
 
     // Save auto-save setting
     await prefs.setBool(_autoSaveKey, _autoSave);
+
+    // Save notifications setting
+    await prefs.setBool(_notificationsKey, _notifications);
   }
 
   void setThemeMode(ThemeMode themeMode) {
@@ -62,6 +71,12 @@ class SettingsProvider extends ChangeNotifier {
 
   void setAutoSave(bool autoSave) {
     _autoSave = autoSave;
+    _saveSettings();
+    notifyListeners();
+  }
+
+  void setNotifications(bool notifications) {
+    _notifications = notifications;
     _saveSettings();
     notifyListeners();
   }

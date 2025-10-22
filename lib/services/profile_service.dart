@@ -150,6 +150,16 @@ class ProfileService {
           isVerified: true,
         ),
       ],
+      isPersonalInfoVisible: true,
+      areSkillsVisible: true,
+      areExperiencesVisible: true,
+      isEducationVisible: true,
+      areProjectsVisible: true,
+      areSocialLinksVisible: true,
+      areAchievementsVisible: true,
+      areTestimonialsVisible: true,
+      viewCount: 0,
+      viewHistory: const [],
     );
   }
 
@@ -211,6 +221,20 @@ class ProfileService {
       return Profile.fromJson(profileMap);
     } catch (e) {
       throw Exception('Failed to import profile: $e');
+    }
+  }
+
+  // Check if it's the first time running the app
+  static Future<bool> isFirstTime() async {
+    try {
+      final prefs = await SharedPreferences.getInstance();
+      final isFirst = prefs.getBool('isFirstTime') ?? true;
+      if (isFirst) {
+        await prefs.setBool('isFirstTime', false);
+      }
+      return isFirst;
+    } catch (e) {
+      return true;
     }
   }
 }

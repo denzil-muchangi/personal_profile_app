@@ -18,6 +18,16 @@ class Profile {
   List<Testimonial> testimonials;
   String theme; // 'light', 'dark', 'system'
   String primaryColor;
+  bool isPersonalInfoVisible;
+  bool areSkillsVisible;
+  bool areExperiencesVisible;
+  bool isEducationVisible;
+  bool areProjectsVisible;
+  bool areSocialLinksVisible;
+  bool areAchievementsVisible;
+  bool areTestimonialsVisible;
+  int viewCount;
+  List<DateTime> viewHistory;
 
   Profile({
     required this.personalInfo,
@@ -30,6 +40,16 @@ class Profile {
     required this.testimonials,
     this.theme = 'system',
     this.primaryColor = 'deepPurple',
+    this.isPersonalInfoVisible = true,
+    this.areSkillsVisible = true,
+    this.areExperiencesVisible = true,
+    this.isEducationVisible = true,
+    this.areProjectsVisible = true,
+    this.areSocialLinksVisible = true,
+    this.areAchievementsVisible = true,
+    this.areTestimonialsVisible = true,
+    this.viewCount = 0,
+    this.viewHistory = const [],
   });
 
   Map<String, dynamic> toJson() {
@@ -44,6 +64,16 @@ class Profile {
       'testimonials': testimonials.map((testimonial) => testimonial.toJson()).toList(),
       'theme': theme,
       'primaryColor': primaryColor,
+      'isPersonalInfoVisible': isPersonalInfoVisible,
+      'areSkillsVisible': areSkillsVisible,
+      'areExperiencesVisible': areExperiencesVisible,
+      'isEducationVisible': isEducationVisible,
+      'areProjectsVisible': areProjectsVisible,
+      'areSocialLinksVisible': areSocialLinksVisible,
+      'areAchievementsVisible': areAchievementsVisible,
+      'areTestimonialsVisible': areTestimonialsVisible,
+      'viewCount': viewCount,
+      'viewHistory': viewHistory.map((date) => date.toIso8601String()).toList(),
     };
   }
 
@@ -80,6 +110,19 @@ class Profile {
           [],
       theme: json['theme'] ?? 'system',
       primaryColor: json['primaryColor'] ?? 'deepPurple',
+      isPersonalInfoVisible: json['isPersonalInfoVisible'] ?? true,
+      areSkillsVisible: json['areSkillsVisible'] ?? true,
+      areExperiencesVisible: json['areExperiencesVisible'] ?? true,
+      isEducationVisible: json['isEducationVisible'] ?? true,
+      areProjectsVisible: json['areProjectsVisible'] ?? true,
+      areSocialLinksVisible: json['areSocialLinksVisible'] ?? true,
+      areAchievementsVisible: json['areAchievementsVisible'] ?? true,
+      areTestimonialsVisible: json['areTestimonialsVisible'] ?? true,
+      viewCount: json['viewCount'] ?? 0,
+      viewHistory: (json['viewHistory'] as List<dynamic>?)
+              ?.map((date) => DateTime.parse(date))
+              .toList() ??
+          const [],
     );
   }
 
@@ -94,6 +137,16 @@ class Profile {
     List<Testimonial>? testimonials,
     String? theme,
     String? primaryColor,
+    bool? isPersonalInfoVisible,
+    bool? areSkillsVisible,
+    bool? areExperiencesVisible,
+    bool? isEducationVisible,
+    bool? areProjectsVisible,
+    bool? areSocialLinksVisible,
+    bool? areAchievementsVisible,
+    bool? areTestimonialsVisible,
+    int? viewCount,
+    List<DateTime>? viewHistory,
   }) {
     return Profile(
       personalInfo: personalInfo ?? this.personalInfo,
@@ -106,6 +159,16 @@ class Profile {
       testimonials: testimonials ?? this.testimonials,
       theme: theme ?? this.theme,
       primaryColor: primaryColor ?? this.primaryColor,
+      isPersonalInfoVisible: isPersonalInfoVisible ?? this.isPersonalInfoVisible,
+      areSkillsVisible: areSkillsVisible ?? this.areSkillsVisible,
+      areExperiencesVisible: areExperiencesVisible ?? this.areExperiencesVisible,
+      isEducationVisible: isEducationVisible ?? this.isEducationVisible,
+      areProjectsVisible: areProjectsVisible ?? this.areProjectsVisible,
+      areSocialLinksVisible: areSocialLinksVisible ?? this.areSocialLinksVisible,
+      areAchievementsVisible: areAchievementsVisible ?? this.areAchievementsVisible,
+      areTestimonialsVisible: areTestimonialsVisible ?? this.areTestimonialsVisible,
+      viewCount: viewCount ?? this.viewCount,
+      viewHistory: viewHistory ?? this.viewHistory,
     );
   }
 

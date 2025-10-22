@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import '../models/profile.dart';
 import '../models/testimonial.dart';
 import '../providers/profile_provider.dart';
 

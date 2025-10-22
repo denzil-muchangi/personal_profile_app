@@ -5,6 +5,7 @@ import '../providers/settings_provider.dart';
 import '../providers/profile_provider.dart';
 import '../services/pdf_service.dart';
 import '../services/backup_service.dart';
+import '../models/profile.dart';
 
 class SettingsScreen extends StatefulWidget {
   const SettingsScreen({super.key});
@@ -41,9 +42,29 @@ class _SettingsScreenState extends State<SettingsScreen> {
 
               const Divider(),
 
+              // Privacy Section
+              _buildSectionHeader('Privacy'),
+              _buildPrivacyTile('Personal Information', Icons.person, () => _toggleVisibility('personalInfo')),
+              _buildPrivacyTile('Skills', Icons.star, () => _toggleVisibility('skills')),
+              _buildPrivacyTile('Experience', Icons.work, () => _toggleVisibility('experience')),
+              _buildPrivacyTile('Education', Icons.school, () => _toggleVisibility('education')),
+              _buildPrivacyTile('Projects', Icons.folder, () => _toggleVisibility('projects')),
+              _buildPrivacyTile('Social Links', Icons.link, () => _toggleVisibility('socialLinks')),
+              _buildPrivacyTile('Achievements', Icons.workspace_premium, () => _toggleVisibility('achievements')),
+              _buildPrivacyTile('Testimonials', Icons.people, () => _toggleVisibility('testimonials')),
+
+              const Divider(),
+
+              // Analytics Section
+              _buildSectionHeader('Analytics'),
+              _buildAnalyticsTile(),
+
+              const Divider(),
+
               // Privacy & Security
               _buildSectionHeader('Privacy & Security'),
               _buildAutoSaveTile(settingsProvider),
+              _buildNotificationsTile(settingsProvider),
 
               const Divider(),
 
@@ -160,6 +181,18 @@ class _SettingsScreenState extends State<SettingsScreen> {
       value: settingsProvider.autoSave,
       onChanged: (bool value) {
         settingsProvider.setAutoSave(value);
+      },
+    );
+  }
+
+  Widget _buildNotificationsTile(SettingsProvider settingsProvider) {
+    return SwitchListTile(
+      secondary: const Icon(Icons.notifications),
+      title: const Text('Notifications'),
+      subtitle: const Text('Receive notifications for profile views and updates'),
+      value: settingsProvider.notifications,
+      onChanged: (bool value) {
+        settingsProvider.setNotifications(value);
       },
     );
   }
@@ -461,5 +494,124 @@ class _SettingsScreenState extends State<SettingsScreen> {
         SnackBar(content: Text('Error generating PDF: $e')),
       );
     }
+  }
+
+  Widget _buildPrivacyTile(String title, IconData icon, VoidCallback onTap) {
+    return Consumer<ProfileProvider>(
+      builder: (context, profileProvider, child) {
+        final profile = profileProvider.profile;
+        bool isVisible = _getVisibilityValue(profile, title);
+
+        return SwitchListTile(
+          secondary: Icon(icon, color: Theme.of(context).primaryColor),
+          title: Text(title),
+          subtitle: Text(isVisible ? 'Visible' : 'Hidden'),
+          value: isVisible,
+          onChanged: (value) {
+            _toggleVisibility(title.toLowerCase().replaceAll(' ', ''));
+          },
+        );
+      },
+    );
+  }
+
+  bool _getVisibilityValue(Profile profile, String title) {
+    switch (title) {
+      case 'Personal Information':
+        return profile.isPersonalInfoVisible;
+      case 'Skills':
+        return profile.areSkillsVisible;
+      case 'Experience':
+        return profile.areExperiencesVisible;
+      case 'Education':
+        return profile.isEducationVisible;
+      case 'Projects':
+        return profile.areProjectsVisible;
+      case 'Social Links':
+        return profile.areSocialLinksVisible;
+      case 'Achievements':
+        return profile.areAchievementsVisible;
+      case 'Testimonials':
+        return profile.areTestimonialsVisible;
+      default:
+        return true;
+    }
+  }
+
+  void _toggleVisibility(String key) {
+    final profileProvider = Provider.of<ProfileProvider>(context, listen: false);
+    final profile = profileProvider.profile;
+
+    switch (key) {
+      case 'personalinformation':
+        profileProvider.updateVisibility(isPersonalInfoVisible: !profile.isPersonalInfoVisible);
+        break;
+      case 'skills':
+        profileProvider.updateVisibility(areSkillsVisible: !profile.areSkillsVisible);
+        break;
+      case 'experience':
+        profileProvider.updateVisibility(areExperiencesVisible: !profile.areExperiencesVisible);
+        break;
+      case 'education':
+        profileProvider.updateVisibility(isEducationVisible: !profile.isEducationVisible);
+        break;
+      case 'projects':
+        profileProvider.updateVisibility(areProjectsVisible: !profile.areProjectsVisible);
+        break;
+      case 'sociallinks':
+        profileProvider.updateVisibility(areSocialLinksVisible: !profile.areSocialLinksVisible);
+        break;
+      case 'achievements':
+        profileProvider.updateVisibility(areAchievementsVisible: !profile.areAchievementsVisible);
+        break;
+      case 'testimonials':
+        profileProvider.updateVisibility(areTestimonialsVisible: !profile.areTestimonialsVisible);
+        break;
+    }
+  }
+
+  Widget _buildAnalyticsTile() {
+    return Consumer<ProfileProvider>(
+      builder: (context, profileProvider, child) {
+        final profile = profileProvider.profile;
+        return ListTile(
+          leading: const Icon(Icons.analytics, color: Colors.blue),
+          title: const Text('Profile Views'),
+          subtitle: Text('Total Views: ${profile.viewCount}\nLast View: ${profile.viewHistory.isNotEmpty ? profile.viewHistory.last.toLocal().toString().split(' ')[0] : 'None'}'),
+          onTap: () => _showViewHistory(context, profile),
+        );
+      },
+    );
+  }
+
+  void _showViewHistory(BuildContext context, Profile profile) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text('View History'),
+          content: SizedBox(
+            width: double.maxFinite,
+            child: ListView.builder(
+              shrinkWrap: true,
+              itemCount: profile.viewHistory.length,
+              itemBuilder: (context, index) {
+                final date = profile.viewHistory[index];
+                return ListTile(
+                  title: Text('View ${index + 1}'),
+                  subtitle: Text(date.toLocal().toString()),
+                );
+              },
+            ),
+          ),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.of(context).pop(),
+              child: const Text('Close'),
+            ),
+          ],
+        );
+      },
+    );
   }
 }

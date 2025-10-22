@@ -4,6 +4,7 @@ import 'package:url_launcher/url_launcher.dart';
 import '../models/profile.dart';
 import '../models/skill.dart';
 import '../providers/profile_provider.dart';
+import '../providers/settings_provider.dart';
 import '../services/sharing_service.dart';
 import '../services/pdf_service.dart';
 
@@ -54,6 +55,18 @@ class _ProfileScreenState extends State<ProfileScreen>
         }
 
         final profile = profileProvider.profile;
+
+        // Increment view count on load
+        WidgetsBinding.instance.addPostFrameCallback((_) {
+          profileProvider.incrementViewCount();
+          // Show notification if enabled
+          final settingsProvider = Provider.of<SettingsProvider>(context, listen: false);
+          if (settingsProvider.notifications) {
+            ScaffoldMessenger.of(context).showSnackBar(
+              const SnackBar(content: Text('Profile viewed!')),
+            );
+          }
+        });
 
         return Scaffold(
           body: CustomScrollView(
@@ -124,48 +137,49 @@ class _ProfileScreenState extends State<ProfileScreen>
                       const SizedBox(height: 20),
 
                       // Personal Information Section
-                      _buildPersonalInfoSection(profile),
+                      if (profile.isPersonalInfoVisible)
+                        _buildPersonalInfoSection(profile),
 
                       const SizedBox(height: 20),
 
                       // Skills Section
-                      if (profile.skills.isNotEmpty)
+                      if (profile.areSkillsVisible && profile.skills.isNotEmpty)
                         _buildSkillsSection(profile),
 
                       const SizedBox(height: 20),
 
                       // Experience Section
-                      if (profile.experiences.isNotEmpty)
+                      if (profile.areExperiencesVisible && profile.experiences.isNotEmpty)
                         _buildExperienceSection(profile),
 
                       const SizedBox(height: 20),
 
                       // Education Section
-                      if (profile.education.isNotEmpty)
+                      if (profile.isEducationVisible && profile.education.isNotEmpty)
                         _buildEducationSection(profile),
 
                       const SizedBox(height: 20),
 
                       // Projects Section
-                      if (profile.projects.isNotEmpty)
+                      if (profile.areProjectsVisible && profile.projects.isNotEmpty)
                         _buildProjectsSection(profile),
 
                       const SizedBox(height: 20),
 
                       // Social Links Section
-                      if (profile.socialLinks.isNotEmpty)
+                      if (profile.areSocialLinksVisible && profile.socialLinks.isNotEmpty)
                         _buildSocialLinksSection(profile),
 
                       const SizedBox(height: 20),
 
                       // Achievements Section
-                      if (profile.achievements.isNotEmpty)
+                      if (profile.areAchievementsVisible && profile.achievements.isNotEmpty)
                         _buildAchievementsSection(profile),
 
                       const SizedBox(height: 20),
 
                       // Testimonials Section
-                      if (profile.testimonials.isNotEmpty)
+                      if (profile.areTestimonialsVisible && profile.testimonials.isNotEmpty)
                         _buildTestimonialsSection(profile),
 
                       const SizedBox(height: 100), // Space for FAB
@@ -798,8 +812,8 @@ class _ProfileScreenState extends State<ProfileScreen>
             ),
           ),
         ],
-      ),
-    );
+        ),
+      );
   }
 
   Widget _buildProjectsSection(Profile profile) {
