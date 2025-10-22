@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../shared/utils/responsive_utils.dart';
 
 class ModernTextField extends StatelessWidget {
   final TextEditingController? controller;
@@ -48,33 +49,48 @@ class ModernTextField extends StatelessWidget {
       decoration: InputDecoration(
         labelText: labelText,
         hintText: hintText,
-        prefixIcon: prefixIcon,
-        suffixIcon: suffixIcon,
+        prefixIcon: prefixIcon != null
+            ? Padding(
+                padding: EdgeInsets.all(ResponsiveUtils.getResponsiveIconSize(context, 4)),
+                child: prefixIcon,
+              )
+            : null,
+        suffixIcon: suffixIcon != null
+            ? Padding(
+                padding: EdgeInsets.all(ResponsiveUtils.getResponsiveIconSize(context, 4)),
+                child: suffixIcon,
+              )
+            : null,
         filled: true,
         fillColor: Theme.of(context).inputDecorationTheme.fillColor,
         border: Theme.of(context).inputDecorationTheme.border,
         enabledBorder: Theme.of(context).inputDecorationTheme.enabledBorder,
         focusedBorder: Theme.of(context).inputDecorationTheme.focusedBorder,
         errorBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(16),
+          borderRadius: BorderRadius.circular(ResponsiveUtils.getResponsiveIconSize(context, 12)),
           borderSide: const BorderSide(color: Colors.red, width: 1),
         ),
         focusedErrorBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(16),
+          borderRadius: BorderRadius.circular(ResponsiveUtils.getResponsiveIconSize(context, 12)),
           borderSide: const BorderSide(color: Colors.red, width: 2),
         ),
-        contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
+        contentPadding: EdgeInsets.symmetric(
+          horizontal: ResponsiveUtils.getResponsiveIconSize(context, 12),
+          vertical: ResponsiveUtils.getResponsiveIconSize(context, 12),
+        ),
         hintStyle: TextStyle(
           color: Colors.grey[400],
           fontFamily: 'Roboto',
+          fontSize: ResponsiveUtils.getResponsiveFontSize(context, 14),
         ),
         labelStyle: TextStyle(
           color: Colors.grey[600],
           fontFamily: 'Roboto',
+          fontSize: ResponsiveUtils.getResponsiveFontSize(context, 14),
         ),
-        errorStyle: const TextStyle(
+        errorStyle: TextStyle(
           color: Colors.red,
-          fontSize: 12,
+          fontSize: ResponsiveUtils.getResponsiveFontSize(context, 10),
           fontFamily: 'Roboto',
         ),
       ),
@@ -89,9 +105,9 @@ class ModernTextField extends StatelessWidget {
       readOnly: readOnly,
       enabled: enabled,
       textCapitalization: textCapitalization,
-      style: const TextStyle(
+      style: TextStyle(
         fontFamily: 'Roboto',
-        fontSize: 16,
+        fontSize: ResponsiveUtils.getResponsiveFontSize(context, 14),
       ),
     );
   }

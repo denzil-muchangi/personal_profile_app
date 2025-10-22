@@ -1,0 +1,1 @@
+// This file has been moved to lib/device/tablet/tablet_placeholder.dart

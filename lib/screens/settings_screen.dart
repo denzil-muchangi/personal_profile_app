@@ -6,6 +6,7 @@ import '../providers/profile_provider.dart';
 import '../services/pdf_service.dart';
 import '../services/backup_service.dart';
 import '../models/profile.dart';
+import '../shared/utils/responsive_utils.dart';
 
 class SettingsScreen extends StatefulWidget {
   const SettingsScreen({super.key});
@@ -25,6 +26,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
       body: Consumer<SettingsProvider>(
         builder: (context, settingsProvider, child) {
           return ListView(
+            padding: ResponsiveUtils.getResponsivePadding(context),
             children: [
               // Appearance Section
               _buildSectionHeader('Appearance'),
@@ -83,12 +85,18 @@ class _SettingsScreenState extends State<SettingsScreen> {
 
   Widget _buildSectionHeader(String title) {
     return Padding(
-      padding: const EdgeInsets.fromLTRB(16, 16, 16, 8),
+      padding: EdgeInsets.fromLTRB(
+        ResponsiveUtils.getResponsiveIconSize(context, 12),
+        ResponsiveUtils.getResponsiveIconSize(context, 12),
+        ResponsiveUtils.getResponsiveIconSize(context, 12),
+        ResponsiveUtils.getResponsiveIconSize(context, 6),
+      ),
       child: Text(
         title,
         style: Theme.of(context).textTheme.titleMedium?.copyWith(
           color: Theme.of(context).primaryColor,
           fontWeight: FontWeight.bold,
+          fontSize: ResponsiveUtils.getResponsiveFontSize(context, 16),
         ),
       ),
     );
@@ -256,12 +264,16 @@ class _SettingsScreenState extends State<SettingsScreen> {
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: const Text('Choose Primary Color'),
+          title: Text(
+            'Choose Primary Color',
+            style: TextStyle(fontSize: ResponsiveUtils.getResponsiveFontSize(context, 18)),
+          ),
           content: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
               Wrap(
-                spacing: 8,
+                spacing: ResponsiveUtils.getResponsiveIconSize(context, 6),
+                runSpacing: ResponsiveUtils.getResponsiveIconSize(context, 6),
                 children: [
                   Colors.deepPurple,
                   Colors.blue,
@@ -278,8 +290,8 @@ class _SettingsScreenState extends State<SettingsScreen> {
                       Navigator.of(context).pop();
                     },
                     child: Container(
-                      width: 40,
-                      height: 40,
+                      width: ResponsiveUtils.getResponsiveIconSize(context, 32),
+                      height: ResponsiveUtils.getResponsiveIconSize(context, 32),
                       decoration: BoxDecoration(
                         color: color,
                         shape: BoxShape.circle,
@@ -287,7 +299,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                           color: settingsProvider.primaryColor == color
                               ? Colors.white
                               : Colors.grey,
-                          width: 2,
+                          width: ResponsiveUtils.getResponsiveIconSize(context, 1.5),
                         ),
                       ),
                     ),
@@ -306,7 +318,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
       context: context,
       builder: (BuildContext context) {
         return Container(
-          padding: const EdgeInsets.all(20),
+          padding: ResponsiveUtils.getResponsiveCardPadding(context),
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [

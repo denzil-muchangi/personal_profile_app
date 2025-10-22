@@ -7,6 +7,7 @@ import '../providers/profile_provider.dart';
 import '../providers/settings_provider.dart';
 import '../services/sharing_service.dart';
 import '../services/pdf_service.dart';
+import '../shared/utils/responsive_utils.dart';
 
 class ProfileScreen extends StatefulWidget {
   const ProfileScreen({super.key});
@@ -72,55 +73,64 @@ class _ProfileScreenState extends State<ProfileScreen>
           body: CustomScrollView(
             slivers: [
               // Modern App Bar with glassmorphism effect
-              SliverAppBar(
-                expandedHeight: 220,
-                floating: false,
-                pinned: true,
-                backgroundColor: Colors.transparent,
-                flexibleSpace: FlexibleSpaceBar(
-                  background: Container(
-                    decoration: BoxDecoration(
-                      gradient: LinearGradient(
-                        begin: Alignment.topLeft,
-                        end: Alignment.bottomRight,
-                        colors: [
-                          Theme.of(context).primaryColor,
-                          Theme.of(context).primaryColor.withOpacity(0.7),
-                          Theme.of(context).primaryColor.withOpacity(0.5),
-                        ],
-                      ),
-                    ),
-                    child: Container(
-                      decoration: BoxDecoration(
-                        gradient: LinearGradient(
-                          begin: Alignment.topCenter,
-                          end: Alignment.bottomCenter,
-                          colors: [
-                            Colors.white.withOpacity(0.1),
-                            Colors.white.withOpacity(0.05),
-                          ],
-                        ),
-                      ),
-                      child: _buildProfileHeader(profile),
-                    ),
-                  ),
-                ),
-                actions: [
-                  IconButton(
-                    icon: const Icon(Icons.search),
-                    onPressed: () => _navigateToSearch(context),
-                    tooltip: 'Search Profile',
-                  ),
-                  IconButton(
-                    icon: const Icon(Icons.share),
-                    onPressed: () => _showShareOptions(context, profile),
-                  ),
-                  IconButton(
-                    icon: const Icon(Icons.settings),
-                    onPressed: () => _navigateToSettings(context),
-                  ),
-                ],
-              ),
+               SliverAppBar(
+                 expandedHeight: ResponsiveUtils.getResponsiveAppBarHeight(context, 160),
+                 floating: false,
+                 pinned: true,
+                 backgroundColor: Colors.transparent,
+                 flexibleSpace: FlexibleSpaceBar(
+                   background: Container(
+                     decoration: BoxDecoration(
+                       gradient: LinearGradient(
+                         begin: Alignment.topLeft,
+                         end: Alignment.bottomRight,
+                         colors: [
+                           Theme.of(context).primaryColor,
+                           Theme.of(context).primaryColor.withOpacity(0.7),
+                           Theme.of(context).primaryColor.withOpacity(0.5),
+                         ],
+                       ),
+                     ),
+                     child: Container(
+                       decoration: BoxDecoration(
+                         gradient: LinearGradient(
+                           begin: Alignment.topCenter,
+                           end: Alignment.bottomCenter,
+                           colors: [
+                             Colors.white.withOpacity(0.1),
+                             Colors.white.withOpacity(0.05),
+                           ],
+                         ),
+                       ),
+                       child: _buildProfileHeader(profile),
+                     ),
+                   ),
+                 ),
+                 actions: [
+                   IconButton(
+                     icon: Icon(
+                       Icons.search,
+                       size: ResponsiveUtils.getResponsiveIconSize(context, 24),
+                     ),
+                     onPressed: () => _navigateToSearch(context),
+                     tooltip: 'Search Profile',
+                   ),
+                   IconButton(
+                     icon: Icon(
+                       Icons.share,
+                       size: ResponsiveUtils.getResponsiveIconSize(context, 24),
+                     ),
+                     onPressed: () => _showShareOptions(context, profile),
+                   ),
+                   IconButton(
+                     icon: Icon(
+                       Icons.settings,
+                       size: ResponsiveUtils.getResponsiveIconSize(context, 24),
+                     ),
+                     onPressed: () => _navigateToSettings(context),
+                   ),
+                 ],
+               ),
 
               // Profile content sections
               SliverToBoxAdapter(
@@ -134,55 +144,55 @@ class _ProfileScreenState extends State<ProfileScreen>
                   ),
                   child: Column(
                     children: [
-                      const SizedBox(height: 20),
+                      SizedBox(height: ResponsiveUtils.getResponsiveIconSize(context, 16)),
 
                       // Personal Information Section
                       if (profile.isPersonalInfoVisible)
                         _buildPersonalInfoSection(profile),
 
-                      const SizedBox(height: 20),
+                      SizedBox(height: ResponsiveUtils.getResponsiveIconSize(context, 16)),
 
                       // Skills Section
                       if (profile.areSkillsVisible && profile.skills.isNotEmpty)
                         _buildSkillsSection(profile),
 
-                      const SizedBox(height: 20),
+                      SizedBox(height: ResponsiveUtils.getResponsiveIconSize(context, 16)),
 
                       // Experience Section
                       if (profile.areExperiencesVisible && profile.experiences.isNotEmpty)
                         _buildExperienceSection(profile),
 
-                      const SizedBox(height: 20),
+                      SizedBox(height: ResponsiveUtils.getResponsiveIconSize(context, 16)),
 
                       // Education Section
                       if (profile.isEducationVisible && profile.education.isNotEmpty)
                         _buildEducationSection(profile),
 
-                      const SizedBox(height: 20),
+                      SizedBox(height: ResponsiveUtils.getResponsiveIconSize(context, 16)),
 
                       // Projects Section
                       if (profile.areProjectsVisible && profile.projects.isNotEmpty)
                         _buildProjectsSection(profile),
 
-                      const SizedBox(height: 20),
+                      SizedBox(height: ResponsiveUtils.getResponsiveIconSize(context, 16)),
 
                       // Social Links Section
                       if (profile.areSocialLinksVisible && profile.socialLinks.isNotEmpty)
                         _buildSocialLinksSection(profile),
 
-                      const SizedBox(height: 20),
+                      SizedBox(height: ResponsiveUtils.getResponsiveIconSize(context, 16)),
 
                       // Achievements Section
                       if (profile.areAchievementsVisible && profile.achievements.isNotEmpty)
                         _buildAchievementsSection(profile),
 
-                      const SizedBox(height: 20),
+                      SizedBox(height: ResponsiveUtils.getResponsiveIconSize(context, 16)),
 
                       // Testimonials Section
                       if (profile.areTestimonialsVisible && profile.testimonials.isNotEmpty)
                         _buildTestimonialsSection(profile),
 
-                      const SizedBox(height: 100), // Space for FAB
+                      SizedBox(height: ResponsiveUtils.getResponsiveAppBarHeight(context, 80)), // Space for FAB
                     ],
                   ),
                 ),
@@ -191,43 +201,43 @@ class _ProfileScreenState extends State<ProfileScreen>
           ),
 
           // Modern Floating Action Button with glassmorphism
-          floatingActionButton: ScaleTransition(
-            scale: _fabAnimation,
-            child: Container(
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(20),
-                boxShadow: [
-                  BoxShadow(
-                    color: Theme.of(context).primaryColor.withOpacity(0.3),
-                    blurRadius: 20,
-                    spreadRadius: 0,
-                    offset: const Offset(0, 8),
-                  ),
-                ],
-              ),
-              child: FloatingActionButton.extended(
-                onPressed: () => _navigateToEditProfile(context),
-                backgroundColor: Theme.of(context).primaryColor,
-                foregroundColor: Colors.white,
-                elevation: 0,
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(20),
-                ),
-                icon: const Icon(
-                  Icons.edit_rounded,
-                  size: 20,
-                ),
-                label: const Text(
-                  'Edit Profile',
-                  style: TextStyle(
-                    fontFamily: 'Inter',
-                    fontWeight: FontWeight.w600,
-                    fontSize: 16,
-                  ),
-                ),
-              ),
-            ),
-          ),
+           floatingActionButton: ScaleTransition(
+             scale: _fabAnimation,
+             child: Container(
+               decoration: BoxDecoration(
+                 borderRadius: BorderRadius.circular(ResponsiveUtils.getResponsiveIconSize(context, 16)),
+                 boxShadow: [
+                   BoxShadow(
+                     color: Theme.of(context).primaryColor.withOpacity(0.3),
+                     blurRadius: ResponsiveUtils.getResponsiveIconSize(context, 16),
+                     spreadRadius: 0,
+                     offset: Offset(0, ResponsiveUtils.getResponsiveIconSize(context, 6)),
+                   ),
+                 ],
+               ),
+               child: FloatingActionButton.extended(
+                 onPressed: () => _navigateToEditProfile(context),
+                 backgroundColor: Theme.of(context).primaryColor,
+                 foregroundColor: Colors.white,
+                 elevation: 0,
+                 shape: RoundedRectangleBorder(
+                   borderRadius: BorderRadius.circular(ResponsiveUtils.getResponsiveIconSize(context, 16)),
+                 ),
+                 icon: Icon(
+                   Icons.edit_rounded,
+                   size: ResponsiveUtils.getResponsiveIconSize(context, 16),
+                 ),
+                 label: Text(
+                   'Edit Profile',
+                   style: TextStyle(
+                     fontFamily: 'Inter',
+                     fontWeight: FontWeight.w600,
+                     fontSize: ResponsiveUtils.getResponsiveFontSize(context, 14),
+                   ),
+                 ),
+               ),
+             ),
+           ),
         );
       },
     );
@@ -295,7 +305,7 @@ class _ProfileScreenState extends State<ProfileScreen>
 
   Widget _buildProfileHeader(Profile profile) {
     return Padding(
-      padding: const EdgeInsets.all(24),
+      padding: ResponsiveUtils.getResponsivePadding(context),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
@@ -306,25 +316,25 @@ class _ProfileScreenState extends State<ProfileScreen>
               boxShadow: [
                 BoxShadow(
                   color: Colors.white.withOpacity(0.3),
-                  blurRadius: 20,
-                  spreadRadius: 5,
+                  blurRadius: ResponsiveUtils.getResponsiveIconSize(context, 12),
+                  spreadRadius: ResponsiveUtils.getResponsiveIconSize(context, 3),
                 ),
                 BoxShadow(
                   color: Theme.of(context).primaryColor.withOpacity(0.2),
-                  blurRadius: 30,
-                  spreadRadius: 10,
+                  blurRadius: ResponsiveUtils.getResponsiveIconSize(context, 18),
+                  spreadRadius: ResponsiveUtils.getResponsiveIconSize(context, 6),
                 ),
               ],
             ),
             child: CircleAvatar(
-              radius: 55,
+              radius: ResponsiveUtils.getResponsiveAvatarRadius(context, 35),
               backgroundColor: Colors.white,
               child: profile.personalInfo.profileImagePath != null
                   ? ClipOval(
                       child: Image.asset(
                         profile.personalInfo.profileImagePath!,
-                        width: 110,
-                        height: 110,
+                        width: ResponsiveUtils.getResponsiveAvatarRadius(context, 70),
+                        height: ResponsiveUtils.getResponsiveAvatarRadius(context, 70),
                         fit: BoxFit.cover,
                       ),
                     )
@@ -345,8 +355,8 @@ class _ProfileScreenState extends State<ProfileScreen>
                           profile.personalInfo.fullName.isNotEmpty
                               ? profile.personalInfo.fullName[0].toUpperCase()
                               : 'U',
-                          style: const TextStyle(
-                            fontSize: 44,
+                          style: TextStyle(
+                            fontSize: ResponsiveUtils.getResponsiveFontSize(context, 24),
                             fontWeight: FontWeight.w700,
                             color: Colors.white,
                             fontFamily: 'Inter',
@@ -356,46 +366,52 @@ class _ProfileScreenState extends State<ProfileScreen>
                     ),
             ),
           ),
-          const SizedBox(height: 20),
+          SizedBox(height: ResponsiveUtils.getResponsiveIconSize(context, 12)),
           // Modern name styling
           Container(
-            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+            padding: EdgeInsets.symmetric(
+              horizontal: ResponsiveUtils.getResponsiveIconSize(context, 8),
+              vertical: ResponsiveUtils.getResponsiveIconSize(context, 4),
+            ),
             decoration: BoxDecoration(
               color: Colors.white.withOpacity(0.1),
-              borderRadius: BorderRadius.circular(20),
+              borderRadius: BorderRadius.circular(ResponsiveUtils.getResponsiveIconSize(context, 12)),
               border: Border.all(color: Colors.white.withOpacity(0.2)),
             ),
             child: Text(
               profile.personalInfo.fullName,
-              style: const TextStyle(
-                fontSize: 26,
+              style: TextStyle(
+                fontSize: ResponsiveUtils.getResponsiveFontSize(context, 18),
                 fontWeight: FontWeight.w700,
                 color: Colors.white,
                 fontFamily: 'Inter',
                 shadows: [
                   Shadow(
                     color: Colors.black26,
-                    blurRadius: 4,
-                    offset: Offset(0, 2),
+                    blurRadius: ResponsiveUtils.getResponsiveIconSize(context, 2),
+                    offset: Offset(0, ResponsiveUtils.getResponsiveIconSize(context, 1)),
                   ),
                 ],
               ),
               textAlign: TextAlign.center,
             ),
           ),
-          const SizedBox(height: 12),
+          SizedBox(height: ResponsiveUtils.getResponsiveIconSize(context, 8)),
           // Modern title styling
           Container(
-            padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+            padding: EdgeInsets.symmetric(
+              horizontal: ResponsiveUtils.getResponsiveIconSize(context, 6),
+              vertical: ResponsiveUtils.getResponsiveIconSize(context, 3),
+            ),
             decoration: BoxDecoration(
               color: Colors.white.withOpacity(0.15),
-              borderRadius: BorderRadius.circular(16),
+              borderRadius: BorderRadius.circular(ResponsiveUtils.getResponsiveIconSize(context, 8)),
               border: Border.all(color: Colors.white.withOpacity(0.3)),
             ),
             child: Text(
               profile.personalInfo.professionalTitle,
-              style: const TextStyle(
-                fontSize: 16,
+              style: TextStyle(
+                fontSize: ResponsiveUtils.getResponsiveFontSize(context, 12),
                 fontWeight: FontWeight.w500,
                 color: Colors.white,
                 fontFamily: 'Inter',
@@ -410,11 +426,11 @@ class _ProfileScreenState extends State<ProfileScreen>
 
   Widget _buildPersonalInfoSection(Profile profile) {
     return Container(
-      margin: const EdgeInsets.symmetric(horizontal: 20),
-      padding: const EdgeInsets.all(24),
+      margin: ResponsiveUtils.getResponsiveMargin(context),
+      padding: ResponsiveUtils.getResponsiveCardPadding(context),
       decoration: BoxDecoration(
         color: Theme.of(context).cardColor.withOpacity(0.8),
-        borderRadius: BorderRadius.circular(24),
+        borderRadius: BorderRadius.circular(ResponsiveUtils.getResponsiveIconSize(context, 20)),
         border: Border.all(
           color: Theme.of(context).primaryColor.withOpacity(0.1),
           width: 1,
@@ -423,8 +439,8 @@ class _ProfileScreenState extends State<ProfileScreen>
           BoxShadow(
             color: Theme.of(context).primaryColor.withOpacity(0.1),
             spreadRadius: 0,
-            blurRadius: 20,
-            offset: const Offset(0, 8),
+            blurRadius: ResponsiveUtils.getResponsiveIconSize(context, 16),
+            offset: Offset(0, ResponsiveUtils.getResponsiveIconSize(context, 6)),
           ),
         ],
       ),
@@ -434,34 +450,34 @@ class _ProfileScreenState extends State<ProfileScreen>
           Row(
             children: [
               Container(
-                padding: const EdgeInsets.all(8),
+                padding: EdgeInsets.all(ResponsiveUtils.getResponsiveIconSize(context, 6)),
                 decoration: BoxDecoration(
                   color: Theme.of(context).primaryColor.withOpacity(0.1),
-                  borderRadius: BorderRadius.circular(12),
+                  borderRadius: BorderRadius.circular(ResponsiveUtils.getResponsiveIconSize(context, 10)),
                 ),
                 child: Icon(
                   Icons.person_rounded,
                   color: Theme.of(context).primaryColor,
-                  size: 24,
+                  size: ResponsiveUtils.getResponsiveIconSize(context, 20),
                 ),
               ),
-              const SizedBox(width: 12),
+              SizedBox(width: ResponsiveUtils.getResponsiveIconSize(context, 10)),
               Text(
                 'About Me',
                 style: Theme.of(context).textTheme.titleLarge?.copyWith(
                   fontWeight: FontWeight.w700,
                   fontFamily: 'Inter',
-                  fontSize: 22,
+                  fontSize: ResponsiveUtils.getResponsiveFontSize(context, 20),
                 ),
               ),
             ],
           ),
-          const SizedBox(height: 20),
+          SizedBox(height: ResponsiveUtils.getResponsiveIconSize(context, 16)),
           Container(
-            padding: const EdgeInsets.all(16),
+            padding: ResponsiveUtils.getResponsiveCardPadding(context),
             decoration: BoxDecoration(
               color: Theme.of(context).primaryColor.withOpacity(0.05),
-              borderRadius: BorderRadius.circular(16),
+              borderRadius: BorderRadius.circular(ResponsiveUtils.getResponsiveIconSize(context, 12)),
               border: Border.all(
                 color: Theme.of(context).primaryColor.withOpacity(0.1),
                 width: 1,
@@ -471,12 +487,12 @@ class _ProfileScreenState extends State<ProfileScreen>
               profile.personalInfo.bio,
               style: Theme.of(context).textTheme.bodyLarge?.copyWith(
                 fontFamily: 'Inter',
-                fontSize: 16,
+                fontSize: ResponsiveUtils.getResponsiveFontSize(context, 14),
                 height: 1.6,
               ),
             ),
           ),
-          const SizedBox(height: 20),
+          SizedBox(height: ResponsiveUtils.getResponsiveIconSize(context, 16)),
           _buildContactInfo(profile),
         ],
       ),
@@ -487,9 +503,9 @@ class _ProfileScreenState extends State<ProfileScreen>
     return Column(
       children: [
         _buildContactItem(Icons.email, profile.personalInfo.email),
-        const SizedBox(height: 10),
+        SizedBox(height: ResponsiveUtils.getResponsiveIconSize(context, 8)),
         _buildContactItem(Icons.phone, profile.personalInfo.phone),
-        const SizedBox(height: 10),
+        SizedBox(height: ResponsiveUtils.getResponsiveIconSize(context, 8)),
         _buildContactItem(Icons.location_on, profile.personalInfo.location),
       ],
     );
@@ -498,13 +514,18 @@ class _ProfileScreenState extends State<ProfileScreen>
   Widget _buildContactItem(IconData icon, String text) {
     return Row(
       children: [
-        Icon(icon, size: 20, color: Colors.grey[600]),
-        const SizedBox(width: 10),
+        Icon(
+          icon,
+          size: ResponsiveUtils.getResponsiveIconSize(context, 16),
+          color: Colors.grey[600],
+        ),
+        SizedBox(width: ResponsiveUtils.getResponsiveIconSize(context, 8)),
         Expanded(
           child: Text(
             text,
             style: Theme.of(context).textTheme.bodyMedium?.copyWith(
               color: Colors.grey[800],
+              fontSize: ResponsiveUtils.getResponsiveFontSize(context, 14),
             ),
           ),
         ),
@@ -514,11 +535,11 @@ class _ProfileScreenState extends State<ProfileScreen>
 
   Widget _buildSkillsSection(Profile profile) {
     return Container(
-      margin: const EdgeInsets.symmetric(horizontal: 20),
-      padding: const EdgeInsets.all(24),
+      margin: ResponsiveUtils.getResponsiveMargin(context),
+      padding: ResponsiveUtils.getResponsiveCardPadding(context),
       decoration: BoxDecoration(
         color: Theme.of(context).cardColor.withOpacity(0.8),
-        borderRadius: BorderRadius.circular(24),
+        borderRadius: BorderRadius.circular(ResponsiveUtils.getResponsiveIconSize(context, 20)),
         border: Border.all(
           color: Theme.of(context).primaryColor.withOpacity(0.1),
           width: 1,
@@ -527,8 +548,8 @@ class _ProfileScreenState extends State<ProfileScreen>
           BoxShadow(
             color: Theme.of(context).primaryColor.withOpacity(0.1),
             spreadRadius: 0,
-            blurRadius: 20,
-            offset: const Offset(0, 8),
+            blurRadius: ResponsiveUtils.getResponsiveIconSize(context, 16),
+            offset: Offset(0, ResponsiveUtils.getResponsiveIconSize(context, 6)),
           ),
         ],
       ),
@@ -538,35 +559,38 @@ class _ProfileScreenState extends State<ProfileScreen>
           Row(
             children: [
               Container(
-                padding: const EdgeInsets.all(10),
+                padding: EdgeInsets.all(ResponsiveUtils.getResponsiveIconSize(context, 8)),
                 decoration: BoxDecoration(
                   color: Theme.of(context).primaryColor.withOpacity(0.1),
-                  borderRadius: BorderRadius.circular(16),
+                  borderRadius: BorderRadius.circular(ResponsiveUtils.getResponsiveIconSize(context, 12)),
                 ),
                 child: Icon(
                   Icons.rocket_launch_rounded,
                   color: Theme.of(context).primaryColor,
-                  size: 28,
+                  size: ResponsiveUtils.getResponsiveIconSize(context, 24),
                 ),
               ),
-              const SizedBox(width: 12),
+              SizedBox(width: ResponsiveUtils.getResponsiveIconSize(context, 10)),
               Text(
                 'Skills & Expertise',
                 style: Theme.of(context).textTheme.titleLarge?.copyWith(
                   fontWeight: FontWeight.w700,
                   fontFamily: 'Inter',
-                  fontSize: 22,
+                  fontSize: ResponsiveUtils.getResponsiveFontSize(context, 20),
                 ),
               ),
             ],
           ),
-          const SizedBox(height: 20),
+          SizedBox(height: ResponsiveUtils.getResponsiveIconSize(context, 16)),
           Wrap(
-            spacing: 12,
-            runSpacing: 12,
+            spacing: ResponsiveUtils.getResponsiveIconSize(context, 10),
+            runSpacing: ResponsiveUtils.getResponsiveIconSize(context, 10),
             children: profile.skills.map((skill) {
               return Container(
-                padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+                padding: EdgeInsets.symmetric(
+                  horizontal: ResponsiveUtils.getResponsiveIconSize(context, 12),
+                  vertical: ResponsiveUtils.getResponsiveIconSize(context, 8),
+                ),
                 decoration: BoxDecoration(
                   gradient: LinearGradient(
                     begin: Alignment.topLeft,
@@ -576,7 +600,7 @@ class _ProfileScreenState extends State<ProfileScreen>
                       Theme.of(context).primaryColor.withOpacity(0.05),
                     ],
                   ),
-                  borderRadius: BorderRadius.circular(24),
+                  borderRadius: BorderRadius.circular(ResponsiveUtils.getResponsiveIconSize(context, 20)),
                   border: Border.all(
                     color: Theme.of(context).primaryColor.withOpacity(0.2),
                     width: 1,
@@ -584,8 +608,8 @@ class _ProfileScreenState extends State<ProfileScreen>
                   boxShadow: [
                     BoxShadow(
                       color: Theme.of(context).primaryColor.withOpacity(0.1),
-                      blurRadius: 8,
-                      offset: const Offset(0, 4),
+                      blurRadius: ResponsiveUtils.getResponsiveIconSize(context, 6),
+                      offset: Offset(0, ResponsiveUtils.getResponsiveIconSize(context, 3)),
                     ),
                   ],
                 ),
@@ -598,21 +622,24 @@ class _ProfileScreenState extends State<ProfileScreen>
                         color: Theme.of(context).primaryColor,
                         fontWeight: FontWeight.w600,
                         fontFamily: 'Inter',
-                        fontSize: 14,
+                        fontSize: ResponsiveUtils.getResponsiveFontSize(context, 12),
                       ),
                     ),
-                    const SizedBox(width: 8),
+                    SizedBox(width: ResponsiveUtils.getResponsiveIconSize(context, 6)),
                     Container(
-                      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
+                      padding: EdgeInsets.symmetric(
+                        horizontal: ResponsiveUtils.getResponsiveIconSize(context, 6),
+                        vertical: ResponsiveUtils.getResponsiveIconSize(context, 1.5),
+                      ),
                       decoration: BoxDecoration(
                         color: _getSkillLevelColor(skill.level).withOpacity(0.2),
-                        borderRadius: BorderRadius.circular(12),
+                        borderRadius: BorderRadius.circular(ResponsiveUtils.getResponsiveIconSize(context, 10)),
                       ),
                       child: Text(
                         skill.levelText,
                         style: TextStyle(
                           color: _getSkillLevelColor(skill.level),
-                          fontSize: 10,
+                          fontSize: ResponsiveUtils.getResponsiveFontSize(context, 8),
                           fontWeight: FontWeight.w600,
                           fontFamily: 'Roboto',
                         ),

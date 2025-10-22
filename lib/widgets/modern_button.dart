@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../shared/utils/responsive_utils.dart';
 
 class ModernButton extends StatelessWidget {
   final String text;
@@ -17,33 +18,40 @@ class ModernButton extends StatelessWidget {
     this.isPrimary = true,
     this.isExpanded = false,
     this.padding,
-    this.borderRadius = 16,
+    this.borderRadius,
   });
 
   @override
   Widget build(BuildContext context) {
+    final responsiveBorderRadius = borderRadius ?? ResponsiveUtils.getResponsiveIconSize(context, 12);
+
     final button = Container(
       decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(borderRadius!),
+        borderRadius: BorderRadius.circular(responsiveBorderRadius),
         boxShadow: isPrimary && onPressed != null
             ? [
                 BoxShadow(
                   color: Theme.of(context).primaryColor.withOpacity(0.2),
-                  blurRadius: 12,
-                  offset: const Offset(0, 6),
+                  blurRadius: ResponsiveUtils.getResponsiveIconSize(context, 10),
+                  offset: Offset(0, ResponsiveUtils.getResponsiveIconSize(context, 5)),
                 ),
               ]
             : null,
       ),
       child: ElevatedButton.icon(
         onPressed: onPressed,
-        icon: icon != null ? Icon(icon, size: 20) : const SizedBox.shrink(),
+        icon: icon != null
+            ? Icon(
+                icon,
+                size: ResponsiveUtils.getResponsiveIconSize(context, 16),
+              )
+            : const SizedBox.shrink(),
         label: Text(
           text,
-          style: const TextStyle(
+          style: TextStyle(
             fontFamily: 'Roboto',
             fontWeight: FontWeight.w600,
-            fontSize: 16,
+            fontSize: ResponsiveUtils.getResponsiveFontSize(context, 14),
           ),
         ),
         style: ElevatedButton.styleFrom(
@@ -54,17 +62,17 @@ class ModernButton extends StatelessWidget {
               ? Colors.white
               : Theme.of(context).primaryColor,
           elevation: 0,
-          padding: padding ?? const EdgeInsets.symmetric(
-            horizontal: 24,
-            vertical: 16,
+          padding: padding ?? EdgeInsets.symmetric(
+            horizontal: ResponsiveUtils.getResponsiveIconSize(context, 20),
+            vertical: ResponsiveUtils.getResponsiveIconSize(context, 12),
           ),
           shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(borderRadius!),
+            borderRadius: BorderRadius.circular(responsiveBorderRadius),
             side: isPrimary
                 ? BorderSide.none
                 : BorderSide(
                     color: Theme.of(context).primaryColor.withOpacity(0.5),
-                    width: 1.5,
+                    width: ResponsiveUtils.getResponsiveIconSize(context, 1.2),
                   ),
           ),
           disabledBackgroundColor: Colors.grey[300],
