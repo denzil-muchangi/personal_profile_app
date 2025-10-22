@@ -8,8 +8,6 @@ import '../models/experience.dart';
 import '../models/education.dart';
 import '../models/project.dart';
 import '../models/social_link.dart';
-import '../models/achievement.dart';
-import '../models/testimonial.dart';
 import '../providers/profile_provider.dart';
 import '../services/image_service.dart';
 
@@ -283,7 +281,6 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
       icon: Icons.star,
       children: [
         ..._editedProfile.skills.asMap().entries.map((entry) {
-          final index = entry.key;
           final skill = entry.value;
           return Padding(
             padding: const EdgeInsets.only(bottom: 8),
@@ -348,7 +345,6 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
       icon: Icons.work,
       children: [
         ..._editedProfile.experiences.asMap().entries.map((entry) {
-          final index = entry.key;
           final experience = entry.value;
           return Card(
             child: Padding(
@@ -403,7 +399,6 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
       icon: Icons.school,
       children: [
         ..._editedProfile.education.asMap().entries.map((entry) {
-          final index = entry.key;
           final education = entry.value;
           return Card(
             child: Padding(
@@ -457,7 +452,6 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
       icon: Icons.folder,
       children: [
         ..._editedProfile.projects.asMap().entries.map((entry) {
-          final index = entry.key;
           final project = entry.value;
           return Card(
             child: Padding(
@@ -520,7 +514,6 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
       icon: Icons.link,
       children: [
         ..._editedProfile.socialLinks.asMap().entries.map((entry) {
-          final index = entry.key;
           final socialLink = entry.value;
           return ListTile(
             leading: Icon(socialLink.icon, color: socialLink.color),

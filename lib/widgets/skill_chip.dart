@@ -95,8 +95,6 @@ class SkillChip extends StatelessWidget {
         return Colors.purple;
       case SkillLevel.expert:
         return Colors.green;
-      default:
-        return Colors.grey;
-    }
+      }
   }
 }

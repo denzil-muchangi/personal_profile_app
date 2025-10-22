@@ -103,7 +103,7 @@ class _DesktopProfileScreenState extends State<DesktopProfileScreen>
                         end: Alignment.bottomRight,
                         colors: [
                           Theme.of(context).primaryColor,
-                          Theme.of(context).primaryColor.withOpacity(0.8),
+                          Theme.of(context).primaryColor.withValues(alpha: 0.8),
                           const Color(0xFF1a1a2e),
                           const Color(0xFF16213e),
                         ],
@@ -115,8 +115,8 @@ class _DesktopProfileScreenState extends State<DesktopProfileScreen>
                           begin: Alignment.topCenter,
                           end: Alignment.bottomCenter,
                           colors: [
-                            Colors.white.withOpacity(0.15),
-                            Colors.white.withOpacity(0.08),
+                            Colors.white.withValues(alpha: 0.15),
+                            Colors.white.withValues(alpha: 0.08),
                             Colors.transparent,
                           ],
                         ),
@@ -268,7 +268,7 @@ class _DesktopProfileScreenState extends State<DesktopProfileScreen>
                 borderRadius: BorderRadius.circular(ResponsiveUtils.getResponsiveIconSize(context, 16)),
                 boxShadow: [
                   BoxShadow(
-                    color: Theme.of(context).primaryColor.withOpacity(0.3),
+                    color: Theme.of(context).primaryColor.withValues(alpha: 0.3),
                     blurRadius: ResponsiveUtils.getResponsiveIconSize(context, 16),
                     spreadRadius: 0,
                     offset: Offset(0, ResponsiveUtils.getResponsiveIconSize(context, 6)),
@@ -318,17 +318,17 @@ class _DesktopProfileScreenState extends State<DesktopProfileScreen>
                   shape: BoxShape.circle,
                   boxShadow: [
                     BoxShadow(
-                      color: Colors.white.withOpacity(0.4 * _glowAnimation.value),
+                      color: Colors.white.withValues(alpha: 0.4 * _glowAnimation.value),
                       blurRadius: ResponsiveUtils.getResponsiveIconSize(context, 20),
                       spreadRadius: ResponsiveUtils.getResponsiveIconSize(context, 8),
                     ),
                     BoxShadow(
-                      color: Theme.of(context).primaryColor.withOpacity(0.3 * _glowAnimation.value),
+                      color: Theme.of(context).primaryColor.withValues(alpha: 0.3 * _glowAnimation.value),
                       blurRadius: ResponsiveUtils.getResponsiveIconSize(context, 30),
                       spreadRadius: ResponsiveUtils.getResponsiveIconSize(context, 12),
                     ),
                     BoxShadow(
-                      color: const Color(0xFF00D4FF).withOpacity(0.2 * _glowAnimation.value),
+                      color: const Color(0xFF00D4FF).withValues(alpha: 0.2 * _glowAnimation.value),
                       blurRadius: ResponsiveUtils.getResponsiveIconSize(context, 40),
                       spreadRadius: ResponsiveUtils.getResponsiveIconSize(context, 15),
                     ),
@@ -338,16 +338,16 @@ class _DesktopProfileScreenState extends State<DesktopProfileScreen>
                   decoration: BoxDecoration(
                     shape: BoxShape.circle,
                     border: Border.all(
-                      color: Colors.white.withOpacity(0.3),
+                      color: Colors.white.withValues(alpha: 0.3),
                       width: 3,
                     ),
                     gradient: LinearGradient(
                       begin: Alignment.topLeft,
                       end: Alignment.bottomRight,
                       colors: [
-                        Colors.white.withOpacity(0.9),
-                        Colors.white.withOpacity(0.7),
-                        Theme.of(context).primaryColor.withOpacity(0.1),
+                        Colors.white.withValues(alpha: 0.9),
+                        Colors.white.withValues(alpha: 0.7),
+                        Theme.of(context).primaryColor.withValues(alpha: 0.1),
                       ],
                     ),
                   ),
@@ -369,7 +369,7 @@ class _DesktopProfileScreenState extends State<DesktopProfileScreen>
                                 begin: Alignment.topLeft,
                                 end: Alignment.bottomRight,
                                 colors: [
-                                  Theme.of(context).primaryColor.withOpacity(0.9),
+                                  Theme.of(context).primaryColor.withValues(alpha: 0.9),
                                   Theme.of(context).primaryColor,
                                   const Color(0xFF00D4FF),
                                 ],
@@ -388,7 +388,7 @@ class _DesktopProfileScreenState extends State<DesktopProfileScreen>
                                   fontFamily: 'Inter',
                                   shadows: [
                                     Shadow(
-                                      color: Colors.black.withOpacity(0.3),
+                                      color: Colors.black.withValues(alpha: 0.3),
                                       blurRadius: 4,
                                     ),
                                   ],
@@ -416,19 +416,19 @@ class _DesktopProfileScreenState extends State<DesktopProfileScreen>
                     begin: Alignment.topLeft,
                     end: Alignment.bottomRight,
                     colors: [
-                      Colors.white.withOpacity(0.15 * _glowAnimation.value),
-                      Colors.white.withOpacity(0.08 * _glowAnimation.value),
-                      Theme.of(context).primaryColor.withOpacity(0.1 * _glowAnimation.value),
+                      Colors.white.withValues(alpha: 0.15 * _glowAnimation.value),
+                      Colors.white.withValues(alpha: 0.08 * _glowAnimation.value),
+                      Theme.of(context).primaryColor.withValues(alpha: 0.1 * _glowAnimation.value),
                     ],
                   ),
                   borderRadius: BorderRadius.circular(ResponsiveUtils.getResponsiveIconSize(context, 20)),
                   border: Border.all(
-                    color: Colors.white.withOpacity(0.3 * _glowAnimation.value),
+                    color: Colors.white.withValues(alpha: 0.3 * _glowAnimation.value),
                     width: 2,
                   ),
                   boxShadow: [
                     BoxShadow(
-                      color: Colors.white.withOpacity(0.1 * _glowAnimation.value),
+                      color: Colors.white.withValues(alpha: 0.1 * _glowAnimation.value),
                       blurRadius: ResponsiveUtils.getResponsiveIconSize(context, 12),
                       spreadRadius: ResponsiveUtils.getResponsiveIconSize(context, 2),
                     ),
@@ -443,12 +443,12 @@ class _DesktopProfileScreenState extends State<DesktopProfileScreen>
                     fontFamily: 'Inter',
                     shadows: [
                       Shadow(
-                        color: Colors.black.withOpacity(0.4),
+                        color: Colors.black.withValues(alpha: 0.4),
                         blurRadius: ResponsiveUtils.getResponsiveIconSize(context, 6),
                         offset: Offset(0, ResponsiveUtils.getResponsiveIconSize(context, 3)),
                       ),
                       Shadow(
-                        color: Theme.of(context).primaryColor.withOpacity(0.3),
+                        color: Theme.of(context).primaryColor.withValues(alpha: 0.3),
                         blurRadius: ResponsiveUtils.getResponsiveIconSize(context, 8),
                         offset: Offset(0, 0),
                       ),
@@ -474,19 +474,19 @@ class _DesktopProfileScreenState extends State<DesktopProfileScreen>
                     begin: Alignment.topLeft,
                     end: Alignment.bottomRight,
                     colors: [
-                      Colors.white.withOpacity(0.2 * _glowAnimation.value),
-                      const Color(0xFF00D4FF).withOpacity(0.1 * _glowAnimation.value),
-                      Theme.of(context).primaryColor.withOpacity(0.15 * _glowAnimation.value),
+                      Colors.white.withValues(alpha: 0.2 * _glowAnimation.value),
+                      const Color(0xFF00D4FF).withValues(alpha: 0.1 * _glowAnimation.value),
+                      Theme.of(context).primaryColor.withValues(alpha: 0.15 * _glowAnimation.value),
                     ],
                   ),
                   borderRadius: BorderRadius.circular(ResponsiveUtils.getResponsiveIconSize(context, 16)),
                   border: Border.all(
-                    color: const Color(0xFF00D4FF).withOpacity(0.4 * _glowAnimation.value),
+                    color: const Color(0xFF00D4FF).withValues(alpha: 0.4 * _glowAnimation.value),
                     width: 1.5,
                   ),
                   boxShadow: [
                     BoxShadow(
-                      color: const Color(0xFF00D4FF).withOpacity(0.15 * _glowAnimation.value),
+                      color: const Color(0xFF00D4FF).withValues(alpha: 0.15 * _glowAnimation.value),
                       blurRadius: ResponsiveUtils.getResponsiveIconSize(context, 10),
                       spreadRadius: ResponsiveUtils.getResponsiveIconSize(context, 1),
                     ),
@@ -497,7 +497,7 @@ class _DesktopProfileScreenState extends State<DesktopProfileScreen>
                   children: [
                     Icon(
                       Icons.code,
-                      color: const Color(0xFF00D4FF).withOpacity(0.8),
+                      color: const Color(0xFF00D4FF).withValues(alpha: 0.8),
                       size: ResponsiveUtils.getResponsiveIconSize(context, 18),
                     ),
                     SizedBox(width: ResponsiveUtils.getResponsiveIconSize(context, 8)),
@@ -510,7 +510,7 @@ class _DesktopProfileScreenState extends State<DesktopProfileScreen>
                         fontFamily: 'Inter',
                         shadows: [
                           Shadow(
-                            color: const Color(0xFF00D4FF).withOpacity(0.3),
+                            color: const Color(0xFF00D4FF).withValues(alpha: 0.3),
                             blurRadius: ResponsiveUtils.getResponsiveIconSize(context, 4),
                           ),
                         ],
@@ -542,25 +542,25 @@ class _DesktopProfileScreenState extends State<DesktopProfileScreen>
               begin: Alignment.topLeft,
               end: Alignment.bottomRight,
               colors: [
-                Theme.of(context).cardColor.withOpacity(0.9),
-                Theme.of(context).cardColor.withOpacity(0.7),
-                Colors.white.withOpacity(0.05),
+                Theme.of(context).cardColor.withValues(alpha: 0.9),
+                Theme.of(context).cardColor.withValues(alpha: 0.7),
+                Colors.white.withValues(alpha: 0.05),
               ],
             ),
             borderRadius: BorderRadius.circular(ResponsiveUtils.getResponsiveIconSize(context, 20)),
             border: Border.all(
-              color: Theme.of(context).primaryColor.withOpacity(0.2 * _glowAnimation.value),
+              color: Theme.of(context).primaryColor.withValues(alpha: 0.2 * _glowAnimation.value),
               width: 2,
             ),
             boxShadow: [
               BoxShadow(
-                color: Theme.of(context).primaryColor.withOpacity(0.15 * _glowAnimation.value),
+                color: Theme.of(context).primaryColor.withValues(alpha: 0.15 * _glowAnimation.value),
                 spreadRadius: ResponsiveUtils.getResponsiveIconSize(context, 2),
                 blurRadius: ResponsiveUtils.getResponsiveIconSize(context, 20),
                 offset: Offset(0, ResponsiveUtils.getResponsiveIconSize(context, 8)),
               ),
               BoxShadow(
-                color: const Color(0xFF00D4FF).withOpacity(0.1 * _glowAnimation.value),
+                color: const Color(0xFF00D4FF).withValues(alpha: 0.1 * _glowAnimation.value),
                 spreadRadius: 0,
                 blurRadius: ResponsiveUtils.getResponsiveIconSize(context, 15),
                 offset: Offset(0, 0),
@@ -575,7 +575,7 @@ class _DesktopProfileScreenState extends State<DesktopProfileScreen>
                   Container(
                     padding: EdgeInsets.all(ResponsiveUtils.getResponsiveIconSize(context, 8)),
                     decoration: BoxDecoration(
-                      color: Theme.of(context).primaryColor.withOpacity(0.1),
+                      color: Theme.of(context).primaryColor.withValues(alpha: 0.1),
                       borderRadius: BorderRadius.circular(ResponsiveUtils.getResponsiveIconSize(context, 12)),
                     ),
                     child: Icon(
@@ -599,10 +599,10 @@ class _DesktopProfileScreenState extends State<DesktopProfileScreen>
               Container(
                 padding: ResponsiveUtils.getResponsiveCardPadding(context),
                 decoration: BoxDecoration(
-                  color: Theme.of(context).primaryColor.withOpacity(0.05),
+                  color: Theme.of(context).primaryColor.withValues(alpha: 0.05),
                   borderRadius: BorderRadius.circular(ResponsiveUtils.getResponsiveIconSize(context, 14)),
                   border: Border.all(
-                    color: Theme.of(context).primaryColor.withOpacity(0.1),
+                    color: Theme.of(context).primaryColor.withValues(alpha: 0.1),
                     width: 1,
                   ),
                 ),
@@ -666,15 +666,15 @@ class _DesktopProfileScreenState extends State<DesktopProfileScreen>
       ),
       padding: ResponsiveUtils.getResponsiveCardPadding(context),
       decoration: BoxDecoration(
-        color: Theme.of(context).cardColor.withOpacity(0.8),
+        color: Theme.of(context).cardColor.withValues(alpha: 0.8),
         borderRadius: BorderRadius.circular(ResponsiveUtils.getResponsiveIconSize(context, 20)),
         border: Border.all(
-          color: Theme.of(context).primaryColor.withOpacity(0.1),
+          color: Theme.of(context).primaryColor.withValues(alpha: 0.1),
           width: 1,
         ),
         boxShadow: [
           BoxShadow(
-            color: Theme.of(context).primaryColor.withOpacity(0.1),
+            color: Theme.of(context).primaryColor.withValues(alpha: 0.1),
             spreadRadius: 0,
             blurRadius: ResponsiveUtils.getResponsiveIconSize(context, 16),
             offset: Offset(0, ResponsiveUtils.getResponsiveIconSize(context, 6)),
@@ -689,7 +689,7 @@ class _DesktopProfileScreenState extends State<DesktopProfileScreen>
               Container(
                 padding: EdgeInsets.all(ResponsiveUtils.getResponsiveIconSize(context, 10)),
                 decoration: BoxDecoration(
-                  color: Theme.of(context).primaryColor.withOpacity(0.1),
+                  color: Theme.of(context).primaryColor.withValues(alpha: 0.1),
                   borderRadius: BorderRadius.circular(ResponsiveUtils.getResponsiveIconSize(context, 14)),
                 ),
                 child: Icon(
@@ -724,18 +724,18 @@ class _DesktopProfileScreenState extends State<DesktopProfileScreen>
                     begin: Alignment.topLeft,
                     end: Alignment.bottomRight,
                     colors: [
-                      Theme.of(context).primaryColor.withOpacity(0.1),
-                      Theme.of(context).primaryColor.withOpacity(0.05),
+                      Theme.of(context).primaryColor.withValues(alpha: 0.1),
+                      Theme.of(context).primaryColor.withValues(alpha: 0.05),
                     ],
                   ),
                   borderRadius: BorderRadius.circular(ResponsiveUtils.getResponsiveIconSize(context, 20)),
                   border: Border.all(
-                    color: Theme.of(context).primaryColor.withOpacity(0.2),
+                    color: Theme.of(context).primaryColor.withValues(alpha: 0.2),
                     width: 1,
                   ),
                   boxShadow: [
                     BoxShadow(
-                      color: Theme.of(context).primaryColor.withOpacity(0.1),
+                      color: Theme.of(context).primaryColor.withValues(alpha: 0.1),
                       blurRadius: ResponsiveUtils.getResponsiveIconSize(context, 8),
                       offset: Offset(0, ResponsiveUtils.getResponsiveIconSize(context, 4)),
                     ),
@@ -760,7 +760,7 @@ class _DesktopProfileScreenState extends State<DesktopProfileScreen>
                         vertical: ResponsiveUtils.getResponsiveIconSize(context, 2),
                       ),
                       decoration: BoxDecoration(
-                        color: _getSkillLevelColor(skill.level).withOpacity(0.2),
+                        color: _getSkillLevelColor(skill.level).withValues(alpha: 0.2),
                         borderRadius: BorderRadius.circular(ResponsiveUtils.getResponsiveIconSize(context, 12)),
                       ),
                       child: Text(
@@ -811,7 +811,7 @@ class _DesktopProfileScreenState extends State<DesktopProfileScreen>
         borderRadius: BorderRadius.circular(ResponsiveUtils.getResponsiveIconSize(context, 16)),
         boxShadow: [
           BoxShadow(
-            color: Colors.grey.withOpacity(0.1),
+            color: Colors.grey.withValues(alpha: 0.1),
             spreadRadius: 2,
             blurRadius: ResponsiveUtils.getResponsiveIconSize(context, 10),
             offset: Offset(0, ResponsiveUtils.getResponsiveIconSize(context, 3)),
@@ -912,7 +912,7 @@ class _DesktopProfileScreenState extends State<DesktopProfileScreen>
         borderRadius: BorderRadius.circular(ResponsiveUtils.getResponsiveIconSize(context, 16)),
         boxShadow: [
           BoxShadow(
-            color: Colors.grey.withOpacity(0.1),
+            color: Colors.grey.withValues(alpha: 0.1),
             spreadRadius: 2,
             blurRadius: ResponsiveUtils.getResponsiveIconSize(context, 10),
             offset: Offset(0, ResponsiveUtils.getResponsiveIconSize(context, 3)),
@@ -994,7 +994,7 @@ class _DesktopProfileScreenState extends State<DesktopProfileScreen>
         borderRadius: BorderRadius.circular(ResponsiveUtils.getResponsiveIconSize(context, 16)),
         boxShadow: [
           BoxShadow(
-            color: Colors.grey.withOpacity(0.1),
+            color: Colors.grey.withValues(alpha: 0.1),
             spreadRadius: 2,
             blurRadius: ResponsiveUtils.getResponsiveIconSize(context, 10),
             offset: Offset(0, ResponsiveUtils.getResponsiveIconSize(context, 3)),
@@ -1064,7 +1064,7 @@ class _DesktopProfileScreenState extends State<DesktopProfileScreen>
                   tech,
                   style: TextStyle(fontSize: ResponsiveUtils.getResponsiveFontSize(context, 12)),
                 ),
-                backgroundColor: Colors.deepPurple.withOpacity(0.1),
+                backgroundColor: Colors.deepPurple.withValues(alpha: 0.1),
                 padding: EdgeInsets.zero,
                 materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
               );
@@ -1087,7 +1087,7 @@ class _DesktopProfileScreenState extends State<DesktopProfileScreen>
         borderRadius: BorderRadius.circular(ResponsiveUtils.getResponsiveIconSize(context, 16)),
         boxShadow: [
           BoxShadow(
-            color: Colors.grey.withOpacity(0.1),
+            color: Colors.grey.withValues(alpha: 0.1),
             spreadRadius: 2,
             blurRadius: ResponsiveUtils.getResponsiveIconSize(context, 10),
             offset: Offset(0, ResponsiveUtils.getResponsiveIconSize(context, 3)),
@@ -1147,7 +1147,7 @@ class _DesktopProfileScreenState extends State<DesktopProfileScreen>
         borderRadius: BorderRadius.circular(ResponsiveUtils.getResponsiveIconSize(context, 16)),
         boxShadow: [
           BoxShadow(
-            color: Colors.grey.withOpacity(0.1),
+            color: Colors.grey.withValues(alpha: 0.1),
             spreadRadius: 2,
             blurRadius: ResponsiveUtils.getResponsiveIconSize(context, 10),
             offset: Offset(0, ResponsiveUtils.getResponsiveIconSize(context, 3)),
@@ -1206,7 +1206,7 @@ class _DesktopProfileScreenState extends State<DesktopProfileScreen>
           Container(
             padding: EdgeInsets.all(ResponsiveUtils.getResponsiveIconSize(context, 10)),
             decoration: BoxDecoration(
-              color: achievement.color.withOpacity(0.1),
+              color: achievement.color.withValues(alpha: 0.1),
               borderRadius: BorderRadius.circular(ResponsiveUtils.getResponsiveIconSize(context, 10)),
             ),
             child: Icon(
@@ -1260,7 +1260,7 @@ class _DesktopProfileScreenState extends State<DesktopProfileScreen>
         borderRadius: BorderRadius.circular(ResponsiveUtils.getResponsiveIconSize(context, 16)),
         boxShadow: [
           BoxShadow(
-            color: Colors.grey.withOpacity(0.1),
+            color: Colors.grey.withValues(alpha: 0.1),
             spreadRadius: 2,
             blurRadius: ResponsiveUtils.getResponsiveIconSize(context, 10),
             offset: Offset(0, ResponsiveUtils.getResponsiveIconSize(context, 3)),
@@ -1321,7 +1321,7 @@ class _DesktopProfileScreenState extends State<DesktopProfileScreen>
             children: [
               CircleAvatar(
                 radius: ResponsiveUtils.getResponsiveIconSize(context, 20),
-                backgroundColor: Colors.deepPurple.withOpacity(0.1),
+                backgroundColor: Colors.deepPurple.withValues(alpha: 0.1),
                 child: Text(
                   testimonial.name.isNotEmpty ? testimonial.name[0].toUpperCase() : 'U',
                   style: TextStyle(
@@ -1501,7 +1501,7 @@ class _ParticlePainter extends CustomPainter {
   @override
   void paint(Canvas canvas, Size size) {
     final paint = Paint()
-      ..color = Colors.white.withOpacity(0.1)
+      ..color = Colors.white.withValues(alpha: 0.1)
       ..style = PaintingStyle.fill;
 
     final random = DateTime.now().millisecondsSinceEpoch;
@@ -1517,7 +1517,7 @@ class _ParticlePainter extends CustomPainter {
 
     // Draw techy grid lines
     final gridPaint = Paint()
-      ..color = Colors.white.withOpacity(0.05)
+      ..color = Colors.white.withValues(alpha: 0.05)
       ..strokeWidth = 1;
 
     for (double i = 0; i < size.width; i += 50) {

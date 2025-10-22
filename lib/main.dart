@@ -42,8 +42,7 @@ class ResponsiveLayout extends StatelessWidget {
           case ScreenSize.desktop:
           case ScreenSize.largeDesktop:
             return desktopLayout;
-          default:
-            return mobileLayout; // Fallback to mobile
+          // Fallback to mobile
         }
       },
     );

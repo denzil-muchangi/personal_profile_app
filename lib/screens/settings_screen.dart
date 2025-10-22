@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:file_picker/file_picker.dart';
 import '../providers/settings_provider.dart';
 import '../providers/profile_provider.dart';
 import '../services/pdf_service.dart';
@@ -314,6 +315,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
   }
 
   void _showExportOptions() {
+    if (!mounted) return;
     showModalBottomSheet(
       context: context,
       builder: (BuildContext context) {
@@ -341,9 +343,9 @@ class _SettingsScreenState extends State<SettingsScreen> {
               ListTile(
                 leading: const Icon(Icons.picture_as_pdf),
                 title: const Text('Export as PDF'),
-                onTap: () {
+                onTap: () async {
                   Navigator.pop(context);
-                  _exportAsPdf(context);
+                  await _exportAsPdf(context);
                 },
               ),
             ],
@@ -365,73 +367,43 @@ class _SettingsScreenState extends State<SettingsScreen> {
       final profileProvider = Provider.of<ProfileProvider>(context, listen: false);
       final profile = profileProvider.profile;
 
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Creating backup...')),
-      );
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('Creating backup...')),
+        );
+      }
 
       final backupFile = await BackupService.createBackup(profile);
 
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text('Backup created: ${backupFile.path.split('/').last}'),
-          action: SnackBarAction(
-            label: 'Share',
-            onPressed: () => BackupService.shareBackup(profile),
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text('Backup created: ${backupFile.path.split('/').last}'),
+            action: SnackBarAction(
+              label: 'Share',
+              onPressed: () => BackupService.shareBackup(profile),
+            ),
           ),
-        ),
-      );
+        );
+      }
     } catch (e) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Error creating backup: $e')),
-      );
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('Error creating backup: $e')),
+        );
+      }
     }
   }
 
-  void _showRestoreOptions() {
+  Future<void> _showRestoreOptions() async {
+    if (!mounted) return;
     showDialog(
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
           title: const Text('Restore Backup'),
           content: const Text(
-            'To restore a backup:\n\n'
-            '1. Share a backup file from another device\n'
-            '2. Open the shared file in this app\n'
-            '3. The profile will be restored automatically\n\n'
-            'Note: This feature requires the backup file to be shared with this app.'
-          ),
-          actions: [
-            TextButton(
-              onPressed: () => Navigator.of(context).pop(),
-              child: const Text('OK'),
-            ),
-          ],
-        );
-      },
-    );
-  }
-
-  void _showRestoreConfirmationDialog(String filePath, Map<String, dynamic> backupInfo) {
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          title: const Text('Restore Backup'),
-          content: Column(
-            mainAxisSize: MainAxisSize.min,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text('Profile: ${backupInfo['profileName']}'),
-              Text('Title: ${backupInfo['profileTitle']}'),
-              Text('Created: ${BackupService.formatBackupDate(backupInfo['createdDate'])}'),
-              const SizedBox(height: 8),
-              Text('This will replace your current profile data.'),
-              Text('Skills: ${backupInfo['totalSkills']}'),
-              Text('Experience: ${backupInfo['totalExperience']}'),
-              Text('Projects: ${backupInfo['totalProjects']}'),
-              Text('Achievements: ${backupInfo['totalAchievements']}'),
-              Text('Testimonials: ${backupInfo['totalTestimonials']}'),
-            ],
+            'Select a backup file to restore your profile data.'
           ),
           actions: [
             TextButton(
@@ -441,13 +413,9 @@ class _SettingsScreenState extends State<SettingsScreen> {
             ElevatedButton(
               onPressed: () async {
                 Navigator.of(context).pop();
-                await _restoreBackup(filePath);
+                await _pickAndRestoreBackup();
               },
-              style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.orange,
-                foregroundColor: Colors.white,
-              ),
-              child: const Text('Restore'),
+              child: const Text('Select File'),
             ),
           ],
         );
@@ -455,24 +423,51 @@ class _SettingsScreenState extends State<SettingsScreen> {
     );
   }
 
+  Future<void> _pickAndRestoreBackup() async {
+    try {
+      FilePickerResult? result = await FilePicker.platform.pickFiles(
+        type: FileType.any,
+        allowedExtensions: ['json'], // Assuming backup is JSON
+      );
+
+      if (result != null && result.files.single.path != null) {
+        String filePath = result.files.single.path!;
+        await _restoreBackup(filePath);
+      }
+    } catch (e) {
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('Error selecting file: $e')),
+        );
+      }
+    }
+  }
+
   Future<void> _restoreBackup(String filePath) async {
     try {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Restoring backup...')),
-      );
-
-      final restoredProfile = await BackupService.restoreFromBackup(filePath);
       final profileProvider = Provider.of<ProfileProvider>(context, listen: false);
 
-      profileProvider.updateProfile(restoredProfile);
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('Restoring backup...')),
+        );
+      }
 
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Profile restored successfully!')),
-      );
+      final restoredProfile = await BackupService.restoreFromBackup(filePath);
+
+      if (mounted) {
+        profileProvider.updateProfile(restoredProfile);
+
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('Profile restored successfully!')),
+        );
+      }
     } catch (e) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Error restoring backup: $e')),
-      );
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('Error restoring backup: $e')),
+        );
+      }
     }
   }
 
@@ -481,9 +476,11 @@ class _SettingsScreenState extends State<SettingsScreen> {
     if (await canLaunchUrl(uri)) {
       await launchUrl(uri);
     } else {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Could not launch URL')),
-      );
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('Could not launch URL')),
+        );
+      }
     }
   }
 
@@ -492,19 +489,25 @@ class _SettingsScreenState extends State<SettingsScreen> {
       final profileProvider = Provider.of<ProfileProvider>(context, listen: false);
       final profile = profileProvider.profile;
 
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Generating PDF...')),
-      );
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('Generating PDF...')),
+        );
+      }
 
       await PdfService.generateAndPrintProfile(profile);
 
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('PDF generated and sent to printer!')),
-      );
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('PDF generated and sent to printer!')),
+        );
+      }
     } catch (e) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Error generating PDF: $e')),
-      );
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('Error generating PDF: $e')),
+        );
+      }
     }
   }
 

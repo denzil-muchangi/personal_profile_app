@@ -86,8 +86,8 @@ class _MobileProfileScreenState extends State<MobileProfileScreen>
                         end: Alignment.bottomRight,
                         colors: [
                           Theme.of(context).primaryColor,
-                          Theme.of(context).primaryColor.withOpacity(0.7),
-                          Theme.of(context).primaryColor.withOpacity(0.5),
+                          Theme.of(context).primaryColor.withValues(alpha: 0.7),
+                          Theme.of(context).primaryColor.withValues(alpha: 0.5),
                         ],
                       ),
                     ),
@@ -97,8 +97,8 @@ class _MobileProfileScreenState extends State<MobileProfileScreen>
                           begin: Alignment.topCenter,
                           end: Alignment.bottomCenter,
                           colors: [
-                            Colors.white.withOpacity(0.1),
-                            Colors.white.withOpacity(0.05),
+                            Colors.white.withValues(alpha: 0.1),
+                            Colors.white.withValues(alpha: 0.05),
                           ],
                         ),
                       ),
@@ -208,7 +208,7 @@ class _MobileProfileScreenState extends State<MobileProfileScreen>
                 borderRadius: BorderRadius.circular(ResponsiveUtils.getResponsiveIconSize(context, 12)),
                 boxShadow: [
                   BoxShadow(
-                    color: Theme.of(context).primaryColor.withOpacity(0.3),
+                    color: Theme.of(context).primaryColor.withValues(alpha: 0.3),
                     blurRadius: ResponsiveUtils.getResponsiveIconSize(context, 12),
                     spreadRadius: 0,
                     offset: Offset(0, ResponsiveUtils.getResponsiveIconSize(context, 4)),
@@ -255,12 +255,12 @@ class _MobileProfileScreenState extends State<MobileProfileScreen>
               shape: BoxShape.circle,
               boxShadow: [
                 BoxShadow(
-                  color: Colors.white.withOpacity(0.3),
+                  color: Colors.white.withValues(alpha: 0.3),
                   blurRadius: ResponsiveUtils.getResponsiveIconSize(context, 8),
                   spreadRadius: ResponsiveUtils.getResponsiveIconSize(context, 2),
                 ),
                 BoxShadow(
-                  color: Theme.of(context).primaryColor.withOpacity(0.2),
+                  color: Theme.of(context).primaryColor.withValues(alpha: 0.2),
                   blurRadius: ResponsiveUtils.getResponsiveIconSize(context, 12),
                   spreadRadius: ResponsiveUtils.getResponsiveIconSize(context, 4),
                 ),
@@ -284,7 +284,7 @@ class _MobileProfileScreenState extends State<MobileProfileScreen>
                           begin: Alignment.topLeft,
                           end: Alignment.bottomRight,
                           colors: [
-                            Theme.of(context).primaryColor.withOpacity(0.8),
+                            Theme.of(context).primaryColor.withValues(alpha: 0.8),
                             Theme.of(context).primaryColor,
                           ],
                         ),
@@ -314,9 +314,9 @@ class _MobileProfileScreenState extends State<MobileProfileScreen>
               vertical: ResponsiveUtils.getResponsiveIconSize(context, 3),
             ),
             decoration: BoxDecoration(
-              color: Colors.white.withOpacity(0.1),
+              color: Colors.white.withValues(alpha: 0.1),
               borderRadius: BorderRadius.circular(ResponsiveUtils.getResponsiveIconSize(context, 8)),
-              border: Border.all(color: Colors.white.withOpacity(0.2)),
+              border: Border.all(color: Colors.white.withValues(alpha: 0.2)),
             ),
             child: Text(
               profile.personalInfo.fullName,
@@ -344,9 +344,9 @@ class _MobileProfileScreenState extends State<MobileProfileScreen>
               vertical: ResponsiveUtils.getResponsiveIconSize(context, 2),
             ),
             decoration: BoxDecoration(
-              color: Colors.white.withOpacity(0.15),
+              color: Colors.white.withValues(alpha: 0.15),
               borderRadius: BorderRadius.circular(ResponsiveUtils.getResponsiveIconSize(context, 6)),
-              border: Border.all(color: Colors.white.withOpacity(0.3)),
+              border: Border.all(color: Colors.white.withValues(alpha: 0.3)),
             ),
             child: Text(
               profile.personalInfo.professionalTitle,
@@ -369,15 +369,15 @@ class _MobileProfileScreenState extends State<MobileProfileScreen>
       margin: ResponsiveUtils.getResponsiveMargin(context),
       padding: ResponsiveUtils.getResponsiveCardPadding(context),
       decoration: BoxDecoration(
-        color: Theme.of(context).cardColor.withOpacity(0.8),
+        color: Theme.of(context).cardColor.withValues(alpha: 0.8),
         borderRadius: BorderRadius.circular(ResponsiveUtils.getResponsiveIconSize(context, 16)),
         border: Border.all(
-          color: Theme.of(context).primaryColor.withOpacity(0.1),
+          color: Theme.of(context).primaryColor.withValues(alpha: 0.1),
           width: 1,
         ),
         boxShadow: [
           BoxShadow(
-            color: Theme.of(context).primaryColor.withOpacity(0.1),
+            color: Theme.of(context).primaryColor.withValues(alpha: 0.1),
             spreadRadius: 0,
             blurRadius: ResponsiveUtils.getResponsiveIconSize(context, 12),
             offset: Offset(0, ResponsiveUtils.getResponsiveIconSize(context, 4)),
@@ -392,7 +392,7 @@ class _MobileProfileScreenState extends State<MobileProfileScreen>
               Container(
                 padding: EdgeInsets.all(ResponsiveUtils.getResponsiveIconSize(context, 4)),
                 decoration: BoxDecoration(
-                  color: Theme.of(context).primaryColor.withOpacity(0.1),
+                  color: Theme.of(context).primaryColor.withValues(alpha: 0.1),
                   borderRadius: BorderRadius.circular(ResponsiveUtils.getResponsiveIconSize(context, 8)),
                 ),
                 child: Icon(
@@ -416,10 +416,10 @@ class _MobileProfileScreenState extends State<MobileProfileScreen>
           Container(
             padding: ResponsiveUtils.getResponsiveCardPadding(context),
             decoration: BoxDecoration(
-              color: Theme.of(context).primaryColor.withOpacity(0.05),
+              color: Theme.of(context).primaryColor.withValues(alpha: 0.05),
               borderRadius: BorderRadius.circular(ResponsiveUtils.getResponsiveIconSize(context, 8)),
               border: Border.all(
-                color: Theme.of(context).primaryColor.withOpacity(0.1),
+                color: Theme.of(context).primaryColor.withValues(alpha: 0.1),
                 width: 1,
               ),
             ),
@@ -478,15 +478,15 @@ class _MobileProfileScreenState extends State<MobileProfileScreen>
       margin: ResponsiveUtils.getResponsiveMargin(context),
       padding: ResponsiveUtils.getResponsiveCardPadding(context),
       decoration: BoxDecoration(
-        color: Theme.of(context).cardColor.withOpacity(0.8),
+        color: Theme.of(context).cardColor.withValues(alpha: 0.8),
         borderRadius: BorderRadius.circular(ResponsiveUtils.getResponsiveIconSize(context, 16)),
         border: Border.all(
-          color: Theme.of(context).primaryColor.withOpacity(0.1),
+          color: Theme.of(context).primaryColor.withValues(alpha: 0.1),
           width: 1,
         ),
         boxShadow: [
           BoxShadow(
-            color: Theme.of(context).primaryColor.withOpacity(0.1),
+            color: Theme.of(context).primaryColor.withValues(alpha: 0.1),
             spreadRadius: 0,
             blurRadius: ResponsiveUtils.getResponsiveIconSize(context, 12),
             offset: Offset(0, ResponsiveUtils.getResponsiveIconSize(context, 4)),
@@ -501,7 +501,7 @@ class _MobileProfileScreenState extends State<MobileProfileScreen>
               Container(
                 padding: EdgeInsets.all(ResponsiveUtils.getResponsiveIconSize(context, 6)),
                 decoration: BoxDecoration(
-                  color: Theme.of(context).primaryColor.withOpacity(0.1),
+                  color: Theme.of(context).primaryColor.withValues(alpha: 0.1),
                   borderRadius: BorderRadius.circular(ResponsiveUtils.getResponsiveIconSize(context, 8)),
                 ),
                 child: Icon(
@@ -536,18 +536,18 @@ class _MobileProfileScreenState extends State<MobileProfileScreen>
                     begin: Alignment.topLeft,
                     end: Alignment.bottomRight,
                     colors: [
-                      Theme.of(context).primaryColor.withOpacity(0.1),
-                      Theme.of(context).primaryColor.withOpacity(0.05),
+                      Theme.of(context).primaryColor.withValues(alpha: 0.1),
+                      Theme.of(context).primaryColor.withValues(alpha: 0.05),
                     ],
                   ),
                   borderRadius: BorderRadius.circular(ResponsiveUtils.getResponsiveIconSize(context, 16)),
                   border: Border.all(
-                    color: Theme.of(context).primaryColor.withOpacity(0.2),
+                    color: Theme.of(context).primaryColor.withValues(alpha: 0.2),
                     width: 1,
                   ),
                   boxShadow: [
                     BoxShadow(
-                      color: Theme.of(context).primaryColor.withOpacity(0.1),
+                      color: Theme.of(context).primaryColor.withValues(alpha: 0.1),
                       blurRadius: ResponsiveUtils.getResponsiveIconSize(context, 4),
                       offset: Offset(0, ResponsiveUtils.getResponsiveIconSize(context, 2)),
                     ),
@@ -572,7 +572,7 @@ class _MobileProfileScreenState extends State<MobileProfileScreen>
                         vertical: ResponsiveUtils.getResponsiveIconSize(context, 1),
                       ),
                       decoration: BoxDecoration(
-                        color: _getSkillLevelColor(skill.level).withOpacity(0.2),
+                        color: _getSkillLevelColor(skill.level).withValues(alpha: 0.2),
                         borderRadius: BorderRadius.circular(ResponsiveUtils.getResponsiveIconSize(context, 8)),
                       ),
                       child: Text(
@@ -605,9 +605,7 @@ class _MobileProfileScreenState extends State<MobileProfileScreen>
         return Colors.purple;
       case SkillLevel.expert:
         return Colors.green;
-      default:
-        return Colors.grey;
-    }
+      }
   }
 
   // Mobile-optimized Experience Section
@@ -867,7 +865,7 @@ class _MobileProfileScreenState extends State<MobileProfileScreen>
                   tech,
                   style: TextStyle(fontSize: ResponsiveUtils.getResponsiveFontSize(context, 10)),
                 ),
-                backgroundColor: Colors.deepPurple.withOpacity(0.1),
+                backgroundColor: Colors.deepPurple.withValues(alpha: 0.1),
                 padding: EdgeInsets.zero,
                 materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
               );
@@ -1005,7 +1003,7 @@ class _MobileProfileScreenState extends State<MobileProfileScreen>
           Container(
             padding: EdgeInsets.all(ResponsiveUtils.getResponsiveIconSize(context, 6)),
             decoration: BoxDecoration(
-              color: achievement.color.withOpacity(0.1),
+              color: achievement.color.withValues(alpha: 0.1),
               borderRadius: BorderRadius.circular(ResponsiveUtils.getResponsiveIconSize(context, 6)),
             ),
             child: Icon(
@@ -1118,7 +1116,7 @@ class _MobileProfileScreenState extends State<MobileProfileScreen>
             children: [
               CircleAvatar(
                 radius: ResponsiveUtils.getResponsiveIconSize(context, 16),
-                backgroundColor: Colors.deepPurple.withOpacity(0.1),
+                backgroundColor: Colors.deepPurple.withValues(alpha: 0.1),
                 child: Text(
                   testimonial.name.isNotEmpty ? testimonial.name[0].toUpperCase() : 'U',
                   style: TextStyle(
