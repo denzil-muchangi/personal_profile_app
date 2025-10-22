@@ -2,11 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'dart:io';
 import '../models/profile.dart';
+import '../models/personal_info.dart';
 import '../models/skill.dart';
 import '../models/experience.dart';
 import '../models/education.dart';
 import '../models/project.dart';
 import '../models/social_link.dart';
+import '../models/achievement.dart';
+import '../models/testimonial.dart';
 import '../providers/profile_provider.dart';
 import '../services/image_service.dart';
 
@@ -32,6 +35,36 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
   @override
   void initState() {
     super.initState();
+    // Initialize with a default profile first
+    _editedProfile = Profile(
+      personalInfo: PersonalInfo(
+        fullName: '',
+        professionalTitle: '',
+        bio: '',
+        email: '',
+        phone: '',
+        location: '',
+      ),
+      skills: [],
+      experiences: [],
+      education: [],
+      projects: [],
+      socialLinks: [],
+      achievements: [],
+      testimonials: [],
+      isPersonalInfoVisible: true,
+      areSkillsVisible: true,
+      areExperiencesVisible: true,
+      isEducationVisible: true,
+      areProjectsVisible: true,
+      areSocialLinksVisible: true,
+      areAchievementsVisible: true,
+      areTestimonialsVisible: true,
+      viewCount: 0,
+      viewHistory: const [],
+    );
+
+    // Then update with actual data
     WidgetsBinding.instance.addPostFrameCallback((_) {
       final profileProvider = Provider.of<ProfileProvider>(context, listen: false);
       _editedProfile = profileProvider.profile;

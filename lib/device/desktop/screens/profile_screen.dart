@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'dart:ui' as ui;
 import '../../../models/profile.dart';
 import '../../../models/skill.dart';
 import '../../../providers/profile_provider.dart';
@@ -20,6 +21,8 @@ class _DesktopProfileScreenState extends State<DesktopProfileScreen>
     with TickerProviderStateMixin {
   late AnimationController _fabAnimationController;
   late Animation<double> _fabAnimation;
+  late AnimationController _glowAnimationController;
+  late Animation<double> _glowAnimation;
 
   @override
   void initState() {
@@ -35,11 +38,25 @@ class _DesktopProfileScreenState extends State<DesktopProfileScreen>
       ),
     );
     _fabAnimationController.forward();
+
+    // Techy glow animation
+    _glowAnimationController = AnimationController(
+      duration: const Duration(seconds: 2),
+      vsync: this,
+    );
+    _glowAnimation = Tween<double>(begin: 0.3, end: 1.0).animate(
+      CurvedAnimation(
+        parent: _glowAnimationController,
+        curve: Curves.easeInOut,
+      ),
+    );
+    _glowAnimationController.repeat(reverse: true);
   }
 
   @override
   void dispose() {
     _fabAnimationController.dispose();
+    _glowAnimationController.dispose();
     super.dispose();
   }
 
@@ -86,8 +103,9 @@ class _DesktopProfileScreenState extends State<DesktopProfileScreen>
                         end: Alignment.bottomRight,
                         colors: [
                           Theme.of(context).primaryColor,
-                          Theme.of(context).primaryColor.withOpacity(0.7),
-                          Theme.of(context).primaryColor.withOpacity(0.5),
+                          Theme.of(context).primaryColor.withOpacity(0.8),
+                          const Color(0xFF1a1a2e),
+                          const Color(0xFF16213e),
                         ],
                       ),
                     ),
@@ -97,12 +115,24 @@ class _DesktopProfileScreenState extends State<DesktopProfileScreen>
                           begin: Alignment.topCenter,
                           end: Alignment.bottomCenter,
                           colors: [
-                            Colors.white.withOpacity(0.1),
-                            Colors.white.withOpacity(0.05),
+                            Colors.white.withOpacity(0.15),
+                            Colors.white.withOpacity(0.08),
+                            Colors.transparent,
                           ],
                         ),
                       ),
-                      child: _buildDesktopProfileHeader(profile),
+                      child: Stack(
+                        children: [
+                          // Animated background particles
+                          Positioned.fill(
+                            child: CustomPaint(
+                              painter: _ParticlePainter(),
+                            ),
+                          ),
+                          // Main content
+                          _buildDesktopProfileHeader(profile),
+                        ],
+                      ),
                     ),
                   ),
                 ),
@@ -279,115 +309,218 @@ class _DesktopProfileScreenState extends State<DesktopProfileScreen>
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          // Large profile avatar for desktop
-          Container(
-            decoration: BoxDecoration(
-              shape: BoxShape.circle,
-              boxShadow: [
-                BoxShadow(
-                  color: Colors.white.withOpacity(0.3),
-                  blurRadius: ResponsiveUtils.getResponsiveIconSize(context, 16),
-                  spreadRadius: ResponsiveUtils.getResponsiveIconSize(context, 5),
-                ),
-                BoxShadow(
-                  color: Theme.of(context).primaryColor.withOpacity(0.2),
-                  blurRadius: ResponsiveUtils.getResponsiveIconSize(context, 24),
-                  spreadRadius: ResponsiveUtils.getResponsiveIconSize(context, 8),
-                ),
-              ],
-            ),
-            child: CircleAvatar(
-              radius: ResponsiveUtils.getResponsiveAvatarRadius(context, 50),
-              backgroundColor: Colors.white,
-              child: profile.personalInfo.profileImagePath != null
-                  ? ClipOval(
-                      child: Image.asset(
-                        profile.personalInfo.profileImagePath!,
-                        width: ResponsiveUtils.getResponsiveAvatarRadius(context, 100),
-                        height: ResponsiveUtils.getResponsiveAvatarRadius(context, 100),
-                        fit: BoxFit.cover,
-                      ),
-                    )
-                  : Container(
-                      decoration: BoxDecoration(
-                        gradient: LinearGradient(
-                          begin: Alignment.topLeft,
-                          end: Alignment.bottomRight,
-                          colors: [
-                            Theme.of(context).primaryColor.withOpacity(0.8),
-                            Theme.of(context).primaryColor,
-                          ],
-                        ),
-                        shape: BoxShape.circle,
-                      ),
-                      child: Center(
-                        child: Text(
-                          profile.personalInfo.fullName.isNotEmpty
-                              ? profile.personalInfo.fullName[0].toUpperCase()
-                              : 'U',
-                          style: TextStyle(
-                            fontSize: ResponsiveUtils.getResponsiveFontSize(context, 36),
-                            fontWeight: FontWeight.w700,
-                            color: Colors.white,
-                            fontFamily: 'Inter',
-                          ),
-                        ),
-                      ),
+          // Techy animated profile avatar
+          AnimatedBuilder(
+            animation: _glowAnimation,
+            builder: (context, child) {
+              return Container(
+                decoration: BoxDecoration(
+                  shape: BoxShape.circle,
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.white.withOpacity(0.4 * _glowAnimation.value),
+                      blurRadius: ResponsiveUtils.getResponsiveIconSize(context, 20),
+                      spreadRadius: ResponsiveUtils.getResponsiveIconSize(context, 8),
                     ),
-            ),
+                    BoxShadow(
+                      color: Theme.of(context).primaryColor.withOpacity(0.3 * _glowAnimation.value),
+                      blurRadius: ResponsiveUtils.getResponsiveIconSize(context, 30),
+                      spreadRadius: ResponsiveUtils.getResponsiveIconSize(context, 12),
+                    ),
+                    BoxShadow(
+                      color: const Color(0xFF00D4FF).withOpacity(0.2 * _glowAnimation.value),
+                      blurRadius: ResponsiveUtils.getResponsiveIconSize(context, 40),
+                      spreadRadius: ResponsiveUtils.getResponsiveIconSize(context, 15),
+                    ),
+                  ],
+                ),
+                child: Container(
+                  decoration: BoxDecoration(
+                    shape: BoxShape.circle,
+                    border: Border.all(
+                      color: Colors.white.withOpacity(0.3),
+                      width: 3,
+                    ),
+                    gradient: LinearGradient(
+                      begin: Alignment.topLeft,
+                      end: Alignment.bottomRight,
+                      colors: [
+                        Colors.white.withOpacity(0.9),
+                        Colors.white.withOpacity(0.7),
+                        Theme.of(context).primaryColor.withOpacity(0.1),
+                      ],
+                    ),
+                  ),
+                  child: CircleAvatar(
+                    radius: ResponsiveUtils.getResponsiveAvatarRadius(context, 50),
+                    backgroundColor: Colors.transparent,
+                    child: profile.personalInfo.profileImagePath != null
+                        ? ClipOval(
+                            child: Image.asset(
+                              profile.personalInfo.profileImagePath!,
+                              width: ResponsiveUtils.getResponsiveAvatarRadius(context, 100),
+                              height: ResponsiveUtils.getResponsiveAvatarRadius(context, 100),
+                              fit: BoxFit.cover,
+                            ),
+                          )
+                        : Container(
+                            decoration: BoxDecoration(
+                              gradient: LinearGradient(
+                                begin: Alignment.topLeft,
+                                end: Alignment.bottomRight,
+                                colors: [
+                                  Theme.of(context).primaryColor.withOpacity(0.9),
+                                  Theme.of(context).primaryColor,
+                                  const Color(0xFF00D4FF),
+                                ],
+                              ),
+                              shape: BoxShape.circle,
+                            ),
+                            child: Center(
+                              child: Text(
+                                profile.personalInfo.fullName.isNotEmpty
+                                    ? profile.personalInfo.fullName[0].toUpperCase()
+                                    : 'U',
+                                style: TextStyle(
+                                  fontSize: ResponsiveUtils.getResponsiveFontSize(context, 36),
+                                  fontWeight: FontWeight.w700,
+                                  color: Colors.white,
+                                  fontFamily: 'Inter',
+                                  shadows: [
+                                    Shadow(
+                                      color: Colors.black.withOpacity(0.3),
+                                      blurRadius: 4,
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ),
+                          ),
+                  ),
+                ),
+              );
+            },
           ),
           SizedBox(height: ResponsiveUtils.getResponsiveIconSize(context, 16)),
-          // Large name styling for desktop
-          Container(
-            padding: EdgeInsets.symmetric(
-              horizontal: ResponsiveUtils.getResponsiveIconSize(context, 14),
-              vertical: ResponsiveUtils.getResponsiveIconSize(context, 7),
-            ),
-            decoration: BoxDecoration(
-              color: Colors.white.withOpacity(0.1),
-              borderRadius: BorderRadius.circular(ResponsiveUtils.getResponsiveIconSize(context, 18)),
-              border: Border.all(color: Colors.white.withOpacity(0.2)),
-            ),
-            child: Text(
-              profile.personalInfo.fullName,
-              style: TextStyle(
-                fontSize: ResponsiveUtils.getResponsiveFontSize(context, 24),
-                fontWeight: FontWeight.w700,
-                color: Colors.white,
-                fontFamily: 'Inter',
-                shadows: [
-                  Shadow(
-                    color: Colors.black26,
-                    blurRadius: ResponsiveUtils.getResponsiveIconSize(context, 4),
-                    offset: Offset(0, ResponsiveUtils.getResponsiveIconSize(context, 2)),
+          // Techy animated name styling
+          AnimatedBuilder(
+            animation: _glowAnimation,
+            builder: (context, child) {
+              return Container(
+                padding: EdgeInsets.symmetric(
+                  horizontal: ResponsiveUtils.getResponsiveIconSize(context, 16),
+                  vertical: ResponsiveUtils.getResponsiveIconSize(context, 8),
+                ),
+                decoration: BoxDecoration(
+                  gradient: LinearGradient(
+                    begin: Alignment.topLeft,
+                    end: Alignment.bottomRight,
+                    colors: [
+                      Colors.white.withOpacity(0.15 * _glowAnimation.value),
+                      Colors.white.withOpacity(0.08 * _glowAnimation.value),
+                      Theme.of(context).primaryColor.withOpacity(0.1 * _glowAnimation.value),
+                    ],
                   ),
-                ],
-              ),
-              textAlign: TextAlign.center,
-            ),
+                  borderRadius: BorderRadius.circular(ResponsiveUtils.getResponsiveIconSize(context, 20)),
+                  border: Border.all(
+                    color: Colors.white.withOpacity(0.3 * _glowAnimation.value),
+                    width: 2,
+                  ),
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.white.withOpacity(0.1 * _glowAnimation.value),
+                      blurRadius: ResponsiveUtils.getResponsiveIconSize(context, 12),
+                      spreadRadius: ResponsiveUtils.getResponsiveIconSize(context, 2),
+                    ),
+                  ],
+                ),
+                child: Text(
+                  profile.personalInfo.fullName,
+                  style: TextStyle(
+                    fontSize: ResponsiveUtils.getResponsiveFontSize(context, 26),
+                    fontWeight: FontWeight.w700,
+                    color: Colors.white,
+                    fontFamily: 'Inter',
+                    shadows: [
+                      Shadow(
+                        color: Colors.black.withOpacity(0.4),
+                        blurRadius: ResponsiveUtils.getResponsiveIconSize(context, 6),
+                        offset: Offset(0, ResponsiveUtils.getResponsiveIconSize(context, 3)),
+                      ),
+                      Shadow(
+                        color: Theme.of(context).primaryColor.withOpacity(0.3),
+                        blurRadius: ResponsiveUtils.getResponsiveIconSize(context, 8),
+                        offset: Offset(0, 0),
+                      ),
+                    ],
+                  ),
+                  textAlign: TextAlign.center,
+                ),
+              );
+            },
           ),
           SizedBox(height: ResponsiveUtils.getResponsiveIconSize(context, 12)),
-          // Large title styling for desktop
-          Container(
-            padding: EdgeInsets.symmetric(
-              horizontal: ResponsiveUtils.getResponsiveIconSize(context, 12),
-              vertical: ResponsiveUtils.getResponsiveIconSize(context, 6),
-            ),
-            decoration: BoxDecoration(
-              color: Colors.white.withOpacity(0.15),
-              borderRadius: BorderRadius.circular(ResponsiveUtils.getResponsiveIconSize(context, 14)),
-              border: Border.all(color: Colors.white.withOpacity(0.3)),
-            ),
-            child: Text(
-              profile.personalInfo.professionalTitle,
-              style: TextStyle(
-                fontSize: ResponsiveUtils.getResponsiveFontSize(context, 15),
-                fontWeight: FontWeight.w500,
-                color: Colors.white,
-                fontFamily: 'Inter',
-              ),
-              textAlign: TextAlign.center,
-            ),
+          // Techy animated title styling
+          AnimatedBuilder(
+            animation: _glowAnimation,
+            builder: (context, child) {
+              return Container(
+                padding: EdgeInsets.symmetric(
+                  horizontal: ResponsiveUtils.getResponsiveIconSize(context, 14),
+                  vertical: ResponsiveUtils.getResponsiveIconSize(context, 7),
+                ),
+                decoration: BoxDecoration(
+                  gradient: LinearGradient(
+                    begin: Alignment.topLeft,
+                    end: Alignment.bottomRight,
+                    colors: [
+                      Colors.white.withOpacity(0.2 * _glowAnimation.value),
+                      const Color(0xFF00D4FF).withOpacity(0.1 * _glowAnimation.value),
+                      Theme.of(context).primaryColor.withOpacity(0.15 * _glowAnimation.value),
+                    ],
+                  ),
+                  borderRadius: BorderRadius.circular(ResponsiveUtils.getResponsiveIconSize(context, 16)),
+                  border: Border.all(
+                    color: const Color(0xFF00D4FF).withOpacity(0.4 * _glowAnimation.value),
+                    width: 1.5,
+                  ),
+                  boxShadow: [
+                    BoxShadow(
+                      color: const Color(0xFF00D4FF).withOpacity(0.15 * _glowAnimation.value),
+                      blurRadius: ResponsiveUtils.getResponsiveIconSize(context, 10),
+                      spreadRadius: ResponsiveUtils.getResponsiveIconSize(context, 1),
+                    ),
+                  ],
+                ),
+                child: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Icon(
+                      Icons.code,
+                      color: const Color(0xFF00D4FF).withOpacity(0.8),
+                      size: ResponsiveUtils.getResponsiveIconSize(context, 18),
+                    ),
+                    SizedBox(width: ResponsiveUtils.getResponsiveIconSize(context, 8)),
+                    Text(
+                      profile.personalInfo.professionalTitle,
+                      style: TextStyle(
+                        fontSize: ResponsiveUtils.getResponsiveFontSize(context, 16),
+                        fontWeight: FontWeight.w600,
+                        color: Colors.white,
+                        fontFamily: 'Inter',
+                        shadows: [
+                          Shadow(
+                            color: const Color(0xFF00D4FF).withOpacity(0.3),
+                            blurRadius: ResponsiveUtils.getResponsiveIconSize(context, 4),
+                          ),
+                        ],
+                      ),
+                      textAlign: TextAlign.center,
+                    ),
+                  ],
+                ),
+              );
+            },
           ),
         ],
       ),
@@ -395,80 +528,99 @@ class _DesktopProfileScreenState extends State<DesktopProfileScreen>
   }
 
   Widget _buildDesktopPersonalInfoSection(Profile profile) {
-    return Container(
-      margin: EdgeInsets.only(
-        left: ResponsiveUtils.getResponsiveMargin(context).horizontal / 3,
-        right: ResponsiveUtils.getResponsiveIconSize(context, 10),
-      ),
-      padding: ResponsiveUtils.getResponsiveCardPadding(context),
-      decoration: BoxDecoration(
-        color: Theme.of(context).cardColor.withOpacity(0.8),
-        borderRadius: BorderRadius.circular(ResponsiveUtils.getResponsiveIconSize(context, 20)),
-        border: Border.all(
-          color: Theme.of(context).primaryColor.withOpacity(0.1),
-          width: 1,
-        ),
-        boxShadow: [
-          BoxShadow(
-            color: Theme.of(context).primaryColor.withOpacity(0.1),
-            spreadRadius: 0,
-            blurRadius: ResponsiveUtils.getResponsiveIconSize(context, 16),
-            offset: Offset(0, ResponsiveUtils.getResponsiveIconSize(context, 6)),
+    return AnimatedBuilder(
+      animation: _glowAnimation,
+      builder: (context, child) {
+        return Container(
+          margin: EdgeInsets.only(
+            left: ResponsiveUtils.getResponsiveMargin(context).horizontal / 3,
+            right: ResponsiveUtils.getResponsiveIconSize(context, 10),
           ),
-        ],
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Row(
-            children: [
-              Container(
-                padding: EdgeInsets.all(ResponsiveUtils.getResponsiveIconSize(context, 8)),
-                decoration: BoxDecoration(
-                  color: Theme.of(context).primaryColor.withOpacity(0.1),
-                  borderRadius: BorderRadius.circular(ResponsiveUtils.getResponsiveIconSize(context, 12)),
-                ),
-                child: Icon(
-                  Icons.person_rounded,
-                  color: Theme.of(context).primaryColor,
-                  size: ResponsiveUtils.getResponsiveIconSize(context, 24),
-                ),
+          padding: ResponsiveUtils.getResponsiveCardPadding(context),
+          decoration: BoxDecoration(
+            gradient: LinearGradient(
+              begin: Alignment.topLeft,
+              end: Alignment.bottomRight,
+              colors: [
+                Theme.of(context).cardColor.withOpacity(0.9),
+                Theme.of(context).cardColor.withOpacity(0.7),
+                Colors.white.withOpacity(0.05),
+              ],
+            ),
+            borderRadius: BorderRadius.circular(ResponsiveUtils.getResponsiveIconSize(context, 20)),
+            border: Border.all(
+              color: Theme.of(context).primaryColor.withOpacity(0.2 * _glowAnimation.value),
+              width: 2,
+            ),
+            boxShadow: [
+              BoxShadow(
+                color: Theme.of(context).primaryColor.withOpacity(0.15 * _glowAnimation.value),
+                spreadRadius: ResponsiveUtils.getResponsiveIconSize(context, 2),
+                blurRadius: ResponsiveUtils.getResponsiveIconSize(context, 20),
+                offset: Offset(0, ResponsiveUtils.getResponsiveIconSize(context, 8)),
               ),
-              SizedBox(width: ResponsiveUtils.getResponsiveIconSize(context, 12)),
-              Text(
-                'About Me',
-                style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                  fontWeight: FontWeight.w700,
-                  fontFamily: 'Inter',
-                  fontSize: ResponsiveUtils.getResponsiveFontSize(context, 22),
-                ),
+              BoxShadow(
+                color: const Color(0xFF00D4FF).withOpacity(0.1 * _glowAnimation.value),
+                spreadRadius: 0,
+                blurRadius: ResponsiveUtils.getResponsiveIconSize(context, 15),
+                offset: Offset(0, 0),
               ),
             ],
           ),
-          SizedBox(height: ResponsiveUtils.getResponsiveIconSize(context, 16)),
-          Container(
-            padding: ResponsiveUtils.getResponsiveCardPadding(context),
-            decoration: BoxDecoration(
-              color: Theme.of(context).primaryColor.withOpacity(0.05),
-              borderRadius: BorderRadius.circular(ResponsiveUtils.getResponsiveIconSize(context, 14)),
-              border: Border.all(
-                color: Theme.of(context).primaryColor.withOpacity(0.1),
-                width: 1,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Row(
+                children: [
+                  Container(
+                    padding: EdgeInsets.all(ResponsiveUtils.getResponsiveIconSize(context, 8)),
+                    decoration: BoxDecoration(
+                      color: Theme.of(context).primaryColor.withOpacity(0.1),
+                      borderRadius: BorderRadius.circular(ResponsiveUtils.getResponsiveIconSize(context, 12)),
+                    ),
+                    child: Icon(
+                      Icons.person_rounded,
+                      color: Theme.of(context).primaryColor,
+                      size: ResponsiveUtils.getResponsiveIconSize(context, 24),
+                    ),
+                  ),
+                  SizedBox(width: ResponsiveUtils.getResponsiveIconSize(context, 12)),
+                  Text(
+                    'About Me',
+                    style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                      fontWeight: FontWeight.w700,
+                      fontFamily: 'Inter',
+                      fontSize: ResponsiveUtils.getResponsiveFontSize(context, 22),
+                    ),
+                  ),
+                ],
               ),
-            ),
-            child: Text(
-              profile.personalInfo.bio,
-              style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                fontFamily: 'Inter',
-                fontSize: ResponsiveUtils.getResponsiveFontSize(context, 14),
-                height: 1.6,
+              SizedBox(height: ResponsiveUtils.getResponsiveIconSize(context, 16)),
+              Container(
+                padding: ResponsiveUtils.getResponsiveCardPadding(context),
+                decoration: BoxDecoration(
+                  color: Theme.of(context).primaryColor.withOpacity(0.05),
+                  borderRadius: BorderRadius.circular(ResponsiveUtils.getResponsiveIconSize(context, 14)),
+                  border: Border.all(
+                    color: Theme.of(context).primaryColor.withOpacity(0.1),
+                    width: 1,
+                  ),
+                ),
+                child: Text(
+                  profile.personalInfo.bio,
+                  style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+                    fontFamily: 'Inter',
+                    fontSize: ResponsiveUtils.getResponsiveFontSize(context, 14),
+                    height: 1.6,
+                  ),
+                ),
               ),
-            ),
+              SizedBox(height: ResponsiveUtils.getResponsiveIconSize(context, 16)),
+              _buildDesktopContactInfo(profile),
+            ],
           ),
-          SizedBox(height: ResponsiveUtils.getResponsiveIconSize(context, 16)),
-          _buildDesktopContactInfo(profile),
-        ],
-      ),
+        );
+      },
     );
   }
 
@@ -1342,4 +1494,41 @@ class _DesktopProfileScreenState extends State<DesktopProfileScreen>
       );
     }
   }
+}
+
+// Techy particle painter for background effects
+class _ParticlePainter extends CustomPainter {
+  @override
+  void paint(Canvas canvas, Size size) {
+    final paint = Paint()
+      ..color = Colors.white.withOpacity(0.1)
+      ..style = PaintingStyle.fill;
+
+    final random = DateTime.now().millisecondsSinceEpoch;
+
+    // Draw floating particles
+    for (int i = 0; i < 20; i++) {
+      final x = (random + i * 137) % size.width;
+      final y = (random + i * 157) % size.height;
+      final radius = (random + i * 173) % 3 + 1;
+
+      canvas.drawCircle(Offset(x, y), radius.toDouble(), paint);
+    }
+
+    // Draw techy grid lines
+    final gridPaint = Paint()
+      ..color = Colors.white.withOpacity(0.05)
+      ..strokeWidth = 1;
+
+    for (double i = 0; i < size.width; i += 50) {
+      canvas.drawLine(Offset(i, 0), Offset(i, size.height), gridPaint);
+    }
+
+    for (double i = 0; i < size.height; i += 50) {
+      canvas.drawLine(Offset(0, i), Offset(size.width, i), gridPaint);
+    }
+  }
+
+  @override
+  bool shouldRepaint(CustomPainter oldDelegate) => true;
 }
