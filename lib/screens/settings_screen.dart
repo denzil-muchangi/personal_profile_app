@@ -345,7 +345,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 title: const Text('Export as PDF'),
                 onTap: () async {
                   Navigator.pop(context);
-                  await _exportAsPdf(context);
+                  await _exportAsPdf();
                 },
               ),
             ],
@@ -484,16 +484,16 @@ class _SettingsScreenState extends State<SettingsScreen> {
     }
   }
 
-  Future<void> _exportAsPdf(BuildContext context) async {
+  Future<void> _exportAsPdf() async {
     try {
+      if (!mounted) return;
+
       final profileProvider = Provider.of<ProfileProvider>(context, listen: false);
       final profile = profileProvider.profile;
 
-      if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('Generating PDF...')),
-        );
-      }
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Generating PDF...')),
+      );
 
       await PdfService.generateAndPrintProfile(profile);
 
